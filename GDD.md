@@ -150,7 +150,7 @@ As the game progresses and difficulty increases, different NPC types are introdu
 
 - Behaves normally when patience is high
 - **When patience decreases**, they become unreliable:
-  - More likely to give an **incorrect number**
+  - More likely to give an **incorrect number** (the incorrect number changes randomly each time they're asked)
   - They do this to make fun of the player
 - Adds risk to letting patience drop too low
 - Requires careful patience management
