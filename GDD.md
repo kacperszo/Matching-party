@@ -6,7 +6,7 @@
 Before the start of each level, NPCs (friends) are automatically assigned hidden numbers.  
 The player's goal is to find 2 NPCs with the same number, ask them about their numbers, and match them together.
 
-The game focuses on platforming, NPC interaction, deduction, and patience management across increasingly difficult levels.
+The game focuses on platforming, NPC interaction, memory, and patience management across increasingly difficult levels.
 
 ---
 
@@ -19,6 +19,8 @@ The main goal of the player is to:
 - Ask NPCs to follow you
 - Match 2 NPCs with the same number together
 - Progress through levels of increasing difficulty
+
+**The level finishes once all people are matched.**
 
 Success requires balancing efficient exploration with careful patience management.
 
@@ -203,7 +205,7 @@ To succeed, the player should:
 
 # Genre
 
-2D platformer / puzzle / deduction / NPC management game.
+2D platformer / puzzle / memory / NPC management game.
 
 ---
 
