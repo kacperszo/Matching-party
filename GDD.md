@@ -2,11 +2,11 @@
 
 ## Overview
 
-**Number Match Party** is a social deduction game set at a party.  
-Every character at the event is automatically assigned a hidden number.  
-The player's goal is to interact with guests, gather clues, and match people who share the same number.
+**Number Match Party** is a 2D platform game inspired by classic games like Mario.  
+Before the start of each level, NPCs (friends) are automatically assigned hidden numbers.  
+The player's goal is to find 2 NPCs with the same number, ask them about their numbers, and match them together.
 
-The game focuses on conversation, observation, deduction, and relationship management with NPCs.
+The game focuses on platforming, NPC interaction, memory, and patience management across increasingly difficult levels.
 
 ---
 
@@ -14,115 +14,158 @@ The game focuses on conversation, observation, deduction, and relationship manag
 
 The main goal of the player is to:
 
-- Meet as many guests as possible
-- Gather clues about their hidden numbers
-- Correctly match people who share the same number
+- Navigate through 2D platform levels
+- Find and interact with NPCs to learn their numbers
+- Ask NPCs to follow you
+- Match 2 NPCs with the same number together
+- Progress through levels of increasing difficulty
 
-The more successful matches the player makes, the higher their score.
+**The level finishes once all people are matched.**
+
+Success requires balancing efficient exploration with careful patience management.
 
 ---
 
 # Core Gameplay Mechanics
 
-## Automatic Number Assignment
+## Level-Based Progression
 
-At the start of the game, each character at the party is automatically assigned a hidden number.
+The game is split into multiple levels, each harder than the previous one.
+
+- Levels feature different layouts and platforming challenges
+- More NPCs and number variety in later levels
+- Different types of NPCs appear as difficulty increases
+
+---
+
+## Number Assignment
+
+At the start of each level, NPCs are automatically assigned hidden numbers.
 
 - Numbers are **not visible** to the player
-- Players must **discover clues through interaction**
+- Players must **ask NPCs directly** about their numbers
+- NPCs will reveal their number when asked (depending on their type and patience)
 
 ---
 
-## Player Interactions
+## NPC Interactions
 
-The player can walk around the party and interact with different characters.
+The player can interact with NPCs in the following ways:
 
-Possible actions include:
+### Asking About Numbers
 
-- Starting a conversation
-- Asking questions
-- Attempting to gather clues about a number
-- Suggesting that two characters meet
+- The player can ask an NPC what their number is
+- The NPC will answer (if they have patience remaining)
+- Some NPC types may have special conditions before answering
 
----
+### Following Mechanic
 
-## NPC Reactions
+- The player can ask an NPC to follow them
+- The NPC will follow the player around the level
+- The player can guide them to match with another NPC
 
-Characters react differently to the player.
+### Matching NPCs
 
-Possible behaviors include:
-
-- Friendly and talkative
-- Reserved or secretive
-- Asking the player a riddle or question
-- Testing the player before revealing information
+- When the player has 2 NPCs with the same number, they can match them
+- Successful matches complete objectives and may award coins
+- Following NPCs for too long may decrease their patience
 
 ---
 
-## Irritation System
+## Losing Patience System
 
-Each character has a **patience level**.
+Each NPC has a **patience level** that decreases through various interactions.
 
-If the player:
+### Ways to Lose Patience
 
-- Talks to the same character too frequently
-- Repeats the same questions
-- Pushes too hard for information
+**Repeated Interactions:**
+- Making too many interactions with the same NPC decreases their patience
+- Once patience is low, the NPC may stop answering questions about their number
 
-The character may become **irritated**.
+**Following Too Long:**
+- NPCs lose patience when they've been following the player for too long
+- This encourages efficient matching
 
-Consequences:
+**NPCs Talking With Others:**
+- NPCs may start talking with other NPCs
+- When engaged in conversation, they are less likely to talk with the player
 
-- They become less cooperative
-- Clues become harder to obtain
-- Matching them may result in fewer points
+**Room for Additional Mechanics:**
+- Additional patience-affecting mechanics can be added in the future
 
----
+### Consequences of Low Patience
 
-# Matching Characters
+- NPCs stop answering questions
+- NPCs may provide incorrect information (especially Jester type)
+- Contributes to global likeliness decrease
 
-Once the player believes two people share the same number, they can attempt a **match**.
+### Global Likeliness
 
-### Matching Process
-
-1. The player gathers clues from conversations.
-2. The player selects two characters.
-3. The player suggests they meet.
-
-If both characters have the **same number**, the match is successful.
-
----
-
-# Scoring System
-
-Points are awarded based on:
-
-## Successful Matches
-
-- Points are granted for each correct pair.
-
-## Quality of Interaction
-
-Higher points if:
-
-- NPCs were happy
-- Conversations went smoothly
-
-Lower points if:
-
-- NPCs were irritated
-- The player forced interactions
+- There is a **global likeliness indicator** representing overall NPC attitude toward the player
+- When any NPC's patience decreases, it may affect the global likeliness
+- If global likeliness falls below a certain **threshold**, the player **loses the game**
+- This creates a strategic challenge: manage all NPCs' patience, not just individual ones
 
 ---
 
-# Random Elements
+# Coins System
 
-The game may include:
+Players can earn and spend coins during gameplay.
 
-- Riddles from characters
-- Special conditions to obtain clues
-- Different personality types
-- Characters that are harder to convince
+## Earning Coins
+
+- Coins are earned through successful matches
+- Bonus coins for efficient matches
+- Coins may be found in levels
+
+## Spending Coins
+
+- **Buy Likeliness:** Coins can be used to increase an NPC's patience level
+- **Decrease Patience Impact:** Reduce the negative effects of low patience
+- Strategic use of coins is essential in harder levels
+
+---
+
+# Types of NPCs
+
+As the game progresses and difficulty increases, different NPC types are introduced.
+
+## Basic Type
+
+- Standard NPC behavior
+- Answers the question about their number directly
+- Patience decreases with each interaction
+- No special mechanics
+
+## Nerd Type
+
+- Before answering the number question, asks the player a challenge
+- Challenges include:
+  - Mathematical questions
+  - Knowledge riddles
+- The player must answer correctly to get the NPC's number
+- Patience still decreases as normal
+
+## Jester Type
+
+- Behaves normally when patience is high
+- **When patience decreases**, they become unreliable:
+  - More likely to give an **incorrect number** (the incorrect number changes randomly each time they're asked)
+  - They do this to make fun of the player
+- Adds risk to letting patience drop too low
+- Requires careful patience management
+
+## Teleporter Type
+
+- Randomly teleports from one part of the map to another
+- Makes them harder to track and interact with
+- Teleportation happens periodically
+- Adds an extra layer of difficulty in finding and matching them
+
+## Future NPC Types
+
+- Room for additional NPC types as the game expands
+- More complex behaviors and challenges can be added
 
 ---
 
@@ -130,28 +173,39 @@ The game may include:
 
 To succeed, the player should:
 
-- Observe NPC reactions
-- Remember clues from conversations
-- Avoid irritating characters
-- Deduce correct matches logically
+- **Efficiently explore** the 2D platforming levels
+- **Minimize repeated interactions** with the same NPCs to preserve patience
+- **Remember NPC numbers** to avoid asking multiple times
+- **Match quickly** when NPCs are following to avoid patience loss
+- **Manage global likeliness** by not over-interacting with any single NPC
+- **Use coins strategically** to recover patience when needed
+- **Adapt to different NPC types** and their unique mechanics
+- **Plan routes** to efficiently gather information and make matches
 
 ---
 
-# Possible Future Expansions
+# Game Progression
 
-Potential features for future versions:
+## Early Levels
 
-- Different party environments (house party, gala, conference)
-- Expanded personality system
-- Player reputation system
-- Time-limited matches
-- Multiplayer mode
+- Few NPCs with simple number assignments
+- Mostly Basic type NPCs
+- Forgiving patience mechanics
+- Simple platforming challenges
+
+## Later Levels
+
+- More NPCs and number variety
+- Introduction of Nerd, Jester, and Teleporter types
+- Stricter patience requirements
+- Complex platforming layouts
+- Requires efficient strategies and coin management
 
 ---
 
 # Genre
 
-Social deduction / puzzle / narrative interaction game.
+2D platformer / puzzle / memory / NPC management game.
 
 ---
 
