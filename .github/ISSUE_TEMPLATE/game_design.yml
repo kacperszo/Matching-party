@@ -1,0 +1,67 @@
+name: Game Design Discussion
+description: Discuss game design ideas, mechanics, or balance
+title: "[Design]: "
+labels: ["game-design"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Let's discuss game design! This is for ideas about mechanics, balance, and game feel.
+
+  - type: textarea
+    id: topic
+    attributes:
+      label: Design Topic
+      description: What aspect of the game design do you want to discuss?
+      placeholder: Describe the design element you want to discuss
+    validations:
+      required: true
+
+  - type: dropdown
+    id: design-area
+    attributes:
+      label: Design Area
+      description: What area does this design discussion focus on?
+      options:
+        - Patience System
+        - NPC Behavior
+        - Matching Mechanics
+        - Level Progression
+        - Coin Economy
+        - Platforming Mechanics
+        - Global Likeliness System
+        - Other
+    validations:
+      required: false
+
+  - type: textarea
+    id: current-state
+    attributes:
+      label: Current State
+      description: How does this mechanic or system currently work?
+    validations:
+      required: false
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed Changes
+      description: What changes or ideas do you propose?
+    validations:
+      required: true
+
+  - type: textarea
+    id: rationale
+    attributes:
+      label: Rationale
+      description: Why would this improve the game?
+    validations:
+      required: false
+
+  - type: textarea
+    id: considerations
+    attributes:
+      label: Potential Issues & Considerations
+      description: What are potential problems or things to consider with this design?
+    validations:
+      required: false

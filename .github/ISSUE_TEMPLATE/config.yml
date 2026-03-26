@@ -1,0 +1,8 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Game Prototype
+    url: https://v0-number-match-party-ash8gabmx-reptilianeyes-projects.vercel.app/
+    about: Check out the interactive prototype of the game
+  - name: Game Design Document
+    url: https://github.com/kacperszo/Matching-party/blob/main/GDD.md
+    about: Read the full game design document
