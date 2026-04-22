@@ -1,0 +1,11 @@
+~ start
+
+Guard: Halt! Who goes there?
+- I am a friend.
+	Guard: A friend? Prove it.
+	=> END
+- Mind your own business.
+	Guard: That sounds like something an enemy would say!
+	=> END
+- [Walk away]
+	=> END

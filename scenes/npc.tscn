@@ -1,0 +1,30 @@
+[gd_scene format=3 uid="uid://hgpyh1oca1cd"]
+
+[ext_resource type="Script" uid="uid://cmjvlxp78rp8y" path="res://scripts/npc.gd" id="1_abqhh"]
+[ext_resource type="Texture2D" uid="uid://cp6vf3ek68lra" path="res://icon.svg" id="1_nh2m4"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_abqhh"]
+size = Vector2(70, 75)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_rv78h"]
+radius = 81.0
+
+[node name="NPC" type="StaticBody2D" unique_id=437629373]
+script = ExtResource("1_abqhh")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1209622811]
+position = Vector2(0, -1.0000019)
+scale = Vector2(0.5234375, 0.5859375)
+texture = ExtResource("1_nh2m4")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=557343523]
+position = Vector2(0, -1)
+shape = SubResource("RectangleShape2D_abqhh")
+
+[node name="InteractionArea" type="Area2D" parent="." unique_id=1067391368]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="InteractionArea" unique_id=1962436313]
+shape = SubResource("CircleShape2D_rv78h")
+
+[connection signal="body_entered" from="InteractionArea" to="." method="_on_interaction_area_body_entered"]
+[connection signal="body_exited" from="InteractionArea" to="." method="_on_interaction_area_body_exited"]
