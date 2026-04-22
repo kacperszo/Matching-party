@@ -1,0 +1,75 @@
+extends CharacterBody2D
+
+## Horizontal movement
+@export var speed: float = 200.0
+@export var acceleration: float = 1200.0
+@export var friction: float = 1200.0
+
+## Jump
+@export var jump_velocity: float = -400.0
+@export var gravity: float = 900.0
+@export var fall_gravity_multiplier: float = 1.6  # faster fall for snappier feel
+
+## Coyote time — how long after walking off a ledge the player can still jump
+@export var coyote_time: float = 0.12
+
+## Jump buffer — how early before landing a jump input is accepted
+@export var jump_buffer_time: float = 0.12
+
+var _coyote_timer: float = 0.0
+var _jump_buffer_timer: float = 0.0
+var _was_on_floor: bool = false
+
+
+func _physics_process(delta: float) -> void:
+	_apply_gravity(delta)
+	_update_timers(delta)
+	_handle_jump()
+	_handle_horizontal(delta)
+	move_and_slide()
+	_was_on_floor = is_on_floor()
+
+
+func _apply_gravity(delta: float) -> void:
+	if is_on_floor():
+		return
+	var g := gravity * (fall_gravity_multiplier if velocity.y > 0 else 1.0)
+	velocity.y += g * delta
+
+
+func _update_timers(delta: float) -> void:
+	# Coyote: start counting down the moment the player leaves the floor
+	if _was_on_floor and not is_on_floor():
+		_coyote_timer = coyote_time
+	elif is_on_floor():
+		_coyote_timer = coyote_time  # reset while grounded so it's ready
+	else:
+		_coyote_timer = max(_coyote_timer - delta, 0.0)
+
+	# Jump buffer: count down from the moment jump is pressed
+	if Input.is_action_just_pressed("jump"):
+		_jump_buffer_timer = jump_buffer_time
+	else:
+		_jump_buffer_timer = max(_jump_buffer_timer - delta, 0.0)
+
+
+func _handle_jump() -> void:
+	var can_jump := is_on_floor() or _coyote_timer > 0.0
+	var wants_jump := _jump_buffer_timer > 0.0
+
+	if can_jump and wants_jump:
+		velocity.y = jump_velocity
+		_coyote_timer = 0.0
+		_jump_buffer_timer = 0.0
+
+	# Variable jump height: releasing early cuts upward speed
+	if Input.is_action_just_released("jump") and velocity.y < 0.0:
+		velocity.y *= 0.5
+
+
+func _handle_horizontal(delta: float) -> void:
+	var direction := Input.get_axis("move_left", "move_right")
+	if direction != 0.0:
+		velocity.x = move_toward(velocity.x, direction * speed, acceleration * delta)
+	else:
+		velocity.x = move_toward(velocity.x, 0.0, friction * delta)

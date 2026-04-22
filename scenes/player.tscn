@@ -1,0 +1,24 @@
+[gd_scene format=3 uid="uid://player"]
+
+[ext_resource type="Script" uid="uid://b4pppt517ybkx" path="res://scripts/player.gd" id="1_player"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_1"]
+radius = 16.0
+height = 48.0
+
+[node name="Player" type="CharacterBody2D" unique_id=1984189643]
+script = ExtResource("1_player")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=906303116]
+shape = SubResource("CapsuleShape2D_1")
+
+[node name="Sprite" type="ColorRect" parent="." unique_id=95815966]
+offset_left = -16.0
+offset_top = -24.0
+offset_right = 16.0
+offset_bottom = 24.0
+color = Color(0.2, 0.6, 1, 1)
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=1883019662]
+position_smoothing_enabled = true
+position_smoothing_speed = 8.0
