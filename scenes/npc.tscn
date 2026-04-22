@@ -1,0 +1,21 @@
+[gd_scene format=3 uid="uid://hgpyh1oca1cd"]
+
+[ext_resource type="Script" uid="uid://dl6ovh6i67jid" path="res://scripts/npc.gd" id="1_nh2m4"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_abqhh"]
+radius = 47.0
+
+[node name="NPC" type="Area2D" unique_id=1055926722]
+script = ExtResource("1_nh2m4")
+hidden_value = 7
+prompt_text = "Talk"
+
+[node name="InteractionRange" type="CollisionShape2D" parent="." unique_id=1819764416]
+shape = SubResource("CircleShape2D_abqhh")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=548627754]
+offset_left = -16.0
+offset_top = -32.0
+offset_right = 16.0
+offset_bottom = 16.0
+color = Color(0.627451, 0.22352941, 1, 1)
