@@ -1,0 +1,47 @@
+[gd_scene format=3 uid="uid://crk33t2kvalrs"]
+
+[ext_resource type="PackedScene" uid="uid://player" path="res://scenes/player.tscn" id="1_player"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_floor"]
+size = Vector2(2000, 32)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_platform"]
+size = Vector2(200, 32)
+
+[node name="TestLevel" type="Node2D" unique_id=2124674192]
+
+[node name="Background" type="ColorRect" parent="." unique_id=468872710]
+offset_left = -500.0
+offset_top = -300.0
+offset_right = 1500.0
+offset_bottom = 700.0
+color = Color(0.15, 0.15, 0.2, 1)
+
+[node name="Player" parent="." unique_id=1857081638 instance=ExtResource("1_player")]
+position = Vector2(300, 300)
+
+[node name="Floor" type="StaticBody2D" parent="." unique_id=1844053799]
+position = Vector2(500, 500)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Floor" unique_id=1596365604]
+shape = SubResource("RectangleShape2D_floor")
+
+[node name="Visual" type="ColorRect" parent="Floor" unique_id=640618869]
+offset_left = -1000.0
+offset_top = -16.0
+offset_right = 1000.0
+offset_bottom = 16.0
+color = Color(0.4, 0.4, 0.45, 1)
+
+[node name="Platform" type="StaticBody2D" parent="." unique_id=1242035470]
+position = Vector2(500, 380)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Platform" unique_id=1128244843]
+shape = SubResource("RectangleShape2D_platform")
+
+[node name="Visual" type="ColorRect" parent="Platform" unique_id=1506828482]
+offset_left = -100.0
+offset_top = -16.0
+offset_right = 100.0
+offset_bottom = 16.0
+color = Color(0.5, 0.5, 0.55, 1)
