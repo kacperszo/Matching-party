@@ -16,6 +16,11 @@ signal answer_refused
 ## How fast patience drains per second while the NPC is following the player
 @export var follow_drain_rate: float = 0.1
 
+@export var dialogue_resource: DialogueResource        
+@export var dialogue_start: String = "start"                                                                                                                 
+														 
+var _is_dialogue_active: bool = false
+
 var patience: float
 var is_following: bool = false
 
@@ -34,13 +39,13 @@ func _process(delta: float) -> void:
 
 
 # Called when the player presses interact while in range
-func interact(_interactor: Node) -> void:
-	var n := ask_number()
-	if n != -1:
-		print("NPC mówi: mój numer to ", n)
-	else:
-		print("NPC ignoruje cię.")
-
+func interact(_interactor: Node) -> void:                                                                                                                    
+	if dialogue_resource == null or _is_dialogue_active:                                                                                                     
+		return                                          
+	_is_dialogue_active = true                                                                                                                               
+	DialogueManager.show_dialogue_balloon(dialogue_resource, dialogue_start)
+	await DialogueManager.dialogue_ended                                    
+	_is_dialogue_active = false
 
 # Returns the hidden value and costs patience.
 # Returns -1 and emits answer_refused when patience is depleted.
