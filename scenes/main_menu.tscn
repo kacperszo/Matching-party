@@ -1,0 +1,359 @@
+[gd_scene load_steps=12 format=3]
+
+[ext_resource type="Script" path="res://scripts/main_menu.gd" id="1_script"]
+[ext_resource type="Texture2D" path="res://assets/pixel_adventure/Background/Blue.png" id="2_background"]
+[ext_resource type="Texture2D" path="res://assets/pixel_adventure/Menu/Buttons/Play.png" id="3_play"]
+[ext_resource type="Texture2D" path="res://assets/pixel_adventure/Menu/Buttons/Levels.png" id="4_levels"]
+[ext_resource type="Texture2D" path="res://assets/pixel_adventure/Menu/Buttons/Close.png" id="5_close"]
+[ext_resource type="Texture2D" path="res://assets/pixel_adventure/Menu/Buttons/Back.png" id="6_back"]
+[ext_resource type="Texture2D" path="res://assets/pixel_adventure/Main Characters/Mask Dude/Idle (32x32).png" id="7_mask_dude"]
+[ext_resource type="Texture2D" path="res://assets/pixel_adventure/Main Characters/Ninja Frog/Idle (32x32).png" id="8_ninja_frog"]
+[ext_resource type="Texture2D" path="res://assets/pixel_adventure/Items/Fruits/Cherries.png" id="9_cherries"]
+[ext_resource type="Texture2D" path="res://assets/pixel_adventure/Items/Checkpoints/Start/Start (Idle).png" id="10_start_flag"]
+[ext_resource type="Texture2D" path="res://assets/pixel_adventure/Items/Boxes/Box1/Idle.png" id="11_box"]
+
+[node name="MainMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_script")
+
+[node name="Background" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture_filter = 1
+texture = ExtResource("2_background")
+
+[node name="BackdropShade" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.0431373, 0.0588235, 0.117647, 0.28)
+
+[node name="Decor" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="CharacterLeft" type="Sprite2D" parent="Decor"]
+position = Vector2(220, 512)
+scale = Vector2(4, 4)
+texture_filter = 1
+texture = ExtResource("7_mask_dude")
+hframes = 11
+
+[node name="CharacterRight" type="Sprite2D" parent="Decor"]
+position = Vector2(1060, 516)
+scale = Vector2(4, 4)
+texture_filter = 1
+texture = ExtResource("8_ninja_frog")
+hframes = 11
+
+[node name="FruitLeft" type="Sprite2D" parent="Decor"]
+position = Vector2(168, 236)
+scale = Vector2(3, 3)
+texture_filter = 1
+texture = ExtResource("9_cherries")
+hframes = 17
+
+[node name="FruitRight" type="Sprite2D" parent="Decor"]
+position = Vector2(1142, 222)
+scale = Vector2(3, 3)
+texture_filter = 1
+texture = ExtResource("9_cherries")
+hframes = 17
+frame = 8
+
+[node name="BoxLeft" type="Sprite2D" parent="Decor"]
+position = Vector2(268, 620)
+scale = Vector2(5, 5)
+texture_filter = 1
+texture = ExtResource("11_box")
+
+[node name="BoxRight" type="Sprite2D" parent="Decor"]
+position = Vector2(1008, 620)
+scale = Vector2(5, 5)
+texture_filter = 1
+texture = ExtResource("11_box")
+
+[node name="StartFlag" type="Sprite2D" parent="Decor"]
+position = Vector2(640, 616)
+scale = Vector2(4, 4)
+texture_filter = 1
+texture = ExtResource("10_start_flag")
+
+[node name="Ui" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="CenterStack" type="VBoxContainer" parent="Ui"]
+layout_mode = 2
+theme_override_constants/separation = 26
+
+[node name="TitleBlock" type="VBoxContainer" parent="Ui/CenterStack"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Kicker" type="Label" parent="Ui/CenterStack/TitleBlock"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.854902, 0.917647, 1, 0.95)
+theme_override_font_sizes/font_size = 18
+text = "PIXEL ADVENTURE PROTOTYPE"
+horizontal_alignment = 1
+
+[node name="Title" type="Label" parent="Ui/CenterStack/TitleBlock"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 48
+text = "NUMBER MATCH PARTY"
+horizontal_alignment = 1
+
+[node name="Subtitle" type="Label" parent="Ui/CenterStack/TitleBlock"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.894118, 0.929412, 1, 0.94)
+theme_override_font_sizes/font_size = 22
+text = "Find the matching pair before everyone loses patience."
+horizontal_alignment = 1
+
+[node name="MenuCard" type="ColorRect" parent="Ui/CenterStack"]
+custom_minimum_size = Vector2(700, 330)
+layout_mode = 2
+color = Color(0.054902, 0.0784314, 0.14902, 0.56)
+
+[node name="CardMargin" type="MarginContainer" parent="Ui/CenterStack/MenuCard"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 28.0
+offset_top = 24.0
+offset_right = -28.0
+offset_bottom = -24.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="CardColumn" type="VBoxContainer" parent="Ui/CenterStack/MenuCard/CardMargin"]
+layout_mode = 2
+theme_override_constants/separation = 22
+
+[node name="Pitch" type="Label" parent="Ui/CenterStack/MenuCard/CardMargin/CardColumn"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.917647, 0.94902, 1, 0.92)
+theme_override_font_sizes/font_size = 20
+text = "Run, ask NPCs for their hidden numbers, remember who matches, and pair the right two together."
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="ActionRow" type="HBoxContainer" parent="Ui/CenterStack/MenuCard/CardMargin/CardColumn"]
+layout_mode = 2
+alignment = 1
+theme_override_constants/separation = 56
+
+[node name="PlayAction" type="VBoxContainer" parent="Ui/CenterStack/MenuCard/CardMargin/CardColumn/ActionRow"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="PlayButton" type="TextureButton" parent="Ui/CenterStack/MenuCard/CardMargin/CardColumn/ActionRow/PlayAction"]
+custom_minimum_size = Vector2(92, 92)
+layout_mode = 2
+focus_mode = 2
+pivot_offset = Vector2(46, 46)
+texture_filter = 1
+texture_normal = ExtResource("3_play")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="PlayLabel" type="Label" parent="Ui/CenterStack/MenuCard/CardMargin/CardColumn/ActionRow/PlayAction"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 18
+text = "PLAY"
+horizontal_alignment = 1
+
+[node name="PlayHint" type="Label" parent="Ui/CenterStack/MenuCard/CardMargin/CardColumn/ActionRow/PlayAction"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.796078, 0.85098, 0.92549, 0.9)
+theme_override_font_sizes/font_size = 14
+text = "Jump into the current test level"
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="HowToPlayAction" type="VBoxContainer" parent="Ui/CenterStack/MenuCard/CardMargin/CardColumn/ActionRow"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="HowToPlayButton" type="TextureButton" parent="Ui/CenterStack/MenuCard/CardMargin/CardColumn/ActionRow/HowToPlayAction"]
+custom_minimum_size = Vector2(92, 92)
+layout_mode = 2
+focus_mode = 2
+pivot_offset = Vector2(46, 46)
+texture_filter = 1
+texture_normal = ExtResource("4_levels")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="HowToPlayLabel" type="Label" parent="Ui/CenterStack/MenuCard/CardMargin/CardColumn/ActionRow/HowToPlayAction"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 18
+text = "HOW TO PLAY"
+horizontal_alignment = 1
+
+[node name="HowToPlayHint" type="Label" parent="Ui/CenterStack/MenuCard/CardMargin/CardColumn/ActionRow/HowToPlayAction"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.796078, 0.85098, 0.92549, 0.9)
+theme_override_font_sizes/font_size = 14
+text = "Review the level goal and controls"
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="QuitAction" type="VBoxContainer" parent="Ui/CenterStack/MenuCard/CardMargin/CardColumn/ActionRow"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="QuitButton" type="TextureButton" parent="Ui/CenterStack/MenuCard/CardMargin/CardColumn/ActionRow/QuitAction"]
+custom_minimum_size = Vector2(92, 92)
+layout_mode = 2
+focus_mode = 2
+pivot_offset = Vector2(46, 46)
+texture_filter = 1
+texture_normal = ExtResource("5_close")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="QuitLabel" type="Label" parent="Ui/CenterStack/MenuCard/CardMargin/CardColumn/ActionRow/QuitAction"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 18
+text = "QUIT"
+horizontal_alignment = 1
+
+[node name="QuitHint" type="Label" parent="Ui/CenterStack/MenuCard/CardMargin/CardColumn/ActionRow/QuitAction"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.796078, 0.85098, 0.92549, 0.9)
+theme_override_font_sizes/font_size = 14
+text = "Leave the prototype"
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="ControlsLabel" type="Label" parent="Ui/CenterStack/MenuCard/CardMargin/CardColumn"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.917647, 0.94902, 1, 0.9)
+theme_override_font_sizes/font_size = 17
+text = "Controls: Arrow keys move  •  Space jumps  •  E interacts"
+horizontal_alignment = 1
+
+[node name="MenuHint" type="Label" parent="Ui/CenterStack"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.917647, 0.94902, 1, 0.92)
+theme_override_font_sizes/font_size = 16
+text = "Press Enter to start or Esc to close the rules panel."
+horizontal_alignment = 1
+
+[node name="ModalScrim" type="ColorRect" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.0117647, 0.0196078, 0.0431373, 0.68)
+
+[node name="HowToPlayPanel" type="Control" parent="."]
+visible = false
+custom_minimum_size = Vector2(620, 360)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -310.0
+offset_top = -180.0
+offset_right = 310.0
+offset_bottom = 180.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PanelBackground" type="ColorRect" parent="HowToPlayPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.0509804, 0.0705882, 0.129412, 0.94)
+
+[node name="PanelMargin" type="MarginContainer" parent="HowToPlayPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 28.0
+offset_top = 24.0
+offset_right = -28.0
+offset_bottom = -24.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HowToPlayColumn" type="VBoxContainer" parent="HowToPlayPanel/PanelMargin"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="HowToTitle" type="Label" parent="HowToPlayPanel/PanelMargin/HowToPlayColumn"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 32
+text = "HOW TO PLAY"
+horizontal_alignment = 1
+
+[node name="HowToBody" type="Label" parent="HowToPlayPanel/PanelMargin/HowToPlayColumn"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.917647, 0.94902, 1, 0.94)
+theme_override_font_sizes/font_size = 18
+text = "Explore the level, meet NPCs, and ask for their hidden numbers.\n\nRemember who matches, then guide the correct pair together.\n\nRepeated questions and dragging followers around too long will drain patience."
+autowrap_mode = 3
+
+[node name="HowToControls" type="Label" parent="HowToPlayPanel/PanelMargin/HowToPlayColumn"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.792157, 0.85098, 0.92549, 0.94)
+theme_override_font_sizes/font_size = 16
+text = "Current prototype controls: Arrow keys move, Space jumps, and E talks."
+autowrap_mode = 3
+
+[node name="CloseRow" type="CenterContainer" parent="HowToPlayPanel/PanelMargin/HowToPlayColumn"]
+layout_mode = 2
+
+[node name="CloseButton" type="TextureButton" parent="HowToPlayPanel/PanelMargin/HowToPlayColumn/CloseRow"]
+custom_minimum_size = Vector2(92, 92)
+layout_mode = 2
+focus_mode = 2
+pivot_offset = Vector2(46, 46)
+texture_filter = 1
+texture_normal = ExtResource("6_back")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="CloseLabel" type="Label" parent="HowToPlayPanel/PanelMargin/HowToPlayColumn/CloseRow"]
+visible = false
+layout_mode = 2
+text = "Back"
