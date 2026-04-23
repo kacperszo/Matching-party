@@ -1,0 +1,22 @@
+~ start
+
+# First, check if the player already solved it!
+if Global.solved_math_riddle == true:
+	Guard: Welcome back, genius. Have a great day!
+	=> END
+
+# If they haven't solved it, ask the riddle:
+Guard: Stop right there! To pass, you must answer my riddle.
+Guard: What is 2 x 2?
+
+- It is 3.
+	Guard: Wrong! Your math is terrible. Begone!
+	=> END
+- It is 4.
+	Guard: Correct! You are truly a genius. You may pass.
+	# Set our global variable to true so he remembers!
+	set Global.solved_math_riddle = true
+	=> END
+- It is 5.
+	Guard: Not even close. Try again later!
+	=> END
