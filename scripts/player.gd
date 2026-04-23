@@ -16,9 +16,31 @@ extends CharacterBody2D
 ## Jump buffer — how early before landing a jump input is accepted
 @export var jump_buffer_time: float = 0.12
 
+## Radius in pixels within which interactables are detected
+@export var interaction_radius: float = 60.0
+
 var _coyote_timer: float = 0.0
 var _jump_buffer_timer: float = 0.0
 var _was_on_floor: bool = false
+var _current_interactable: Interactable = null
+
+
+func _ready() -> void:
+	_setup_interaction_area()
+
+
+func _setup_interaction_area() -> void:
+	var area := Area2D.new()
+	area.collision_layer = 0
+	area.collision_mask = 2
+	var shape := CollisionShape2D.new()
+	var circle := CircleShape2D.new()
+	circle.radius = interaction_radius
+	shape.shape = circle
+	area.add_child(shape)
+	add_child(area)
+	area.area_entered.connect(_on_interactable_entered)
+	area.area_exited.connect(_on_interactable_exited)
 
 
 func _physics_process(delta: float) -> void:
@@ -26,8 +48,26 @@ func _physics_process(delta: float) -> void:
 	_update_timers(delta)
 	_handle_jump()
 	_handle_horizontal(delta)
+	_handle_interact()
 	move_and_slide()
 	_was_on_floor = is_on_floor()
+
+
+func _handle_interact() -> void:
+	if Input.is_action_just_pressed("interact") and _current_interactable != null:
+		_current_interactable.interact(self)
+
+
+func _on_interactable_entered(area: Area2D) -> void:
+	if area is Interactable:
+		_current_interactable = area as Interactable
+		_current_interactable.show_prompt()
+
+
+func _on_interactable_exited(area: Area2D) -> void:
+	if area == _current_interactable:
+		_current_interactable.hide_prompt()
+		_current_interactable = null
 
 
 func _apply_gravity(delta: float) -> void:
