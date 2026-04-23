@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://din5k7aln6621"]
 
 [ext_resource type="PackedScene" uid="uid://player" path="res://scenes/player.tscn" id="1_5620j"]
-[ext_resource type="PackedScene" uid="uid://hgpyh1oca1cd" path="res://scenes/npc.tscn" id="2_fd1ik"]
+[ext_resource type="PackedScene" uid="uid://hgpyh1oca1cd" path="res://scenes/npc_dialog.tscn" id="2_fd1ik"]
 [ext_resource type="Resource" uid="uid://be1mdcqhuridg" path="res://dialogues/npc_dialog.dialogue" id="3_ey1x8"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_floor"]
