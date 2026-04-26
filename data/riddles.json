@@ -1,0 +1,74 @@
+[
+  {
+	"category": "math",
+	"question": "What is 7 x 8?",
+	"options": ["54", "56", "64", "48"],
+	"correct_index": 1
+  },
+  {
+	"category": "math",
+	"question": "Solve: 15 + (10 / 2)",
+	"options": ["12.5", "20", "17", "25"],
+	"correct_index": 1
+  },
+  {
+	"category": "math",
+	"question": "Is 17 a prime number?",
+	"options": ["True", "False"],
+	"correct_index": 0
+  },
+  {
+	"category": "geography",
+	"question": "The capital of France is Paris.",
+	"options": ["True", "False"],
+	"correct_index": 0
+  },
+  {
+	"category": "geography",
+	"question": "Which is the largest continent?",
+	"options": ["Africa", "North America", "Asia", "Antarctica"],
+	"correct_index": 2
+  },
+  {
+	"category": "geography",
+	"question": "What is the capital of Japan?",
+	"options": ["Seoul", "Beijing", "Tokyo", "Bangkok"],
+	"correct_index": 2
+  },
+  {
+	"category": "history",
+	"question": "In what year did World War II end?",
+	"options": ["1918", "1939", "1945", "1950"],
+	"correct_index": 2
+  },
+  {
+	"category": "history",
+	"question": "Who was the first President of the United States?",
+	"options": ["Thomas Jefferson", "Abraham Lincoln", "George Washington", "John Adams"],
+	"correct_index": 2
+  },
+  {
+	"category": "history",
+	"question": "The Great Wall of China was built in a single year.",
+	"options": ["True", "False"],
+	"correct_index": 1
+  },
+  {
+	"category": "knowledge",
+	"question": "Which of these is a primary color?",
+	"options": ["Green", "Purple", "Red", "Orange"],
+	"correct_index": 2
+  },
+  {
+	"category": "knowledge",
+	"question": "How many legs does a spider have?",
+	"options": ["6", "8", "10", "12"],
+	"correct_index": 1
+  },
+  {
+	"category": "knowledge",
+	"question": "Water boils at 90 degrees Celsius.",
+	"options": ["True", "False"],
+	"correct_index": 1
+  }
+]

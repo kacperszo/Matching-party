@@ -61,3 +61,9 @@ offset_top = -16.0
 offset_right = 100.0
 offset_bottom = 16.0
 color = Color(0.5, 0.5, 0.55, 1)
+
+[node name="NPC2" parent="." unique_id=441212615 instance=ExtResource("2_fd1ik")]
+position = Vector2(-68, 468)
+
+[node name="NPC3" parent="." unique_id=1966456000 instance=ExtResource("2_fd1ik")]
+position = Vector2(895, 466)
