@@ -1,6 +1,6 @@
 extends Control
 
-@export_file("*.tscn") var gameplay_scene_path: String = "res://scenes/test_level.tscn"
+@export_file("*.tscn") var gameplay_scene_path: String = "res://scenes/test_level_npc.tscn"
 
 @onready var _play_button: TextureButton = $Ui/CenterStack/MenuCard/CardMargin/CardColumn/ActionRow/PlayAction/PlayButton
 @onready var _how_to_play_button: TextureButton = $Ui/CenterStack/MenuCard/CardMargin/CardColumn/ActionRow/HowToPlayAction/HowToPlayButton
