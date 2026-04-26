@@ -1,7 +1,6 @@
 [gd_scene format=3 uid="uid://cyxnskuxvd5kv"]
 
 [ext_resource type="Script" uid="uid://dl6ovh6i67jid" path="res://scripts/npc.gd" id="1_nh2m4"]
-[ext_resource type="Resource" uid="uid://be1mdcqhuridg" path="res://dialogues/npc_dialog.dialogue" id="2_abqhh"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_abqhh"]
 radius = 47.0
@@ -9,8 +8,7 @@ radius = 47.0
 [node name="NPC" type="Area2D" unique_id=1055926722]
 script = ExtResource("1_nh2m4")
 hidden_value = 7
-dialogue_resource = ExtResource("2_abqhh")
-prompt_text = "Talk"
+prompt_text = "Ask"
 
 [node name="InteractionRange" type="CollisionShape2D" parent="." unique_id=1819764416]
 shape = SubResource("CircleShape2D_abqhh")
