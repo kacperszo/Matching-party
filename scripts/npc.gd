@@ -1,5 +1,5 @@
 class_name NPC
-extends Interactable
+extends CharacterBody2D
 
 signal patience_changed(new_patience: float, max_patience: float)
 signal patience_depleted
@@ -15,6 +15,11 @@ signal answer_refused
 
 ## How fast patience drains per second while the NPC is following the player
 @export var follow_drain_rate: float = 0.1
+@export var follow_speed: float = 140.0
+@export var follow_acceleration: float = 700.0
+@export var follow_friction: float = 900.0
+@export var gravity: float = 900.0
+@export var prompt_text: String = "Talk"
 
 @export var dialogue_resource: DialogueResource        
 @export var dialogue_start: String = "start"                                                                                                                 
@@ -25,17 +30,18 @@ var patience: float
 var is_following: bool = false
 
 var _follow_target: Node2D = null
+@onready var _interaction_area: NPCInteractionArea = $InteractionArea
 
 
 func _ready() -> void:
-	prompt_text = "Talk"
 	patience = max_patience
-	super._ready()
+	_sync_prompt()
 
 
-func _process(delta: float) -> void:
-	if is_following and _follow_target != null:
-		_tick_follow(delta)
+func _physics_process(delta: float) -> void:
+	_apply_gravity(delta)
+	_update_follow_velocity(delta)
+	move_and_slide()
 
 
 # Called when the player presses interact while in range
@@ -62,11 +68,15 @@ func ask_number() -> int:
 func ask_to_follow(target: Node2D) -> void:
 	is_following = true
 	_follow_target = target
+	prompt_text = "Wait"
+	_sync_prompt()
 
 
 func stop_following() -> void:
 	is_following = false
 	_follow_target = null
+	prompt_text = "Talk"
+	_sync_prompt()
 
 
 func restore_patience(amount: float) -> void:
@@ -81,7 +91,26 @@ func _decrease_patience(amount: float) -> void:
 		patience_depleted.emit()
 
 
-func _tick_follow(delta: float) -> void:
-	_decrease_patience(follow_drain_rate * delta)
-	# Placeholder — movement will be implemented with CharacterBody2D refactor
-	global_position = global_position.lerp(_follow_target.global_position + Vector2(40, 0), delta * 3.0)
+func _update_follow_velocity(delta: float) -> void:
+	if is_following and is_instance_valid(_follow_target):
+		_decrease_patience(follow_drain_rate * delta)
+		var target_x := _follow_target.global_position.x + 40.0
+		var distance_x := target_x - global_position.x
+		if absf(distance_x) > 6.0:
+			velocity.x = move_toward(velocity.x, sign(distance_x) * follow_speed, follow_acceleration * delta)
+		else:
+			velocity.x = move_toward(velocity.x, 0.0, follow_friction * delta)
+	else:
+		velocity.x = move_toward(velocity.x, 0.0, follow_friction * delta)
+
+
+func _apply_gravity(delta: float) -> void:
+	if not is_on_floor():
+		velocity.y += gravity * delta
+	elif velocity.y > 0.0:
+		velocity.y = 0.0
+
+
+func _sync_prompt() -> void:
+	if _interaction_area != null:
+		_interaction_area.sync_prompt_from_npc()
