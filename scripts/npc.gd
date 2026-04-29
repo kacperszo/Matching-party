@@ -13,21 +13,16 @@ signal answer_refused
 @export var max_patience: float = 5.0
 @export var patience_per_ask: float = 1.0
 
-## How fast patience drains per second while the NPC is following the player
-@export var follow_drain_rate: float = 0.1
-@export var follow_speed: float = 140.0
-@export var follow_acceleration: float = 700.0
-@export var follow_friction: float = 900.0
+## Physics tuning for the grounded NPC body
 @export var gravity: float = 900.0
-@export var prompt_text: String = "Ask"
-@export var reveal_message_duration: float = 2.0
+@export var prompt_text: String = "Talk"
+
+@export var dialogue_resource: DialogueResource
+@export var dialogue_start: String = "start"
+
+var _is_dialogue_active: bool = false
 
 var patience: float
-var is_following: bool = false
-
-var _follow_target: Node2D = null
-var _speech_label: Label
-var _speech_timer: Timer
 
 @onready var _interaction_area: NPCInteractionArea = $InteractionArea
 
@@ -40,18 +35,17 @@ func _ready() -> void:
 
 func _physics_process(delta: float) -> void:
 	_apply_gravity(delta)
-	_update_follow_velocity(delta)
 	move_and_slide()
 
 
 # Called when the player presses interact while in range
 func interact(_interactor: Node) -> void:
-	var number := ask_number()
-	if number == -1:
-		_show_speech("I'm done talking.")
-	else:
-		_show_speech("My number is %d." % number)
-
+	if dialogue_resource == null or _is_dialogue_active:
+		return
+	_is_dialogue_active = true
+	DialogueManager.show_dialogue_balloon(dialogue_resource, dialogue_start)
+	await DialogueManager.dialogue_ended
+	_is_dialogue_active = false
 
 # Returns the hidden value and costs patience.
 # Returns -1 and emits answer_refused when patience is depleted.
@@ -64,21 +58,6 @@ func ask_number() -> int:
 	number_revealed.emit(hidden_value)
 	return hidden_value
 
-
-func ask_to_follow(target: Node2D) -> void:
-	is_following = true
-	_follow_target = target
-	prompt_text = "Wait"
-	_sync_prompt()
-
-
-func stop_following() -> void:
-	is_following = false
-	_follow_target = null
-	prompt_text = "Ask"
-	_sync_prompt()
-
-
 func restore_patience(amount: float) -> void:
 	patience = minf(patience + amount, max_patience)
 	patience_changed.emit(patience, max_patience)
@@ -89,19 +68,6 @@ func _decrease_patience(amount: float) -> void:
 	patience_changed.emit(patience, max_patience)
 	if patience <= 0.0:
 		patience_depleted.emit()
-
-
-func _update_follow_velocity(delta: float) -> void:
-	if is_following and is_instance_valid(_follow_target):
-		_decrease_patience(follow_drain_rate * delta)
-		var target_x := _follow_target.global_position.x + 40.0
-		var distance_x := target_x - global_position.x
-		if absf(distance_x) > 6.0:
-			velocity.x = move_toward(velocity.x, sign(distance_x) * follow_speed, follow_acceleration * delta)
-		else:
-			velocity.x = move_toward(velocity.x, 0.0, follow_friction * delta)
-	else:
-		velocity.x = move_toward(velocity.x, 0.0, follow_friction * delta)
 
 
 func _apply_gravity(delta: float) -> void:
