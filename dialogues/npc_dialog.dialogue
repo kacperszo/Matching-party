@@ -1,8 +1,8 @@
 ~ start
 
-# First, check if the player already solved it!
-if Global.solved_math_riddle == true:
-	Guard: Welcome back, genius. Have a great day!
+# First, check if the NPC has already been solved.
+if riddle_solved == true:
+	Guard: {{get_number_dialogue_text()}}
 	=> END
 
 # If they haven't solved it, ask the riddle:
@@ -14,8 +14,8 @@ Guard: What is 2 x 2?
 	=> END
 - It is 4.
 	Guard: Correct! You are truly a genius. You may pass.
-	# Set our global variable to true so he remembers!
-	set Global.solved_math_riddle = true
+	set riddle_solved = true
+	Guard: {{get_number_dialogue_text()}}
 	=> END
 - It is 5.
 	Guard: Not even close. Try again later!
