@@ -6,6 +6,18 @@ signal patience_depleted
 signal number_revealed(number: int)
 signal answer_refused
 
+## Name shown in dialogue
+@export var npc_name: String = "Party NPC"
+
+## Whether the player has already answered this NPC's riddle
+@export var is_riddle_solved: bool = false
+
+# Current riddle data
+var riddle_question: String = ""
+var riddle_options: Array = []
+var riddle_correct_index: int = -1
+var selected_index: int = -1
+
 ## Number hidden from the player — revealed only when asked
 @export var hidden_value: int = 0
 @export var riddle_solved: bool = false
@@ -31,7 +43,13 @@ var patience: float
 func _ready() -> void:
 	patience = max_patience
 	_sync_prompt()
-
+	
+	# Assign a random riddle
+	var current_riddle = Global.get_random_riddle()
+	riddle_question = current_riddle.get("question", "No question")
+	
+	riddle_options = current_riddle.get("options", [])
+	riddle_correct_index = int(current_riddle.get("correct_index", -1))
 
 func _physics_process(delta: float) -> void:
 	_apply_gravity(delta)
@@ -39,12 +57,12 @@ func _physics_process(delta: float) -> void:
 
 
 # Called when the player presses interact while in range
-func interact(_interactor: Node) -> void:
-	if dialogue_resource == null or _is_dialogue_active:
-		return
-	_is_dialogue_active = true
+func interact(_interactor: Node) -> void:                                                                                                                    
+	if dialogue_resource == null or _is_dialogue_active:                                                                                                     
+		return                                          
+	_is_dialogue_active = true                                                                                                                               
 	DialogueManager.show_dialogue_balloon(dialogue_resource, dialogue_start, [self])
-	await DialogueManager.dialogue_ended
+	await DialogueManager.dialogue_ended                                    
 	_is_dialogue_active = false
 
 # Returns the hidden value and costs patience.
@@ -65,6 +83,17 @@ func get_number_dialogue_text() -> String:
 		return "I've had enough. I'm not telling you anything else."
 
 	return "My number is %d." % revealed_number
+
+func check_answer(index: int) -> bool:
+	if index == riddle_correct_index:
+		is_riddle_solved = true
+		return true
+	return false
+
+
+func get_insult() -> String:
+	return Global.get_random_insult()
+
 
 func restore_patience(amount: float) -> void:
 	patience = minf(patience + amount, max_patience)

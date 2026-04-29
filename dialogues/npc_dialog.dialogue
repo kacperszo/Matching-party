@@ -2,21 +2,60 @@
 
 # First, check if the NPC has already been solved.
 if riddle_solved == true:
-	Guard: {{get_number_dialogue_text()}}
-	=> END
+	=> tell_owned_number
 
-# If they haven't solved it, ask the riddle:
-Guard: Stop right there! To pass, you must answer my riddle.
-Guard: What is 2 x 2?
+# Determine which template to use based on the number of options
+if riddle_options.size() == 2:
+	=> ask_2
+elif riddle_options.size() == 3:
+	=> ask_3
+else:
+	=> ask_4
 
-- It is 3.
-	Guard: Wrong! Your math is terrible. Begone!
-	=> END
-- It is 4.
-	Guard: Correct! You are truly a genius. You may pass.
+~ ask_2
+{{npc_name}}: {{riddle_question}}
+- {{riddle_options[0]}}
+	set selected_index = 0
+	=> check_result
+- {{riddle_options[1]}}
+	set selected_index = 1
+	=> check_result
+
+~ ask_3
+{{npc_name}}: {{riddle_question}}
+- {{riddle_options[0]}}
+	set selected_index = 0
+	=> check_result
+- {{riddle_options[1]}}
+	set selected_index = 1
+	=> check_result
+- {{riddle_options[2]}}
+	set selected_index = 2
+	=> check_result
+
+~ ask_4
+{{npc_name}}: {{riddle_question}}
+- {{riddle_options[0]}}
+	set selected_index = 0
+	=> check_result
+- {{riddle_options[1]}}
+	set selected_index = 1
+	=> check_result
+- {{riddle_options[2]}}
+	set selected_index = 2
+	=> check_result
+- {{riddle_options[3]}}
+	set selected_index = 3
+	=> check_result
+
+~ check_result
+if check_answer(selected_index) == true:
 	set riddle_solved = true
-	Guard: {{get_number_dialogue_text()}}
-	=> END
-- It is 5.
-	Guard: Not even close. Try again later!
-	=> END
+	{{npc_name}}: Correct! You are truly a genius.
+	=> tell_owned_number
+else:
+	{{npc_name}}: {{get_insult()}}
+=> END
+
+~ tell_owned_number
+{{npc_name}}: {{get_number_dialogue_text()}}
