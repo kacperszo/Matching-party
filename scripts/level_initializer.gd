@@ -10,8 +10,7 @@ func _ready() -> void:
 
 
 func _assign_random_hidden_values() -> void:
-	var npcs: Array[NPC] = []
-	_collect_npcs(self, npcs)
+	var npcs := _find_npcs()
 
 	if npcs.is_empty():
 		push_warning("Level initializer found no NPCs to randomize.")
@@ -38,12 +37,12 @@ func _assign_random_hidden_values() -> void:
 		_print_assignments(npcs)
 
 
-func _collect_npcs(node: Node, result: Array[NPC]) -> void:
-	for child in node.get_children():
-		if child is NPC:
-			result.append(child)
-
-		_collect_npcs(child, result)
+func _find_npcs() -> Array[NPC]:
+	var result: Array[NPC] = []
+	for node in find_children("*", "NPC", true, false):
+		if node is NPC:
+			result.append(node as NPC)
+	return result
 
 
 func _build_pair_values(pair_count: int) -> Array[int]:
