@@ -7,7 +7,7 @@ signal number_revealed(number: int)
 signal answer_refused
 
 ## Name shown in dialogue
-@export var npc_name: String = "Guard"
+@export var npc_name: String = "Party NPC"
 
 ## Whether the player has already answered this NPC's riddle
 @export var is_riddle_solved: bool = false
@@ -50,9 +50,6 @@ func _ready() -> void:
 	
 	riddle_options = current_riddle.get("options", [])
 	riddle_correct_index = int(current_riddle.get("correct_index", -1))
-	
-	super._ready()
-
 
 func _physics_process(delta: float) -> void:
 	_apply_gravity(delta)

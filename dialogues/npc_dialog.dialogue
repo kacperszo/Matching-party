@@ -2,8 +2,7 @@
 
 # First, check if the NPC has already been solved.
 if riddle_solved == true:
-	Guard: {{get_number_dialogue_text()}}
-	=> END
+	=> tell_owned_number
 
 # Determine which template to use based on the number of options
 if riddle_options.size() == 2:
@@ -51,7 +50,12 @@ else:
 
 ~ check_result
 if check_answer(selected_index) == true:
-	{{npc_name}}: Correct! You are truly a genius. You may pass.
+	set riddle_solved = true
+	{{npc_name}}: Correct! You are truly a genius.
+	=> tell_owned_number
 else:
 	{{npc_name}}: {{get_insult()}}
 => END
+
+~ tell_owned_number
+{{npc_name}}: {{get_number_dialogue_text()}}
