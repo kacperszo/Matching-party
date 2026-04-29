@@ -8,6 +8,7 @@ signal answer_refused
 
 ## Number hidden from the player — revealed only when asked
 @export var hidden_value: int = 0
+@export var riddle_solved: bool = false
 
 ## Total patience pool; each interaction costs patience_per_ask
 @export var max_patience: float = 5.0
@@ -42,7 +43,7 @@ func interact(_interactor: Node) -> void:
 	if dialogue_resource == null or _is_dialogue_active:
 		return
 	_is_dialogue_active = true
-	DialogueManager.show_dialogue_balloon(dialogue_resource, dialogue_start)
+	DialogueManager.show_dialogue_balloon(dialogue_resource, dialogue_start, [self])
 	await DialogueManager.dialogue_ended
 	_is_dialogue_active = false
 
@@ -56,6 +57,14 @@ func ask_number() -> int:
 	_decrease_patience(patience_per_ask)
 	number_revealed.emit(hidden_value)
 	return hidden_value
+
+
+func get_number_dialogue_text() -> String:
+	var revealed_number := ask_number()
+	if revealed_number == -1:
+		return "I've had enough. I'm not telling you anything else."
+
+	return "My number is %d." % revealed_number
 
 func restore_patience(amount: float) -> void:
 	patience = minf(patience + amount, max_patience)
