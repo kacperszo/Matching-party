@@ -2,6 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://player" path="res://scenes/player.tscn" id="1_5620j"]
 [ext_resource type="PackedScene" uid="uid://cyxnskuxvd5kv" path="res://scenes/npc.tscn" id="2_fd1ik"]
+[ext_resource type="Script" path="res://scripts/level_initializer.gd" id="3_x10ad"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_floor"]
 size = Vector2(2000, 32)
@@ -10,6 +11,7 @@ size = Vector2(2000, 32)
 size = Vector2(200, 32)
 
 [node name="TestLevel" type="Node2D" unique_id=2124674192]
+script = ExtResource("3_x10ad")
 
 [node name="Background" type="ColorRect" parent="." unique_id=468872710]
 offset_left = -500.0
@@ -23,7 +25,16 @@ z_index = 10
 position = Vector2(300, 300)
 
 [node name="NPC" parent="." unique_id=1055926722 instance=ExtResource("2_fd1ik")]
-position = Vector2(106, 470)
+position = Vector2(106, 468)
+
+[node name="NPC2" parent="." instance=ExtResource("2_fd1ik")]
+position = Vector2(834, 468)
+
+[node name="NPC3" parent="." instance=ExtResource("2_fd1ik")]
+position = Vector2(498, 348)
+
+[node name="NPC4" parent="." instance=ExtResource("2_fd1ik")]
+position = Vector2(666, 348)
 
 [node name="Floor" type="StaticBody2D" parent="." unique_id=1844053799]
 position = Vector2(500, 500)

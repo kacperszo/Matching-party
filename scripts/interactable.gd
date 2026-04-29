@@ -22,6 +22,15 @@ func show_prompt() -> void:
 func hide_prompt() -> void:
 	_prompt_label.hide()
 
+
+func refresh_prompt() -> void:
+	if _prompt_label.visible:
+		show_prompt()
+
+
+func is_prompt_visible() -> bool:
+	return _prompt_label != null and _prompt_label.visible
+
 ## Override in subclasses to define interaction behaviour
 func interact(_interactor: Node) -> void:
 	pass
