@@ -1,5 +1,9 @@
 ~ start
 
+if patience <= 0:
+	{{npc_name}}: {{get_patience_depleted_response()}}
+	=> END
+
 # First, check if the NPC has already been solved.
 if riddle_solved == true:
 	=> tell_owned_number
