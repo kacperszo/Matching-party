@@ -2,10 +2,12 @@ extends Node
 
 var riddles: Array[Dictionary] = []
 var insults: Array[String] = []
+var patience_responses: Array[String] = []
 
 func _ready() -> void:
 	_load_riddles()
 	_load_insults()
+	_load_patience_responses()
 
 
 func _load_riddles() -> void:
@@ -41,6 +43,20 @@ func _load_insults() -> void:
 		insults.assign(json.data)
 
 
+func _load_patience_responses() -> void:
+	var file_path = "res://data/patience_responses.json"
+	if not FileAccess.file_exists(file_path):
+		return
+
+	var file = FileAccess.open(file_path, FileAccess.READ)
+	var json = JSON.new()
+	var error = json.parse(file.get_as_text())
+	file.close()
+
+	if error == OK and json.data is Array:
+		patience_responses.assign(json.data)
+
+
 func get_random_riddle() -> Dictionary:
 	if riddles.is_empty():
 		return {
@@ -55,3 +71,9 @@ func get_random_insult() -> String:
 	if insults.is_empty():
 		return "Wrong! Try again."
 	return insults.pick_random()
+
+
+func get_random_patience_response() -> String:
+	if patience_responses.is_empty():
+		return "Leave me alone!"
+	return patience_responses.pick_random()
