@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="PackedScene" uid="uid://cwc12nlf52v1p" path="res://scenes/npcs/npc.tscn" id="1_v4m8j"]
+[ext_resource type="Script" path="res://scripts/npcs/npc_jester.gd" id="2_jester"]
+
+[node name="JesterNPC" instance=ExtResource("1_v4m8j")]
+script = ExtResource("2_jester")
+npc_name = "Jester NPC"
+unreliable_threshold = 0.6
+max_lie_chance = 0.9
+
+[node name="ColorRect" parent="." index="2"]
+color = Color(0.9, 0.8, 0.1, 1)
