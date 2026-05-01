@@ -2,9 +2,10 @@
 
 [ext_resource type="PackedScene" uid="uid://player" path="res://scenes/player.tscn" id="1_5620j"]
 [ext_resource type="Script" uid="uid://csel1o8fkra5" path="res://scripts/level_initializer.gd" id="3_x10ad"]
-[ext_resource type="PackedScene" path="res://scenes/npcs/npc_basic.tscn" id="4_basic"]
-[ext_resource type="PackedScene" path="res://scenes/npcs/npc_nerd.tscn" id="5_nerd"]
-[ext_resource type="PackedScene" path="res://scenes/npcs/npc_jester.tscn" id="6_jester"]
+[ext_resource type="PackedScene" uid="uid://dy4imr4ap6mg8" path="res://scenes/npcs/npc_basic.tscn" id="4_basic"]
+[ext_resource type="PackedScene" uid="uid://cmo43mqw00aor" path="res://scenes/npcs/npc_nerd.tscn" id="5_nerd"]
+[ext_resource type="PackedScene" uid="uid://b7buhrqjnlfu" path="res://scenes/npcs/npc_jester.tscn" id="6_jester"]
+[ext_resource type="PackedScene" path="res://scenes/npcs/npc_teleporter.tscn" id="7_tele"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_floor"]
 size = Vector2(2000, 32)
@@ -70,3 +71,21 @@ npc_name = "Jester Jack"
 [node name="JesterNPC2" parent="." unique_id=791362766 instance=ExtResource("6_jester")]
 position = Vector2(700, 450)
 npc_name = "Jester Jill"
+
+[node name="TeleportPoints" type="Node2D" parent="." unique_id=1000]
+
+[node name="Point1" type="Marker2D" parent="TeleportPoints" unique_id=947043258 groups=["teleport_points"]]
+position = Vector2(-142, 433)
+
+[node name="Point2" type="Marker2D" parent="TeleportPoints" unique_id=1444355414 groups=["teleport_points"]]
+position = Vector2(1227, 438)
+
+[node name="Point3" type="Marker2D" parent="TeleportPoints" unique_id=193387143 groups=["teleport_points"]]
+position = Vector2(-380, 409)
+
+[node name="TeleporterNPC" parent="." unique_id=1001 instance=ExtResource("7_tele")]
+position = Vector2(172, 436)
+npc_name = "Teleporter Tim"
+
+[node name="TeleporterNPC2" parent="." unique_id=1479508531 instance=ExtResource("7_tele")]
+position = Vector2(444.6656, 385.55682)

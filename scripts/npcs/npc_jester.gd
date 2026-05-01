@@ -2,16 +2,15 @@ class_name JesterNPC
 extends NPC
 
 ## Patience percentage below which the jester starts becoming unreliable (0.0 to 1.0)
-@export var unreliable_threshold: float = 0.6
+@export var unreliable_threshold: float = 0.4
 
 ## The maximum probability of lying when patience is near zero
 @export var max_lie_chance: float = 1.0
 
 func _ready() -> void:
+	dialogue_start = "start_basic"
 	super._ready()
 	# Jesters use the basic dialogue structure
-	if dialogue_start == "start":
-		dialogue_start = "basic_start"
 
 func ask_number() -> int:
 	if patience <= 0.0:
@@ -33,16 +32,4 @@ func ask_number() -> int:
 	return value_to_reveal
 
 func _get_incorrect_number() -> int:
-	var wrong_val = hidden_value
-	# Try to find a different number within a reasonable range (0-20)
-	# We ensure it's different from the actual hidden value.
-	var attempts = 0
-	while wrong_val == hidden_value and attempts < 10:
-		wrong_val = randi_range(0, 20)
-		attempts += 1
-	
-	# If we somehow failed to find a different number (e.g. range was too small)
-	if wrong_val == hidden_value:
-		wrong_val = hidden_value + 1
-		
-	return wrong_val
+	return randi_range(0, 20)

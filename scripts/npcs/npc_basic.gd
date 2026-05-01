@@ -2,6 +2,5 @@ class_name BasicNPC
 extends NPC
 
 func _ready() -> void:
+	dialogue_start = "start_basic"
 	super._ready()
-	if dialogue_start == "start":
-		dialogue_start = "basic_start"

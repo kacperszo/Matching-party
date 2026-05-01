@@ -21,9 +21,10 @@ signal answer_refused
 @export var prompt_text: String = "Talk"
 
 @export var dialogue_resource: DialogueResource
-@export var dialogue_start: String = "start"
+var dialogue_start: String = "start_basic"
 
 var _is_dialogue_active: bool = false
+var current_balloon: Node = null
 
 var patience: float
 var patience_bar: ProgressBar
@@ -70,9 +71,10 @@ func interact(_interactor: Node) -> void:
 	if dialogue_resource == null or _is_dialogue_active:                                                                                                     
 		return                                          
 	_is_dialogue_active = true                                                                                                                               
-	DialogueManager.show_dialogue_balloon(dialogue_resource, get_dialogue_start(), [self])
+	current_balloon = DialogueManager.show_dialogue_balloon(dialogue_resource, get_dialogue_start(), [self])
 	await DialogueManager.dialogue_ended                                    
 	_is_dialogue_active = false
+	current_balloon = null
 	_decrease_patience(patience_per_ask)
 
 
