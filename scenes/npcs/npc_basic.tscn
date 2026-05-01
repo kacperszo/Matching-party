@@ -1,0 +1,11 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/npcs/npc.tscn" id="1_v4m8j"]
+[ext_resource type="Script" uid="uid://bn1ix1ue8lbyl" path="res://scripts/npcs/npc_basic.gd" id="2_r5k2l"]
+
+[node name="BasicNPC" instance=ExtResource("1_v4m8j")]
+script = ExtResource("2_r5k2l")
+npc_name = "Basic NPC"
+
+[node name="ColorRect" parent="." index="2"]
+color = Color(0.2, 0.8, 0.2, 1)

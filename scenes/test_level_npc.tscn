@@ -1,8 +1,9 @@
-[gd_scene format=3 uid="uid://din5k7aln6621"]
+[gd_scene load_steps=5 format=3 uid="uid://din5k7aln6621"]
 
 [ext_resource type="PackedScene" uid="uid://player" path="res://scenes/player.tscn" id="1_5620j"]
-[ext_resource type="PackedScene" uid="uid://cyxnskuxvd5kv" path="res://scenes/npc.tscn" id="2_fd1ik"]
 [ext_resource type="Script" uid="uid://csel1o8fkra5" path="res://scripts/level_initializer.gd" id="3_x10ad"]
+[ext_resource type="PackedScene" path="res://scenes/npcs/npc_basic.tscn" id="4_basic"]
+[ext_resource type="PackedScene" path="res://scenes/npcs/npc_nerd.tscn" id="5_nerd"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_floor"]
 size = Vector2(2000, 32)
@@ -50,8 +51,12 @@ offset_right = 100.0
 offset_bottom = 16.0
 color = Color(0.5, 0.5, 0.55, 1)
 
-[node name="NPC" parent="." unique_id=1055926722 instance=ExtResource("2_fd1ik")]
+[node name="BasicNPC" parent="." instance=ExtResource("4_basic")]
 position = Vector2(19, 387)
+npc_name = "Basic Bob"
+hidden_value = 12
 
-[node name="NPC2" parent="." unique_id=920651996 instance=ExtResource("2_fd1ik")]
+[node name="NerdNPC" parent="." instance=ExtResource("5_nerd")]
 position = Vector2(915, 306)
+npc_name = "Nerd Ned"
+hidden_value = 42
