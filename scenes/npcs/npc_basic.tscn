@@ -1,12 +1,13 @@
-[gd_scene format=3 uid="uid://dy4imr4ap6mg8"]
+[gd_scene load_steps=3 format=3 uid="uid://dy4imr4ap6mg8"]
 
 [ext_resource type="PackedScene" uid="uid://cwc12nlf52v1p" path="res://scenes/npcs/npc.tscn" id="1_v4m8j"]
 [ext_resource type="Script" uid="uid://bn1ix1ue8lbyl" path="res://scripts/npcs/npc_basic.gd" id="2_r5k2l"]
+[ext_resource type="Texture2D" path="res://assets/pixel_adventure/Main Characters/Mask Dude/Idle (32x32).png" id="3_basic_texture"]
 
 [node name="BasicNPC" unique_id=91703777 instance=ExtResource("1_v4m8j")]
 script = ExtResource("2_r5k2l")
 npc_name = "Basic NPC"
 dialogue_start = "basic_start"
 
-[node name="ColorRect" parent="." index="2" unique_id=548627754]
-color = Color(0.2, 0.8, 0.2, 1)
+[node name="Sprite" parent="." index="2" unique_id=548627754]
+texture = ExtResource("3_basic_texture")

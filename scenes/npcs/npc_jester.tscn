@@ -1,7 +1,8 @@
-[gd_scene format=3 uid="uid://b7buhrqjnlfu"]
+[gd_scene load_steps=3 format=3 uid="uid://b7buhrqjnlfu"]
 
 [ext_resource type="PackedScene" uid="uid://cwc12nlf52v1p" path="res://scenes/npcs/npc.tscn" id="1_v4m8j"]
 [ext_resource type="Script" uid="uid://vycfeafx4tbe" path="res://scripts/npcs/npc_jester.gd" id="2_jester"]
+[ext_resource type="Texture2D" path="res://assets/pixel_adventure/Main Characters/Ninja Frog/Idle (32x32).png" id="3_jester_texture"]
 
 [node name="JesterNPC" unique_id=1578132934 instance=ExtResource("1_v4m8j")]
 script = ExtResource("2_jester")
@@ -10,5 +11,5 @@ max_lie_chance = 0.9
 npc_name = "Jester NPC"
 dialogue_start = "basic_start"
 
-[node name="ColorRect" parent="." index="2" unique_id=548627754]
-color = Color(0.9, 0.8, 0.1, 1)
+[node name="Sprite" parent="." index="2" unique_id=548627754]
+texture = ExtResource("3_jester_texture")

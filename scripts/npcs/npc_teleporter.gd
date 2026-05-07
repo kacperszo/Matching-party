@@ -5,6 +5,8 @@ extends NPC
 @export var teleport_interval_max: float = 8.0
 
 var _teleport_timer: float = 0.0
+const TELEPORT_MIN_DISTANCE := 50.0
+const TELEPORT_OCCUPIED_RADIUS := 40.0
 
 
 func _ready() -> void:
@@ -25,15 +27,20 @@ func teleport() -> void:
 		_reset_teleport_timer()
 		return
 	
-	# Filter out points that are too close to current position
 	var valid_points = []
 	for p in points:
-		if p is Node2D and p.global_position.distance_to(global_position) > 50:
-			valid_points.append(p)
+		if not p is Node2D:
+			continue
+		var point := p as Node2D
+		if point.global_position.distance_to(global_position) <= TELEPORT_MIN_DISTANCE:
+			continue
+		if _is_point_occupied(point.global_position):
+			continue
+		valid_points.append(p)
 	
 	if valid_points.size() == 0:
-		# If no other points, just use any point but the current one if possible
-		valid_points = points
+		_reset_teleport_timer()
+		return
 	
 	var target_point = valid_points.pick_random()
 	
@@ -51,3 +58,17 @@ func teleport() -> void:
 
 func _reset_teleport_timer() -> void:
 	_teleport_timer = randf_range(teleport_interval_min, teleport_interval_max)
+
+
+func _is_point_occupied(point_position: Vector2) -> bool:
+	var scene := get_tree().current_scene
+	if scene == null:
+		return false
+
+	for node in scene.find_children("*", "NPC", true, false):
+		if node == self or not node is Node2D:
+			continue
+		if (node as Node2D).global_position.distance_to(point_position) < TELEPORT_OCCUPIED_RADIUS:
+			return true
+
+	return false
