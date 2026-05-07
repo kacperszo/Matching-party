@@ -1,4 +1,12 @@
-~ start
+~ start_basic
+
+if patience <= 0:
+	{{npc_name}}: {{get_patience_depleted_response()}}
+	=> END
+
+=> tell_owned_number
+
+~ start_nerd
 
 if patience <= 0:
 	{{npc_name}}: {{get_patience_depleted_response()}}

@@ -1,0 +1,16 @@
+[gd_scene format=3 uid="uid://cmo43mqw00aor"]
+
+[ext_resource type="PackedScene" uid="uid://cwc12nlf52v1p" path="res://scenes/npcs/npc.tscn" id="1_v4m8j"]
+[ext_resource type="Script" uid="uid://dgbx223osoxje" path="res://scripts/npcs/npc_nerd.gd" id="2_r5k2l"]
+
+[node name="NerdNPC" unique_id=528547925 instance=ExtResource("1_v4m8j")]
+script = ExtResource("2_r5k2l")
+riddle_solved = null
+npc_name = "Nerd NPC"
+max_patience = null
+patience_per_ask = null
+gravity = null
+dialogue_start = "start_nerd"
+
+[node name="ColorRect" parent="." index="2" unique_id=548627754]
+color = Color(0.2, 0.2, 0.8, 1)
