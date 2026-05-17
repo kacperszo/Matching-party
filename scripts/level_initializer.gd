@@ -1,8 +1,13 @@
 extends Node2D
 
+signal level_complete
+
 @export var first_pair_number: int = 1
 @export var fixed_seed: int = -1
 @export var print_assignments: bool = true
+
+var _total_pairs: int = 0
+var _pairs_matched: int = 0
 
 
 func _ready() -> void:
@@ -33,8 +38,20 @@ func _assign_random_hidden_values() -> void:
 	for i in range(npcs.size()):
 		npcs[i].hidden_value = values[i]
 
+	_total_pairs = pair_count
+	_pairs_matched = 0
+	for npc in npcs:
+		npc.match_succeeded.connect(_on_match_succeeded)
+
 	if print_assignments:
 		_print_assignments(npcs)
+
+
+func _on_match_succeeded(_npc1: NPC, _npc2: NPC) -> void:
+	_pairs_matched += 1
+	if _pairs_matched >= _total_pairs:
+		level_complete.emit()
+		print("Level complete! All pairs matched.")
 
 
 func _find_npcs() -> Array[NPC]:

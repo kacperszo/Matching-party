@@ -4,7 +4,20 @@ if patience <= 0:
 	{{npc_name}}: {{get_patience_depleted_response()}}
 	=> END
 
-=> tell_owned_number
+{{npc_name}}: Hey, what's up?
+- Ask your number
+	=> tell_owned_number
+- Follow me [if is_following == false]
+	do start_following()
+	{{npc_name}}: Sure, I'll follow you!
+	=> END
+- Stop following [if is_following == true]
+	do stop_following()
+	{{npc_name}}: Okay, I'll stay here.
+	=> END
+- Match! [if can_attempt_match() == true]
+	do try_match()
+	=> END
 
 ~ start_nerd
 
@@ -12,11 +25,26 @@ if patience <= 0:
 	{{npc_name}}: {{get_patience_depleted_response()}}
 	=> END
 
-# First, check if the NPC has already been solved.
+{{npc_name}}: Yes? What do you want?
+- Ask your number
+	=> nerd_riddle
+- Follow me [if is_following == false]
+	do start_following()
+	{{npc_name}}: Very well, I'll accompany you.
+	=> END
+- Stop following [if is_following == true]
+	do stop_following()
+	{{npc_name}}: As you wish.
+	=> END
+- Match! [if can_attempt_match() == true]
+	do try_match()
+	=> END
+
+~ nerd_riddle
+
 if riddle_solved == true:
 	=> tell_owned_number
 
-# Determine which template to use based on the number of options
 if riddle_options.size() == 2:
 	=> ask_2
 elif riddle_options.size() == 3:

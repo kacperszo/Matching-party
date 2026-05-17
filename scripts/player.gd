@@ -26,6 +26,9 @@ var _current_interactable: Interactable = null
 
 
 func _ready() -> void:
+	# Player on layer 2, collide only with world layer 1 (not NPCs on layer 4)
+	collision_layer = 2
+	collision_mask = 1
 	_setup_interaction_area()
 
 
