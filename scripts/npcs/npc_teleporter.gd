@@ -1,8 +1,8 @@
 class_name TeleporterNPC
 extends NPC
 
-@export var teleport_interval_min: float = 3.0
-@export var teleport_interval_max: float = 8.0
+@export var teleport_interval_min: float = 25.0
+@export var teleport_interval_max: float = 40.0
 
 var _teleport_timer: float = 0.0
 
@@ -20,6 +20,9 @@ func _process(delta: float) -> void:
 
 
 func teleport() -> void:
+	if is_following:
+		_reset_teleport_timer()
+		return
 	var points = get_tree().get_nodes_in_group("teleport_points")
 	if points.size() == 0:
 		_reset_teleport_timer()
