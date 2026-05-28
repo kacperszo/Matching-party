@@ -1,91 +1,400 @@
 [gd_scene format=3 uid="uid://din5k7aln6621"]
 
-[ext_resource type="PackedScene" uid="uid://player" path="res://scenes/player.tscn" id="1_5620j"]
-[ext_resource type="Script" uid="uid://csel1o8fkra5" path="res://scripts/level_initializer.gd" id="3_x10ad"]
+[ext_resource type="PackedScene" uid="uid://player" path="res://scenes/player.tscn" id="1_player"]
+[ext_resource type="Script" uid="uid://csel1o8fkra5" path="res://scripts/level_initializer.gd" id="3_initializer"]
 [ext_resource type="PackedScene" uid="uid://dy4imr4ap6mg8" path="res://scenes/npcs/npc_basic.tscn" id="4_basic"]
 [ext_resource type="PackedScene" uid="uid://cmo43mqw00aor" path="res://scenes/npcs/npc_nerd.tscn" id="5_nerd"]
 [ext_resource type="PackedScene" uid="uid://b7buhrqjnlfu" path="res://scenes/npcs/npc_jester.tscn" id="6_jester"]
 [ext_resource type="PackedScene" path="res://scenes/npcs/npc_teleporter.tscn" id="7_tele"]
+[ext_resource type="Texture2D" path="res://assets/pixel_adventure/Background/Blue.png" id="8_background"]
+[ext_resource type="Texture2D" path="res://assets/pixel_adventure/Terrain/Terrain (16x16).png" id="9_terrain"]
+[ext_resource type="Texture2D" path="res://assets/pixel_adventure/Items/Checkpoints/Start/Start (Idle).png" id="10_start_flag"]
+[ext_resource type="Texture2D" path="res://assets/pixel_adventure/Items/Checkpoints/End/End (Idle).png" id="11_end_flag"]
+[ext_resource type="Texture2D" path="res://assets/pixel_adventure/Items/Boxes/Box1/Idle.png" id="12_box_1"]
+[ext_resource type="Texture2D" path="res://assets/pixel_adventure/Items/Boxes/Box2/Idle.png" id="13_box_2"]
+[ext_resource type="Texture2D" path="res://assets/pixel_adventure/Items/Boxes/Box3/Idle.png" id="14_box_3"]
+[ext_resource type="Texture2D" path="res://assets/pixel_adventure/Items/Fruits/Cherries.png" id="15_cherries"]
+[ext_resource type="Texture2D" path="res://assets/pixel_adventure/Items/Fruits/Pineapple.png" id="16_pineapple"]
+[ext_resource type="Texture2D" path="res://assets/pixel_adventure/Items/Fruits/Bananas.png" id="17_bananas"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_floor"]
-size = Vector2(2000, 32)
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ground_start"]
+size = Vector2(640, 32)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_platform"]
-size = Vector2(200, 32)
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ground_center"]
+size = Vector2(320, 32)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ground_right"]
+size = Vector2(480, 32)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_step"]
+size = Vector2(160, 32)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_perch"]
+size = Vector2(224, 32)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bridge"]
+size = Vector2(256, 32)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_upper"]
+size = Vector2(192, 32)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_final"]
+size = Vector2(320, 32)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_box"]
+size = Vector2(96, 80)
 
 [node name="TestLevel" type="Node2D" unique_id=2124674192]
-script = ExtResource("3_x10ad")
+script = ExtResource("3_initializer")
 
-[node name="Background" type="ColorRect" parent="." unique_id=468872710]
-offset_left = -500.0
-offset_top = -300.0
-offset_right = 1500.0
-offset_bottom = 700.0
-color = Color(0.15, 0.15, 0.2, 1)
+[node name="BackdropShade" type="ColorRect" parent="." unique_id=91941201]
+offset_left = -320.0
+offset_top = -64.0
+offset_right = 1984.0
+offset_bottom = 960.0
+color = Color(0.101961, 0.141176, 0.247059, 1)
 
-[node name="Player" parent="." unique_id=1857081638 instance=ExtResource("1_5620j")]
+[node name="BackgroundA" type="Sprite2D" parent="." unique_id=683354211]
+centered = false
+position = Vector2(-256, -64)
+scale = Vector2(8, 8)
+texture_filter = 1
+texture = ExtResource("8_background")
+
+[node name="BackgroundB" type="Sprite2D" parent="." unique_id=1040114409]
+centered = false
+position = Vector2(256, -64)
+scale = Vector2(8, 8)
+texture_filter = 1
+texture = ExtResource("8_background")
+
+[node name="BackgroundC" type="Sprite2D" parent="." unique_id=973543320]
+centered = false
+position = Vector2(768, -64)
+scale = Vector2(8, 8)
+texture_filter = 1
+texture = ExtResource("8_background")
+
+[node name="BackgroundD" type="Sprite2D" parent="." unique_id=1334159404]
+centered = false
+position = Vector2(1280, -64)
+scale = Vector2(8, 8)
+texture_filter = 1
+texture = ExtResource("8_background")
+
+[node name="BackgroundE" type="Sprite2D" parent="." unique_id=850334018]
+centered = false
+position = Vector2(-256, 448)
+scale = Vector2(8, 8)
+texture_filter = 1
+texture = ExtResource("8_background")
+
+[node name="BackgroundF" type="Sprite2D" parent="." unique_id=142294390]
+centered = false
+position = Vector2(256, 448)
+scale = Vector2(8, 8)
+texture_filter = 1
+texture = ExtResource("8_background")
+
+[node name="BackgroundG" type="Sprite2D" parent="." unique_id=530356675]
+centered = false
+position = Vector2(768, 448)
+scale = Vector2(8, 8)
+texture_filter = 1
+texture = ExtResource("8_background")
+
+[node name="BackgroundH" type="Sprite2D" parent="." unique_id=961423066]
+centered = false
+position = Vector2(1280, 448)
+scale = Vector2(8, 8)
+texture_filter = 1
+texture = ExtResource("8_background")
+
+[node name="Player" parent="." unique_id=1857081638 instance=ExtResource("1_player")]
 z_index = 10
-position = Vector2(329, 325)
+position = Vector2(360, 468)
 
-[node name="Floor" type="StaticBody2D" parent="." unique_id=1844053799]
-position = Vector2(500, 500)
+[node name="GroundStart" type="StaticBody2D" parent="." unique_id=165591901]
+position = Vector2(400, 540)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Floor" unique_id=1596365604]
-shape = SubResource("RectangleShape2D_floor")
+[node name="CollisionShape2D" type="CollisionShape2D" parent="GroundStart" unique_id=409848370]
+shape = SubResource("RectangleShape2D_ground_start")
 
-[node name="Visual" type="ColorRect" parent="Floor" unique_id=640618869]
-offset_left = -1000.0
-offset_top = -16.0
-offset_right = 1000.0
-offset_bottom = 16.0
-color = Color(0.4, 0.4, 0.45, 1)
+[node name="Visual" type="Sprite2D" parent="GroundStart" unique_id=682665855]
+centered = false
+position = Vector2(-320, -16)
+scale = Vector2(4, 2)
+texture_filter = 1
+texture = ExtResource("9_terrain")
+region_enabled = true
+region_rect = Rect2(0, 0, 160, 16)
 
-[node name="Platform" type="StaticBody2D" parent="." unique_id=1242035470]
-position = Vector2(500, 412)
+[node name="GroundCenter" type="StaticBody2D" parent="." unique_id=117683812]
+position = Vector2(900, 540)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Platform" unique_id=1128244843]
-shape = SubResource("RectangleShape2D_platform")
+[node name="CollisionShape2D" type="CollisionShape2D" parent="GroundCenter" unique_id=338339196]
+shape = SubResource("RectangleShape2D_ground_center")
 
-[node name="Visual" type="ColorRect" parent="Platform" unique_id=1506828482]
-offset_left = -100.0
-offset_top = -16.0
-offset_right = 100.0
-offset_bottom = 16.0
-color = Color(0.5, 0.5, 0.55, 1)
+[node name="Visual" type="Sprite2D" parent="GroundCenter" unique_id=246859655]
+centered = false
+position = Vector2(-160, -16)
+scale = Vector2(2, 2)
+texture_filter = 1
+texture = ExtResource("9_terrain")
+region_enabled = true
+region_rect = Rect2(0, 0, 160, 16)
+
+[node name="GroundRight" type="StaticBody2D" parent="." unique_id=1094988279]
+position = Vector2(1490, 540)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="GroundRight" unique_id=372484494]
+shape = SubResource("RectangleShape2D_ground_right")
+
+[node name="Visual" type="Sprite2D" parent="GroundRight" unique_id=742899987]
+centered = false
+position = Vector2(-240, -16)
+scale = Vector2(3, 2)
+texture_filter = 1
+texture = ExtResource("9_terrain")
+region_enabled = true
+region_rect = Rect2(0, 0, 160, 16)
+
+[node name="LeftStep" type="StaticBody2D" parent="." unique_id=748351546]
+position = Vector2(260, 452)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="LeftStep" unique_id=498218673]
+shape = SubResource("RectangleShape2D_step")
+
+[node name="Visual" type="Sprite2D" parent="LeftStep" unique_id=635307680]
+centered = false
+position = Vector2(-80, -16)
+scale = Vector2(1, 2)
+texture_filter = 1
+texture = ExtResource("9_terrain")
+region_enabled = true
+region_rect = Rect2(0, 0, 160, 16)
+
+[node name="LeftPerch" type="StaticBody2D" parent="." unique_id=468756669]
+position = Vector2(400, 364)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="LeftPerch" unique_id=585137348]
+shape = SubResource("RectangleShape2D_perch")
+
+[node name="Visual" type="Sprite2D" parent="LeftPerch" unique_id=751042475]
+centered = false
+position = Vector2(-112, -16)
+scale = Vector2(1.4, 2)
+texture_filter = 1
+texture = ExtResource("9_terrain")
+region_enabled = true
+region_rect = Rect2(0, 0, 160, 16)
+
+[node name="CenterBridge" type="StaticBody2D" parent="." unique_id=990928613]
+position = Vector2(620, 276)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CenterBridge" unique_id=490344931]
+shape = SubResource("RectangleShape2D_bridge")
+
+[node name="Visual" type="Sprite2D" parent="CenterBridge" unique_id=523617148]
+centered = false
+position = Vector2(-128, -16)
+scale = Vector2(1.6, 2)
+texture_filter = 1
+texture = ExtResource("9_terrain")
+region_enabled = true
+region_rect = Rect2(0, 0, 160, 16)
+
+[node name="RightStep" type="StaticBody2D" parent="." unique_id=1048902986]
+position = Vector2(1160, 452)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RightStep" unique_id=315856212]
+shape = SubResource("RectangleShape2D_step")
+
+[node name="Visual" type="Sprite2D" parent="RightStep" unique_id=861896464]
+centered = false
+position = Vector2(-80, -16)
+scale = Vector2(1, 2)
+texture_filter = 1
+texture = ExtResource("9_terrain")
+region_enabled = true
+region_rect = Rect2(0, 0, 160, 16)
+
+[node name="RightPerch" type="StaticBody2D" parent="." unique_id=989448971]
+position = Vector2(1320, 364)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RightPerch" unique_id=746142206]
+shape = SubResource("RectangleShape2D_perch")
+
+[node name="Visual" type="Sprite2D" parent="RightPerch" unique_id=67144676]
+centered = false
+position = Vector2(-112, -16)
+scale = Vector2(1.4, 2)
+texture_filter = 1
+texture = ExtResource("9_terrain")
+region_enabled = true
+region_rect = Rect2(0, 0, 160, 16)
+
+[node name="UpperConnector" type="StaticBody2D" parent="." unique_id=532326004]
+position = Vector2(1080, 276)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="UpperConnector" unique_id=255395921]
+shape = SubResource("RectangleShape2D_upper")
+
+[node name="Visual" type="Sprite2D" parent="UpperConnector" unique_id=592750315]
+centered = false
+position = Vector2(-96, -16)
+scale = Vector2(1.2, 2)
+texture_filter = 1
+texture = ExtResource("9_terrain")
+region_enabled = true
+region_rect = Rect2(0, 0, 160, 16)
+
+[node name="FinalTop" type="StaticBody2D" parent="." unique_id=994434961]
+position = Vector2(800, 188)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="FinalTop" unique_id=437997357]
+shape = SubResource("RectangleShape2D_final")
+
+[node name="Visual" type="Sprite2D" parent="FinalTop" unique_id=253932690]
+centered = false
+position = Vector2(-160, -16)
+scale = Vector2(2, 2)
+texture_filter = 1
+texture = ExtResource("9_terrain")
+region_enabled = true
+region_rect = Rect2(0, 0, 160, 16)
+
+[node name="StartFlag" type="Sprite2D" parent="." unique_id=114081327]
+position = Vector2(136, 466)
+scale = Vector2(3, 3)
+texture_filter = 1
+texture = ExtResource("10_start_flag")
+
+[node name="EndFlag" type="Sprite2D" parent="." unique_id=1047894270]
+position = Vector2(944, 114)
+scale = Vector2(3, 3)
+texture_filter = 1
+texture = ExtResource("11_end_flag")
+
+[node name="StartBox" type="RigidBody2D" parent="." unique_id=687479204]
+position = Vector2(580, 492)
+lock_rotation = true
+linear_damp = 2.5
+angular_damp = 8.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StartBox" unique_id=188173067]
+shape = SubResource("RectangleShape2D_box")
+
+[node name="Sprite2D" type="Sprite2D" parent="StartBox" unique_id=98583762]
+scale = Vector2(4, 4)
+texture_filter = 1
+texture = ExtResource("12_box_1")
+
+[node name="StartBox2" type="RigidBody2D" parent="." unique_id=878800219]
+position = Vector2(684, 492)
+lock_rotation = true
+linear_damp = 2.5
+angular_damp = 8.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StartBox2" unique_id=461251507]
+shape = SubResource("RectangleShape2D_box")
+
+[node name="Sprite2D" type="Sprite2D" parent="StartBox2" unique_id=829074048]
+scale = Vector2(4, 4)
+texture_filter = 1
+texture = ExtResource("13_box_2")
+
+[node name="LeftFruit" type="Sprite2D" parent="." unique_id=574382126]
+position = Vector2(292, 310)
+scale = Vector2(2.5, 2.5)
+texture_filter = 1
+texture = ExtResource("15_cherries")
+hframes = 17
+frame = 2
+
+[node name="LeftBox" type="Sprite2D" parent="." unique_id=166709176]
+position = Vector2(478, 312)
+scale = Vector2(4, 4)
+texture_filter = 1
+texture = ExtResource("13_box_2")
+
+[node name="CenterFruit" type="Sprite2D" parent="." unique_id=735346278]
+position = Vector2(566, 222)
+scale = Vector2(2.5, 2.5)
+texture_filter = 1
+texture = ExtResource("17_bananas")
+hframes = 17
+frame = 3
+
+[node name="RightFruit" type="Sprite2D" parent="." unique_id=129442032]
+position = Vector2(1262, 310)
+scale = Vector2(2.5, 2.5)
+texture_filter = 1
+texture = ExtResource("16_pineapple")
+hframes = 17
+frame = 4
+
+[node name="RightBox" type="RigidBody2D" parent="." unique_id=687564383]
+position = Vector2(1480, 492)
+lock_rotation = true
+linear_damp = 2.5
+angular_damp = 8.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RightBox" unique_id=963931186]
+shape = SubResource("RectangleShape2D_box")
+
+[node name="Sprite2D" type="Sprite2D" parent="RightBox" unique_id=911534049]
+scale = Vector2(4, 4)
+texture_filter = 1
+texture = ExtResource("14_box_3")
+
+[node name="TopFruit" type="Sprite2D" parent="." unique_id=692824020]
+position = Vector2(698, 134)
+scale = Vector2(2.5, 2.5)
+texture_filter = 1
+texture = ExtResource("15_cherries")
+hframes = 17
+frame = 10
+
+[node name="TopFruit2" type="Sprite2D" parent="." unique_id=629232327]
+position = Vector2(896, 134)
+scale = Vector2(2.5, 2.5)
+texture_filter = 1
+texture = ExtResource("17_bananas")
+hframes = 17
+frame = 9
 
 [node name="BasicNPC" parent="." unique_id=586442591 instance=ExtResource("4_basic")]
-position = Vector2(19, 387)
+position = Vector2(260, 500)
 npc_name = "Basic Bob"
-hidden_value = 12
 
 [node name="NerdNPC" parent="." unique_id=661672982 instance=ExtResource("5_nerd")]
-position = Vector2(915, 306)
-riddle_solved = false
+position = Vector2(812, 148)
 npc_name = "Nerd Ned"
-hidden_value = 42
 
 [node name="JesterNPC1" parent="." unique_id=881093707 instance=ExtResource("6_jester")]
-position = Vector2(500, 325)
+position = Vector2(402, 324)
 npc_name = "Jester Jack"
 
 [node name="JesterNPC2" parent="." unique_id=791362766 instance=ExtResource("6_jester")]
-position = Vector2(700, 450)
+position = Vector2(1324, 324)
 npc_name = "Jester Jill"
 
 [node name="TeleportPoints" type="Node2D" parent="." unique_id=1000]
 
 [node name="Point1" type="Marker2D" parent="TeleportPoints" unique_id=947043258 groups=["teleport_points"]]
-position = Vector2(-142, 433)
+position = Vector2(180, 468)
 
 [node name="Point2" type="Marker2D" parent="TeleportPoints" unique_id=1444355414 groups=["teleport_points"]]
-position = Vector2(1227, 438)
+position = Vector2(1460, 468)
 
 [node name="Point3" type="Marker2D" parent="TeleportPoints" unique_id=193387143 groups=["teleport_points"]]
-position = Vector2(-380, 409)
+position = Vector2(810, 148)
 
 [node name="TeleporterNPC" parent="." unique_id=1001 instance=ExtResource("7_tele")]
-position = Vector2(172, 436)
+position = Vector2(900, 500)
 npc_name = "Teleporter Tim"
 
 [node name="TeleporterNPC2" parent="." unique_id=1479508531 instance=ExtResource("7_tele")]
-position = Vector2(444.6656, 385.55682)
+position = Vector2(1080, 236)
+npc_name = "Teleporter Tia"

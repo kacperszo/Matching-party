@@ -1,5 +1,7 @@
 extends CharacterBody2D
 
+@onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
+
 ## Horizontal movement
 @export var speed: float = 200.0
 @export var acceleration: float = 1200.0
@@ -23,6 +25,7 @@ var _coyote_timer: float = 0.0
 var _jump_buffer_timer: float = 0.0
 var _was_on_floor: bool = false
 var _current_interactable: Interactable = null
+var _facing_right: bool = true
 
 
 func _ready() -> void:
@@ -51,6 +54,7 @@ func _physics_process(delta: float) -> void:
 	_update_timers(delta)
 	_handle_jump()
 	_handle_horizontal(delta)
+	_update_visuals()
 	_handle_interact()
 	move_and_slide()
 	_was_on_floor = is_on_floor()
@@ -113,6 +117,23 @@ func _handle_jump() -> void:
 func _handle_horizontal(delta: float) -> void:
 	var direction := Input.get_axis("move_left", "move_right")
 	if direction != 0.0:
+		_facing_right = direction > 0.0
 		velocity.x = move_toward(velocity.x, direction * speed, acceleration * delta)
 	else:
 		velocity.x = move_toward(velocity.x, 0.0, friction * delta)
+
+
+func _update_visuals() -> void:
+	animated_sprite.flip_h = not _facing_right
+
+	if not is_on_floor():
+		if velocity.y < 0.0:
+			animated_sprite.play("jump")
+		else:
+			animated_sprite.play("fall")
+		return
+
+	if absf(velocity.x) > 10.0:
+		animated_sprite.play("run")
+	else:
+		animated_sprite.play("idle")

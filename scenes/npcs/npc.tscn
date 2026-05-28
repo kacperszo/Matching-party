@@ -1,8 +1,9 @@
-[gd_scene format=3 uid="uid://cwc12nlf52v1p"]
+[gd_scene load_steps=4 format=3 uid="uid://cwc12nlf52v1p"]
 
 [ext_resource type="Script" uid="uid://bwovd0tckf15p" path="res://scripts/npcs/npc.gd" id="1_nh2m4"]
 [ext_resource type="Resource" uid="uid://be1mdcqhuridg" path="res://dialogues/npc_dialog.dialogue" id="2_7b6ph"]
 [ext_resource type="Script" uid="uid://dcjlmqga8vtkc" path="res://scripts/npc_interaction_area.gd" id="3_b6k20"]
+[ext_resource type="Texture2D" path="res://assets/pixel_adventure/Main Characters/Mask Dude/Idle (32x32).png" id="4_npc_texture"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_body"]
 size = Vector2(24, 32)
@@ -25,9 +26,9 @@ script = ExtResource("3_b6k20")
 [node name="InteractionRange" type="CollisionShape2D" parent="InteractionArea" unique_id=1819764416]
 shape = SubResource("CircleShape2D_abqhh")
 
-[node name="ColorRect" type="ColorRect" parent="." unique_id=548627754]
-offset_left = -16.0
-offset_top = -32.0
-offset_right = 16.0
-offset_bottom = 16.0
-color = Color(0.627451, 0.22352941, 1, 1)
+[node name="Sprite" type="Sprite2D" parent="." unique_id=548627754]
+position = Vector2(0, -8)
+scale = Vector2(1.5, 1.5)
+texture_filter = 1
+texture = ExtResource("4_npc_texture")
+hframes = 11
