@@ -9,7 +9,7 @@ script = ExtResource("2_jester")
 unreliable_threshold = 0.6
 max_lie_chance = 0.9
 npc_name = "Jester NPC"
-dialogue_start = "basic_start"
+dialogue_start = "start_basic"
 
 [node name="Sprite" parent="." index="2" unique_id=548627754]
 texture = ExtResource("3_jester_texture")

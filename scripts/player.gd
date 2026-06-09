@@ -26,6 +26,7 @@ var _jump_buffer_timer: float = 0.0
 var _was_on_floor: bool = false
 var _current_interactable: Interactable = null
 var _facing_right: bool = true
+var _nearby_interactables: Array[Interactable] = []
 
 
 func _ready() -> void:
@@ -55,6 +56,7 @@ func _physics_process(delta: float) -> void:
 	_handle_jump()
 	_handle_horizontal(delta)
 	_update_visuals()
+	_refresh_best_interactable()
 	_handle_interact()
 	move_and_slide()
 	_was_on_floor = is_on_floor()
@@ -66,15 +68,54 @@ func _handle_interact() -> void:
 
 
 func _on_interactable_entered(area: Area2D) -> void:
-	if area is Interactable:
-		_current_interactable = area as Interactable
-		_current_interactable.show_prompt()
+	if area is Interactable and not _nearby_interactables.has(area):
+		_nearby_interactables.append(area as Interactable)
+		_refresh_best_interactable()
 
 
 func _on_interactable_exited(area: Area2D) -> void:
-	if area == _current_interactable:
+	if area is Interactable:
+		_nearby_interactables.erase(area as Interactable)
+		_refresh_best_interactable()
+
+
+# Picks the best interactable from _nearby_interactables and switches to it.
+# Called every frame so that a following NPC losing/gaining follow priority
+# is reflected immediately without waiting for an area signal.
+func _refresh_best_interactable() -> void:
+	# Drop freed/invalid entries (e.g. matched NPCs that disappeared)
+	_nearby_interactables = _nearby_interactables.filter(func(i): return is_instance_valid(i))
+
+	var best := _pick_best()
+	if best == _current_interactable:
+		return
+	if _current_interactable != null:
 		_current_interactable.hide_prompt()
-		_current_interactable = null
+	_current_interactable = best
+	if _current_interactable != null:
+		_current_interactable.show_prompt()
+
+
+# Stationary NPCs always win over following NPCs so the player can
+# reach the Match! option even while a follower is walking alongside them.
+func _pick_best() -> Interactable:
+	var best_stationary: Interactable = null
+	var best_following: Interactable = null
+	for interactable in _nearby_interactables:
+		var npc := _get_npc(interactable)
+		if npc != null and npc.is_following:
+			if best_following == null:
+				best_following = interactable
+		else:
+			if best_stationary == null:
+				best_stationary = interactable
+	return best_stationary if best_stationary != null else best_following
+
+
+func _get_npc(interactable: Interactable) -> NPC:
+	if interactable is NPCInteractionArea:
+		return (interactable as NPCInteractionArea)._npc
+	return null
 
 
 func _apply_gravity(delta: float) -> void:
@@ -108,6 +149,7 @@ func _handle_jump() -> void:
 		velocity.y = jump_velocity
 		_coyote_timer = 0.0
 		_jump_buffer_timer = 0.0
+		SoundManager.play_sfx("jump")
 
 	# Variable jump height: releasing early cuts upward speed
 	if Input.is_action_just_released("jump") and velocity.y < 0.0:
