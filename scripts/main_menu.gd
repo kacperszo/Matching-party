@@ -115,11 +115,7 @@ func _set_overlay_visible(is_visible: bool) -> void:
 
 
 func _start_game() -> void:
-	if gameplay_scene_path.is_empty():
-		push_warning("Main menu has no gameplay scene configured.")
-		return
-
-	get_tree().change_scene_to_file(gameplay_scene_path)
+	GameManager.start_game()
 
 
 func _quit_game() -> void:

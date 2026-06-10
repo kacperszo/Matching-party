@@ -27,13 +27,18 @@ signal match_succeeded(npc1: NPC, npc2: NPC)
 
 ## Physics tuning for the grounded NPC body
 @export var gravity: float = 900.0
-@export var jump_velocity: float = -380.0
+@export var jump_velocity: float = -420.0
 ## How many px above the NPC the player must be to trigger a jump
 @export var jump_height_threshold: float = 60.0
 @export var prompt_text: String = "Talk"
 
 @export var dialogue_resource: DialogueResource
-var dialogue_start: String = "start_basic"
+@export var dialogue_start: String = "start_basic"
+
+## When true this NPC acts as a guide and is not counted in matching pairs
+@export var exclude_from_matching: bool = false
+## When true the dialogue starts automatically when the player enters range
+@export var auto_interact: bool = false
 
 var _is_dialogue_active: bool = false
 var current_balloon: Node = null
@@ -48,6 +53,11 @@ var _interactor: Node = null
 var _jump_cooldown: float = 0.0
 var _is_matched: bool = false
 
+## Stuck detection
+var _stuck_timer: float = 0.0
+var _stuck_check_interval: float = 0.35
+var _prev_x: float = 0.0
+
 @onready var _interaction_area: NPCInteractionArea = $InteractionArea
 
 
@@ -56,7 +66,8 @@ func _ready() -> void:
 	# NPCs on layer 3 (value 4), collide only with world layer 1
 	collision_layer = 4
 	collision_mask = 1
-	add_to_group("npcs")
+	if not exclude_from_matching:
+		add_to_group("npcs")
 	_setup_patience_bar()
 	_sync_prompt()
 
@@ -100,12 +111,39 @@ func _handle_following(delta: float) -> void:
 		velocity.x = signf(diff_x) * follow_speed
 	else:
 		velocity.x = move_toward(velocity.x, 0.0, 400.0 * delta)
+		_stuck_timer = 0.0
 
 	_jump_cooldown = maxf(_jump_cooldown - delta, 0.0)
-	var height_diff := global_position.y - follow_target.global_position.y
-	if is_on_floor() and _jump_cooldown <= 0.0 and height_diff > jump_height_threshold:
-		velocity.y = jump_velocity
-		_jump_cooldown = 0.8
+
+	if is_on_floor() and _jump_cooldown <= 0.0:
+		var height_diff := global_position.y - follow_target.global_position.y
+		var should_jump := height_diff > jump_height_threshold
+
+		# Jump immediately when pressing into a wall
+		if not should_jump and is_on_wall() and dist > follow_stop_distance:
+			should_jump = true
+
+		# Stuck timer: if moving but not making horizontal progress, jump
+		if not should_jump and dist > follow_stop_distance:
+			_stuck_timer += delta
+			if _stuck_timer >= _stuck_check_interval:
+				if absf(global_position.x - _prev_x) < 6.0:
+					should_jump = true
+				_stuck_timer = 0.0
+				_prev_x = global_position.x
+		else:
+			_stuck_timer = 0.0
+			_prev_x = global_position.x
+
+		if should_jump:
+			velocity.y = jump_velocity
+			_jump_cooldown = 0.8
+			# Zero horizontal speed so the NPC arcs over the wall corner
+			# instead of sliding up its face
+			if is_on_wall():
+				velocity.x = 0.0
+			_stuck_timer = 0.0
+			_prev_x = global_position.x
 
 	_decrease_patience(follow_patience_drain * delta)
 	if patience <= 0.0:
@@ -179,8 +217,11 @@ func start_following() -> void:
 			(node as NPC).stop_following()
 	is_following = true
 	follow_target = _interactor as Node2D
+	_stuck_timer = 0.0
+	_prev_x = global_position.x
 	add_to_group("following_npcs")
 	_sync_prompt()
+	SoundManager.play_sfx("npc_follow")
 
 
 func stop_following() -> void:
@@ -225,6 +266,7 @@ func try_match() -> void:
 
 
 func _penalize_all_npcs(amount: float) -> void:
+	SoundManager.play_sfx("match_fail")
 	for node in get_tree().get_nodes_in_group("npcs"):
 		if node is NPC and not (node as NPC)._is_matched:
 			(node as NPC)._decrease_patience(amount)
@@ -238,15 +280,19 @@ func _deactivate() -> void:
 	if _interaction_area:
 		_interaction_area.set_deferred("monitoring", false)
 		_interaction_area.set_deferred("monitorable", false)
+	SoundManager.play_sfx("match_success")
 
 
 func _decrease_patience(amount: float) -> void:
+	var was_above_zero := patience > 0.0
 	patience = maxf(patience - amount, 0.0)
 	if patience_bar:
 		patience_bar.value = patience
 	patience_changed.emit(patience, max_patience)
 	if patience <= 0.0:
 		patience_depleted.emit()
+		if was_above_zero:
+			SoundManager.play_sfx("patience_depleted")
 
 
 func _apply_gravity(delta: float) -> void:

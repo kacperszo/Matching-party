@@ -201,6 +201,7 @@ animations = [{
 
 [node name="Player" type="CharacterBody2D" unique_id=1984189643 groups=["Player"]]
 script = ExtResource("1_player")
+jump_velocity = -500.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=906303116]
 shape = SubResource("RectangleShape2D_1")

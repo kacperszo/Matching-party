@@ -99,3 +99,17 @@ else:
 
 ~ tell_owned_number
 {{npc_name}}: {{get_number_dialogue_text()}}
+=> END
+
+~ start_tutorial
+
+{{npc_name}}: Hey! Welcome to the party! Wanna know how to win the BEER?
+- Tell me how!
+	{{npc_name}}: Everyone here has a secret number. Press E to talk to them and ask for it.
+	{{npc_name}}: Find two people with the same number — they're a match! Ask one to follow you...
+	{{npc_name}}: ...then walk up to the other and pick "Match!". Match everyone to win the BEER!
+	{{npc_name}}: Try it! Those two over there share a number. Good luck!
+	=> END
+- I already know, thanks
+	{{npc_name}}: Then go get that BEER!
+	=> END

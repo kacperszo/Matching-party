@@ -11,7 +11,8 @@ var riddle_correct_index: int = -1
 var selected_index: int = -1
 
 func _ready() -> void:
-	dialogue_start = "start_nerd"
+	if dialogue_start == "start_basic":
+		dialogue_start = "start_nerd"
 	super._ready()
 	
 	# Assign a random riddle

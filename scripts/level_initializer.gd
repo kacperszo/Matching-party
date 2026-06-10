@@ -1,17 +1,41 @@
 extends Node2D
 
 signal level_complete
+signal pair_matched(matched: int, total: int)
 
 @export var first_pair_number: int = 1
 @export var fixed_seed: int = -1
 @export var print_assignments: bool = true
+## Y coordinate below which the player or an NPC is considered fallen off the map
+@export var death_zone_y: float = 800.0
 
 var _total_pairs: int = 0
 var _pairs_matched: int = 0
+var _player: CharacterBody2D = null
+var _restarting: bool = false
 
 
 func _ready() -> void:
 	_assign_random_hidden_values()
+	_inject_hud()
+	_player = find_child("Player", true, false) as CharacterBody2D
+
+
+func _process(_delta: float) -> void:
+	if _restarting:
+		return
+	if _player != null and _player.global_position.y > death_zone_y:
+		_trigger_fall_restart()
+		return
+	for node in get_tree().get_nodes_in_group("npcs"):
+		if node is NPC and node.global_position.y > death_zone_y:
+			_trigger_fall_restart()
+			return
+
+
+func _trigger_fall_restart() -> void:
+	_restarting = true
+	GameManager.restart_level()
 
 
 func _assign_random_hidden_values() -> void:
@@ -49,15 +73,29 @@ func _assign_random_hidden_values() -> void:
 
 func _on_match_succeeded(_npc1: NPC, _npc2: NPC) -> void:
 	_pairs_matched += 1
+	pair_matched.emit(_pairs_matched, _total_pairs)
 	if _pairs_matched >= _total_pairs:
 		level_complete.emit()
-		print("Level complete! All pairs matched.")
+		GameManager.on_level_complete()
+
+
+func _inject_hud() -> void:
+	var hud_scene := load("res://scenes/hud.tscn") as PackedScene
+	if hud_scene == null:
+		return
+	var hud := hud_scene.instantiate()
+	add_child(hud)
+	hud.setup(self, GameManager.current_level_name())
+
+
+func get_total_pairs() -> int:
+	return _total_pairs
 
 
 func _find_npcs() -> Array[NPC]:
 	var result: Array[NPC] = []
 	for node in find_children("*", "NPC", true, false):
-		if node is NPC:
+		if node is NPC and node.is_in_group("npcs"):
 			result.append(node as NPC)
 	return result
 

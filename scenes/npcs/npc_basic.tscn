@@ -7,7 +7,7 @@
 [node name="BasicNPC" unique_id=91703777 instance=ExtResource("1_v4m8j")]
 script = ExtResource("2_r5k2l")
 npc_name = "Basic NPC"
-dialogue_start = "basic_start"
+dialogue_start = "start_basic"
 
 [node name="Sprite" parent="." index="2" unique_id=548627754]
 texture = ExtResource("3_basic_texture")
