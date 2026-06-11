@@ -45,7 +45,7 @@ Kluczowymi innowacjami są:
 - **Silnik gry:** Godot Engine 4 (skonfigurowany pod wersję 4.6+, wykorzystujący wydajny renderer _Forward Plus_).
 - **Język skryptowy logiki:** GDScript (użyty do oprogramowania ruchu postaci, fizyki, logiki poziomów, algorytmu parowania i zachowania NPC).
 - **Obsługa dialogów:** Plugin _Dialogue Manager_ (język skryptowy `.dialogue`), umożliwiający tworzenie dynamicznych, rozgałęzionych dialogów z warunkami logicznymi i wywoływaniem metod silnika bezpośrednio z poziomu konwersacji.
-- **Formaty danych:** JSON (przechowywanie pytań, obelg oraz domyślnych dialogów).
+- **Formaty danych:** JSON (przechowywanie bazy zagadek Kujona, obelg oraz kwestii frustracji NPC - treść jest oddzielona od logiki, co ułatwia jej rozszerzanie).
 - **Platforma docelowa:** Komputery osobiste z systemem Windows (dostarczany gotowy moduł wykonywalny - patrz sekcja 6).
 
 ---
@@ -102,14 +102,14 @@ Kamera śledzi pozycję gracza w czasie rzeczywistym w osi X i Y, zaimplementowa
    - **Mechanika podążania:** Gracz może poprosić dowolnego NPC (o ile ma wystarczającą cierpliwość) o podążanie - opcja „Follow me” pojawia się w dialogu niezależnie od tego, czy gracz zna już liczbę danej postaci. NPC zaczyna wówczas biec za graczem z prędkością `80 px/s`, zatrzymując się w odległości `50 px`. W danym momencie za graczem może podążać maksymalnie jeden NPC - włączenie podążania u kolejnego automatycznie zatrzymuje poprzedniego. Przez cały czas podążania cierpliwość NPC spada o `0.1` na sekundę; gdy osiągnie zero, NPC samodzielnie zaprzestaje śledzenia.
    - **Algorytm nawigacji NPC:** Świadomie zrezygnowaliśmy z navmeshów i pełnego pathfindingu na rzecz autorskiego zestawu heurystyk reaktywnych: NPC (1) biegnie poziomo w stronę gracza, (2) skacze, gdy gracz jest powyżej progu `60 px` w pionie, (3) skacze, gdy napotka ścianę, oraz (4) posiada detekcję utknięcia - jeśli przez `0.35 s` nie robi postępu poziomego, wykonuje skok korekcyjny. To podejście ma istotne zalety inżynierskie: nie wymaga utrzymywania map nawigacyjnych przy każdej zmianie układu poziomu, działa od razu na nowych planszach i jest tanie obliczeniowo, a w praktyce daje płynne, naturalnie wyglądające zachowanie - NPC samodzielnie pokonuje platformy i przeszkody, sprawiając wrażenie inteligentnego towarzysza.
    - **Mechanika parowania:** Gdy gracz prowadzi jednego NPC i **rozpocznie rozmowę** z drugim, pojawia się opcja _Match!_. Parowanie nie zachodzi automatycznie - gracz musi świadomie je zainicjować. Gra porównuje wówczas ukryte wartości liczbowe obu postaci:
-     - _Zgodność:_ Obie postacie znikają z planszy z animacją (zostają pomyślnie dopasowane), a gracz słyszy dźwięk potwierdzenia.
+     - _Zgodność:_ Obie postacie znikają z planszy (zostają pomyślnie dopasowane), a gracz słyszy dźwięk potwierdzenia.
      - _Niezgodność:_ Następuje kara - cierpliwość wszystkich NPC na poziomie zostaje obniżona o `1.0`, a gracz słyszy dźwięk błędu.
 
 **Typy NPC i ich zachowania:**
 
 - **Zwykły (BasicNPC):** Odpowiada na pytania wprost; jego cierpliwość spada standardowo.
 - **Kujon (NerdNPC):** Przed ujawnieniem swojej liczby zadaje graczowi losowe pytanie testowe (matematyczne, geograficzne, historyczne lub ogólne). Jeśli gracz odpowie błędnie, Kujon rzuca obelgą (np. _"I've seen rocks with higher cognitive function than you."_) i nie ujawnia liczby, a kolejna próba zużywa cierpliwość. Rozwiązanie zagadki zapisuje stan `riddle_solved = true` na danym NPC, eliminując konieczność ponownego odpowiadania.
-- **Błazen (JesterNPC):** Zachowuje się normalnie, gdy jego cierpliwość jest wysoka. Kiedy spadnie poniżej progu `40%`, zaczyna kłamać - przy każdym zapytaniu generuje losową liczbę z przedziału `0-20`, aby zmylić gracza.
+- **Błazen (JesterNPC):** Zachowuje się normalnie, gdy jego cierpliwość jest wysoka. Kiedy spadnie poniżej progu `40%`, zaczyna kłamać probabilistycznie: szansa na kłamstwo rośnie liniowo od `60%` na progu do `100%` przy zerowej cierpliwości, a kłamstwo polega na podaniu losowej liczby z przedziału `0-20`. Gracz nigdy nie ma pewności, czy zmęczony Błazen mówi prawdę, co czyni go najbardziej ryzykownym źródłem informacji w grze.
 - **Teleporter (TeleporterNPC):** Co losowy czas (`25.0` do `40.0` sekund) teleportuje się w losowe miejsce na planszy oznaczone w grupie `teleport_points` (pod warunkiem, że punkt docelowy nie jest już zajęty przez innego NPC). Jeśli w trakcie teleportacji trwał dialog z graczem, zostaje on automatycznie przerwany. _Ten typ NPC jest w pełni zaimplementowany i przetestowany, jednak podczas playtestów okazało się, że poziomy z jego udziałem stawały się chaotyczne i frustrujące - gracz tracił orientację, kto jest kim. Podjęliśmy świadomą decyzję projektową, by wyłączyć go z finalnej wersji: uznaliśmy, że spójność i czytelność doświadczenia gracza jest ważniejsza niż ilość mechanik. Kod pozostaje w projekcie i mechanika może wrócić w przyszłości na planszach zaprojektowanych specjalnie pod nią._
 
 **System walki:**
@@ -131,7 +131,7 @@ W grze nie występuje przemoc ani system walki. Konflikt opiera się na wyścigu
 - **HUD rozgrywki:** Górny pasek ekranu wyświetla nazwę bieżącego poziomu oraz licznik sparowanych par w formacie `X / Y matches`, informując gracza o postępie.
 - **Paski Cierpliwości:** Minimalistyczne paski nad głowami postaci (zielone wypełnienie na ciemnoszarym tle), ułatwiające szybką ocenę stanu psychicznego NPC.
 - **Dymki Dialogowe:** Estetyczne panele dialogowe wyświetlane na dole ekranu, obsługujące interaktywne opcje wyboru odpowiedzi (w tym wielokrotny wybór w zagadkach Kujona).
-- **Menu pauzy:** Dostępne klawiszem `Esc` podczas rozgrywki - umożliwia wznowienie gry, restart poziomu lub powrót do menu głównego.
+- **Menu pauzy:** Dostępne klawiszem `Esc` podczas rozgrywki - umożliwia wznowienie gry, restart poziomu lub powrót do menu głównego, a także zawiera suwaki regulacji głośności muzyki i efektów dźwiękowych (osobne szyny audio Music/SFX).
 
 ---
 
@@ -148,7 +148,7 @@ Wszystkie assety użyte w projekcie (grafika, muzyka, efekty dźwiękowe) są da
   - Pakiet **"Brackeys Platformer Assets"** - utwór _"Time for Adventure"_ (Brackeys / Sofia Thirslund), licencja CC0. Odgrywany zarówno w menu głównym, jak i podczas rozgrywki.
   - Źródło: [brackeys.itch.io/platformer-pack](https://brackeys.itch.io/platformer-pack)
 - **Efekty dźwiękowe:**
-  - Pakiet **"Kenney Interface Sounds"** (Kenney.nl), licencja CC0. Używane dla interakcji UI i zdarzeń gry: klik przycisków, potwierdzenie udanego parowania, dźwięk błędu przy niedopasowaniu, sygnał podążania NPC, odgłos utraty cierpliwości, ukończenie poziomu, skok gracza.
+  - Pakiet **"Kenney Interface Sounds"** (Kenney.nl), licencja CC0. Używane dla zdarzeń gry: potwierdzenie udanego parowania, dźwięk błędu przy niedopasowaniu, sygnał rozpoczęcia podążania NPC, odgłos utraty cierpliwości, ukończenie poziomu, skok gracza.
   - Źródło: [kenney.nl](https://www.kenney.nl/assets/interface-sounds)
 
 ---

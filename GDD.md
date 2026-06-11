@@ -113,7 +113,7 @@ Each NPC has a **patience level** (max 5.0).
 ## Jester Type
 
 - Behaves normally when patience is high
-- **Below 40% patience**, starts lying - returns a random number in range 0-20 instead of the real one
+- **Below 40% patience**, may lie - the lie chance scales linearly from 60% at the threshold to 100% at zero patience; a lie returns a random number in range 0-20 instead of the real one
 
 ## Teleporter Type *(implemented; cut from final levels after playtesting)*
 
