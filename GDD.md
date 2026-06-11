@@ -1,4 +1,4 @@
-# Number Match Party — Game Design Document
+# Number Match Party - Game Design Document
 
 > Wewnętrzny dokument projektowy zespołu. Pełna dokumentacja gry znajduje się w [README.md](README.md).
 
@@ -34,10 +34,10 @@ The game contains four levels of increasing difficulty:
 
 - **Tutorial (Level 0):** A "Party Host" NPC auto-greets the player and explains the mechanics (excluded from matching). One pair of basic NPCs to practice on.
 - **Level 1:** Four NPCs (two pairs), introduces Jester NPCs.
-- **Level 2–3:** Five NPCs each, both Nerd and Jester NPCs; more complex platforming layouts.
+- **Level 2-3:** Five NPCs each, both Nerd and Jester NPCs; more complex platforming layouts.
 
-**Win condition:** All pairs matched → advance to next level.  
-**Restart condition:** Player or any NPC falls below the map boundary → level restarts immediately.
+**Win condition:** All pairs matched, advance to next level.  
+**Restart condition:** Player or any NPC falls below the map boundary, level restarts immediately.
 
 ---
 
@@ -63,14 +63,14 @@ At the start of each level, NPCs are automatically assigned hidden numbers in pa
 
 ### Following Mechanic
 
-- The player can ask any NPC to follow them via dialogue — regardless of whether their number is known yet
+- The player can ask any NPC to follow them via dialogue - regardless of whether their number is known yet
 - The NPC runs after the player at 80 px/s and can jump onto platforms independently
-- Only one NPC can follow at a time — starting a new follower stops the previous one
+- Only one NPC can follow at a time - starting a new follower stops the previous one
 - NPC patience drains at 0.1/s while following; at zero patience the NPC stops following automatically
 
 ### Matching NPCs
 
-- When the player has an NPC following them, they must **start a dialogue** with a second NPC and choose the _Match!_ option — matching is never automatic
+- When the player has an NPC following them, they must **start a dialogue** with a second NPC and choose the _Match!_ option - matching is never automatic
 - If numbers match: both NPCs disappear (matched), success sound plays
 - If numbers differ: all NPCs on the level lose 1.0 patience (fail sound plays)
 
@@ -113,23 +113,23 @@ Each NPC has a **patience level** (max 5.0).
 ## Jester Type
 
 - Behaves normally when patience is high
-- **Below 40% patience**, starts lying — returns a random number in range 0–20 instead of the real one
+- **Below 40% patience**, starts lying - returns a random number in range 0-20 instead of the real one
 
 ## Teleporter Type *(implemented; cut from final levels after playtesting)*
 
-- Randomly teleports to a designated `teleport_points` location every 25–40 seconds
+- Randomly teleports to a designated `teleport_points` location every 25-40 seconds
 - Teleportation is skipped while following; active dialogue is interrupted on teleport
-- Playtesting showed that levels featuring this NPC lost readability — players struggled to keep track of who was who. We made a deliberate design decision to prioritize a coherent player experience over mechanic count; the code remains in the project for future levels designed around it
+- Playtesting showed that levels featuring this NPC lost readability - players struggled to keep track of who was who. We made a deliberate design decision to prioritize a coherent player experience over mechanic count; the code remains in the project for future levels designed around it
 
 ---
 
 # Player Strategy
 
 - **Remember NPC numbers** to avoid asking the same NPC twice
-- **Ask the Jester first** while their patience is full — once it drops they start lying
-- **Match quickly** when an NPC is following — patience drains continuously
-- **Think before matching** — a wrong match penalizes every NPC on the level
-- **Watch platform edges** — a falling NPC restarts the level
+- **Ask the Jester first** while their patience is full - once it drops they start lying
+- **Match quickly** when an NPC is following - patience drains continuously
+- **Think before matching** - a wrong match penalizes every NPC on the level
+- **Watch platform edges** - a falling NPC restarts the level
 
 ---
 
