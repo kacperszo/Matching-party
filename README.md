@@ -15,7 +15,7 @@
 
 ### 1. Krótki opis gry
 
-**Tytuł:** Number Match Party (znana również jako _MatchParty_)
+**Tytuł:** Number Match Party (Matching Party)
 
 **Koncepcja i cel gry:**
 Gra jest dwuwymiarową platformówką (2D platformer) z elementami gry pamięciowej (memory) oraz strategicznym zarządzaniem relacjami i cierpliwością postaci NPC. Zadaniem gracza jest przemieszczanie się po poziomach, rozmawianie z napotkanymi przyjaciółmi (NPC) i odkrywanie przypisanych im na początku poziomu ukrytych liczb. Gracz może nakazać jednemu z przyjaciół podążanie za sobą, a następnie doprowadzić go do innej postaci z identycznym numerem, aby ich połączyć (sparować). Poziom zostaje ukończony, gdy wszystkie pary zostaną pomyślnie dobrane. Grę utrudnia zarządzanie indywidualną cierpliwością każdego NPC - wyczerpana cierpliwość sprawia, że postać odmawia podania swojej liczby i przestaje podążać za graczem.
@@ -64,11 +64,13 @@ Poniższe podrozdziały opisują te mechaniki szczegółowo, wraz z wartościami
 
 **Struktura poziomów:**
 Gra składa się z czterech poziomów zaprojektowanych według zasady stopniowego wprowadzania mechanik - każdy poziom dodaje jeden nowy element, zamiast przytłaczać gracza wszystkim naraz:
+
 - **Tutorial (Poziom 0):** Wprowadzenie w mechaniki. Specjalny NPC „Party Host” wita gracza automatycznym dialogiem (wykluczony z systemu parowania) i tłumaczy zasady gry. Jedna para podstawowych NPC pozwala bezpiecznie przećwiczyć pełną pętlę rozgrywki (zapytanie o liczbę, podążanie, parowanie).
 - **Poziom 1:** Cztery NPC (dwie pary) - pojawiają się pierwsze Błazny (JesterNPC), wprowadzając element niepewności informacji.
 - **Poziomy 2-3:** Pięć NPC, zarówno Kujony (NerdNPC), jak i Błazny (JesterNPC); trudniejsza architektura plansz wymaga planowania tras parowania z wyprzedzeniem.
 
 **Warunki wygranej i restartu:**
+
 - **Wygrana:** Dopasowanie wszystkich par NPC na planszy skutkuje przejściem do kolejnego poziomu.
 - **Restart poziomu:** Gracz lub dowolny NPC spada poniżej granicy mapy (`death_zone_y`) - poziom natychmiast się restartuje. NPC lepiej radzą sobie ze schodzeniem w dół niż ze wskakiwaniem w górę, dlatego dobrą strategią jest prowadzenie podążającej postaci z wyższych platform na niższe, a nie odwrotnie.
 
