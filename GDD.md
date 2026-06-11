@@ -61,14 +61,14 @@ At the start of each level, NPCs are automatically assigned hidden numbers in pa
 
 ### Following Mechanic
 
-- The player can ask an NPC to follow them via dialogue
+- The player can ask any NPC to follow them via dialogue — regardless of whether their number is known yet
 - The NPC runs after the player at 80 px/s and can jump onto platforms independently
 - Only one NPC can follow at a time — starting a new follower stops the previous one
 - NPC patience drains at 0.1/s while following; at zero patience the NPC stops following automatically
 
 ### Matching NPCs
 
-- When the player has an NPC following them and approaches another NPC, a _Match!_ option appears
+- When the player has an NPC following them, they must **start a dialogue** with a second NPC and choose the _Match!_ option — matching is never automatic
 - If numbers match: both NPCs disappear (matched), success sound plays
 - If numbers differ: all NPCs on the level lose 1.0 patience (fail sound plays)
 

@@ -12,8 +12,8 @@ Głównym motywem gry jest wchodzenie w interakcje z przyjaciółmi (postaciami 
 
 1. **Ukryte Liczby:** Przed rozpoczęciem każdego poziomu wszystkim NPC na planszy zostają przypisane losowe, niewidoczne dla gracza liczby w parach.
 2. **Eksploracja i Rozmowa:** Gracz porusza się po platformach (`strzałki lewo/prawo` + `spacja`), odnajduje postacie i rozmawia z nimi (`E`), aby dowiedzieć się, jaką liczbę skrywają.
-3. **Podążanie za Graczem:** Po poznaniu liczby gracz może poprosić danego NPC, aby zaczął za nim podążać.
-4. **Parowanie Postaci:** Gracz doprowadza idącego za nim NPC do innej postaci z tą samą liczbą. Gdy dwie postacie o identycznych wartościach znajdą się blisko siebie, następuje dopasowanie — obie znikają z planszy.
+3. **Podążanie za Graczem:** Gracz może poprosić dowolnego NPC (o ile ma wystarczającą cierpliwość) o podążanie — niezależnie od tego, czy zna już jego liczbę.
+4. **Parowanie Postaci:** Gracz doprowadza idącego za nim NPC do innej postaci i **rozpoczyna z nią rozmowę**, wybierając opcję _Match!_. Gra sprawdza wówczas liczby obu postaci — jeśli są identyczne, obie znikają z planszy.
 5. **Kara za błędne parowanie:** Próba połączenia dwóch NPC o różnych liczbach obniża cierpliwość wszystkich NPC na poziomie o 1 punkt.
 6. **Zarządzanie Cierpliwością (Patience):** Każda postać ma swój poziom cierpliwości (max 5), która spada na skutek:
    - Zadawania pytań o liczbę (−1 za każde pytanie).
