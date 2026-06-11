@@ -160,7 +160,7 @@ Sztuczna inteligencja była wykorzystywana jako narzędzie wspomagające - proje
 1. **Wspomaganie programowania:**
    - Duże modele językowe (LLM) posłużyły do optymalizacji skryptów fizyki ruchu gracza w GDScript (m.in. dopracowanie responsywnego systemu Coyote Time i Jump Buffer) oraz implementacji algorytmu wyszukiwania wolnych punktów dla postaci typu Teleporter. Wygenerowany kod był każdorazowo weryfikowany i dostosowywany do architektury projektu.
 2. **Generowanie treści tekstowych:**
-   - Baza pytań i odpowiedzi (zagadki logiczno-matematyczne w `riddles.json`), złośliwe obelgi Kujona (`insults.json`) oraz kwestie po utracie cierpliwości (`patience_responses.json`) zostały wygenerowane przy użyciu AI, a następnie zredagowane i wyselekcjonowane pod kątem spójności z humorystycznym tonem gry.
+   - Baza pytań i odpowiedzi (12 zagadek w 4 kategoriach w `riddles.json`), złośliwe obelgi Kujona (8 wpisów w `insults.json`) oraz kwestie po utracie cierpliwości (8 wpisów w `patience_responses.json`) zostały wygenerowane przy użyciu AI, a następnie zredagowane i wyselekcjonowane pod kątem spójności z humorystycznym tonem gry. Dzięki oddzieleniu treści od logiki (architektura data-driven) rozszerzenie którejkolwiek bazy sprowadza się do edycji pliku JSON, bez zmian w kodzie.
 3. **AI behawioralne postaci (w samej grze):**
    - Zachowanie NPC nie jest oparte na systemie uczącym się - sterują nim reguły i prosta maszyna stanów (bezczynność / podążanie / dialog / sparowany), rozszerzana przez dziedziczenie dla poszczególnych typów postaci (Kujon, Błazen, Teleporter).
    - Nawigację podążającego NPC realizuje opisany w sekcji 3 zestaw heurystyk reaktywnych (bieg w stronę gracza, skoki warunkowe, detekcja utknięcia) - deterministyczny i przewidywalny dla gracza, co było celowym wyborem projektowym.
@@ -196,6 +196,8 @@ _Rysunek 1: Widok poziomu - ruch gracza i platformy z postaciami NPC._
 ![Rozmowa z NPC i system dialogów](assets/screenshots/conversation.png)
 _Rysunek 2: System dialogów i interaktywne zagadki logiczne zadawane przez postać Kujona (Nerd)._
 
+Pełny przebieg rozgrywki (poruszanie się, dialogi, podążanie NPC i parowanie) można zobaczyć w nagraniu [gameplay.mp4](gameplay.mp4).
+
 ---
 
 ### 8. Bibliografia
@@ -205,3 +207,4 @@ _Rysunek 2: System dialogów i interaktywne zagadki logiczne zadawane przez post
 3. **Zasoby graficzne Pixel Frog:** [https://pixelfrog-assets.itch.io/](https://pixelfrog-assets.itch.io/) - licencja i pobieranie paczek _Pixel Adventure_.
 4. **Brackeys Platformer Assets:** [https://brackeys.itch.io/platformer-pack](https://brackeys.itch.io/platformer-pack) - muzyka (Sofia Thirslund), licencja CC0.
 5. **Kenney Interface Sounds:** [https://www.kenney.nl/assets/interface-sounds](https://www.kenney.nl/assets/interface-sounds) - efekty dźwiękowe UI i zdarzeń gry, licencja CC0.
+6. **Platformer Toolkit (Game Maker's Toolkit):** [https://gmtk.itch.io/platformer-toolkit](https://gmtk.itch.io/platformer-toolkit) - interaktywne opracowanie technik sterowania w platformówkach 2D (coyote time, jump buffer, zmienna wysokość skoku), które posłużyło jako punkt odniesienia przy strojeniu fizyki ruchu gracza.
