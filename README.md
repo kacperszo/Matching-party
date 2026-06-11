@@ -8,7 +8,8 @@
 4. [Użyte assety](#4-użyte-assety)
 5. [Wykorzystanie sztucznej inteligencji (AI)](#5-wykorzystanie-sztucznej-inteligencji-ai)
 6. [Instrukcja uruchomienia gry](#6-uruchomienie-gry)
-7. [Bibliografia i źródła](#7-bibliografia)
+7. [Zrzuty ekranu (Screenshots)](#7-screenshots)
+8. [Bibliografia i źródła](#8-bibliografia)
 
 ---
 
@@ -144,7 +145,15 @@ Gra dostarczana jest w formie gotowego pliku wykonywalnego (pliku `.exe` dla sys
 
 ---
 
-### 7. Bibliografia
+### 7. Screenshots
+
+Poniżej znajdują się zrzuty ekranu z gry (można je uzupełnić w folderze `assets/screenshots/`):
+
+<!-- Tutaj dodaj linki do zrzutów ekranu, np. ![Menu Główne](assets/screenshots/main_menu.png) -->
+
+---
+
+### 8. Bibliografia
 
 1. **Dokumentacja Godot Engine 4:** [https://docs.godotengine.org/](https://docs.godotengine.org/) — materiały referencyjne dotyczące fizyki ciał fizycznych (`CharacterBody2D`) oraz systemu sygnałów.
 2. **Plugin Dialogue Manager:** [https://github.com/nathanhoad/godot_dialogue_manager](https://github.com/nathanhoad/godot_dialogue_manager) — repozytorium i dokumentacja systemu dialogowego autorstwa Nathana Hoada.
