@@ -106,6 +106,7 @@ W grze nie występuje przemoc ani system walki. Konflikt opiera się na wyścigu
 - **Zapobiegaj kłamstwom Błazna:** Błazna pytaj na samym początku, póki ma pełną cierpliwość. Gdy jego cierpliwość spadnie, jego informacje staną się bezużyteczne.
 - **Szybkie parowanie:** Kiedy NPC zaczyna za Tobą podążać, biegnij prosto do jego pary. Czas spędzony na podążaniu stale obniża jego pasek cierpliwości.
 - **Zwracaj uwagę na Kujona:** Zagadki Kujona nie mają limitu czasu – zastanów się dobrze przed wyborem odpowiedzi, pomyłka blokuje informację i marnuje cierpliwość.
+- **Daj NPC czas na regenerację:** Cierpliwość powoli wraca, gdy NPC stoi bezczynnie. Jeśli sytuacja wymknęła się spod kontroli, odczekaj chwilę zanim wrócisz do danej postaci — wyjście z przegranej pozycji jest możliwe.
 
 **Interfejs Użytkownika (UI):**
 

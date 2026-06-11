@@ -20,7 +20,7 @@ Głównym motywem gry jest wchodzenie w interakcje z przyjaciółmi (postaciami 
    - Zbyt długiego chodzenia za graczem (−0.1 na sekundę).
    - Błędnego parowania (−1 dla wszystkich NPC).
    - Bezczynna postać powoli regeneruje cierpliwość (+0.04 na sekundę).
-7. **Skutki wyczerpania cierpliwości:** NPC odmawia podania swojej liczby i przestaje podążać za graczem.
+7. **Skutki wyczerpania cierpliwości:** NPC odmawia podania swojej liczby i przestaje podążać za graczem. Cierpliwość regeneruje się jednak powoli sama z siebie (gdy NPC stoi bezczynnie), dzięki czemu można wyjść z trudnej sytuacji — wystarczy odczekać chwilę, zanim ponownie zapytamy lub poprosimy o podążanie.
 
 ---
 
