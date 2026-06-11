@@ -127,8 +127,6 @@ Sztuczna inteligencja odegrała istotną rolę w procesie tworzenia gry na kilku
    - Wykorzystano duże modele językowe (LLM) do optymalizacji skryptów fizyki ruchu gracza w GDScript (szczególnie wdrożenie responsywnego systemu Coyote Time i Jump Buffer) oraz implementacji algorytmu wyszukiwania wolnych punktów dla postaci typu Teleporter.
 2. **Generowanie treści tekstowych:**
    - Baza pytań i odpowiedzi (zagadki logiczno-matematyczne w `riddles.json`), złośliwe obelgi Kujona (`insults.json`) oraz kwestie po utracie cierpliwości (`patience_responses.json`) zostały wygenerowane i sformatowane przy użyciu sztucznej inteligencji.
-3. **Logika zachowania NPC (Game AI):**
-   - Zachowanie postaci NPC opiera się na deterministycznej maszynie stanów (State Machine) zakodowanej w GDScript (stany: spoczynek/regeneracja, podążanie, parowanie, teleportacja). W obecnej wersji nie stosowano sieci neuronowych ani algorytmów uczenia maszynowego wewnątrz silnika gry.
 
 ---
 
@@ -150,10 +148,10 @@ Gra dostarczana jest w formie gotowego pliku wykonywalnego (pliku `.exe` dla sys
 Poniżej znajdują się zrzuty ekranu z rozgrywki:
 
 ![Rozgrywka w Number Match Party](assets/screenshots/in-game.png)
-*Rysunek 1: Widok poziomu – ruch gracza i platformy z postaciami NPC.*
+_Rysunek 1: Widok poziomu – ruch gracza i platformy z postaciami NPC._
 
 ![Rozmowa z NPC i system dialogów](assets/screenshots/conversation.png)
-*Rysunek 2: System dialogów i interaktywne zagadki logiczne zadawane przez postać Kujona (Nerd).*
+_Rysunek 2: System dialogów i interaktywne zagadki logiczne zadawane przez postać Kujona (Nerd)._
 
 ---
 
