@@ -148,6 +148,9 @@ Sztuczna inteligencja była wykorzystywana jako narzędzie wspomagające — pro
    - Duże modele językowe (LLM) posłużyły do optymalizacji skryptów fizyki ruchu gracza w GDScript (m.in. dopracowanie responsywnego systemu Coyote Time i Jump Buffer) oraz implementacji algorytmu wyszukiwania wolnych punktów dla postaci typu Teleporter. Wygenerowany kod był każdorazowo weryfikowany i dostosowywany do architektury projektu.
 2. **Generowanie treści tekstowych:**
    - Baza pytań i odpowiedzi (zagadki logiczno-matematyczne w `riddles.json`), złośliwe obelgi Kujona (`insults.json`) oraz kwestie po utracie cierpliwości (`patience_responses.json`) zostały wygenerowane przy użyciu AI, a następnie zredagowane i wyselekcjonowane pod kątem spójności z humorystycznym tonem gry.
+3. **AI behawioralne postaci (w samej grze):**
+   - Zachowanie NPC nie jest oparte na systemie uczącym się — sterują nim reguły i prosta maszyna stanów (bezczynność / podążanie / dialog / sparowany), rozszerzana przez dziedziczenie dla poszczególnych typów postaci (Kujon, Błazen, Teleporter).
+   - Nawigację podążającego NPC realizuje opisany w sekcji 3 zestaw heurystyk reaktywnych (bieg w stronę gracza, skoki warunkowe, detekcja utknięcia) — deterministyczny i przewidywalny dla gracza, co było celowym wyborem projektowym.
 
 ---
 
