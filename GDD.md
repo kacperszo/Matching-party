@@ -1,5 +1,7 @@
 # Number Match Party — Game Design Document
 
+> Wewnętrzny dokument projektowy zespołu. Pełna dokumentacja gry znajduje się w [README.md](README.md).
+
 ## Overview
 
 **Number Match Party** is a 2D platform game inspired by classic games like Mario.  

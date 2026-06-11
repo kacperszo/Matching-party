@@ -50,6 +50,16 @@ Kluczowymi innowacjami są:
 
 ### 3. Mechanika gry
 
+**Pętla rozgrywki (instrukcja dla gracza):**
+
+1. **Sterowanie:** ruch — `strzałka lewo` / `strzałka prawo`, skok — `Spacja`, rozmowa z NPC — `E`, pauza — `Esc`.
+2. **Poznaj liczby:** podejdź do postaci i zapytaj o jej ukrytą liczbę (każde pytanie kosztuje 1 punkt cierpliwości NPC).
+3. **Poproś o podążanie:** dowolnego NPC z zapasem cierpliwości możesz poprosić, by szedł za Tobą — także zanim poznasz jego liczbę.
+4. **Sparuj:** doprowadź podążającego NPC do postaci, którą typujesz na jego parę, rozpocznij z nią rozmowę i wybierz opcję _Match!_. Trafienie usuwa obie postacie z planszy; pomyłka kosztuje 1 punkt cierpliwości wszystkich NPC na poziomie.
+5. **Wygrana:** poziom kończy się, gdy wszystkie pary zostaną dobrane. Uważaj na krawędzie — upadek gracza lub NPC poza mapę restartuje poziom.
+
+Poniższe podrozdziały opisują te mechaniki szczegółowo, wraz z wartościami liczbowymi i uzasadnieniem decyzji projektowych.
+
 **Struktura poziomów:**
 Gra składa się z czterech poziomów zaprojektowanych według zasady stopniowego wprowadzania mechanik (ang. _onboarding through play_) — każdy poziom dodaje jeden nowy element, zamiast przytłaczać gracza wszystkim naraz:
 - **Tutorial (Poziom 0):** Wprowadzenie w mechaniki. Specjalny NPC „Party Host" wita gracza automatycznym dialogiem (wykluczony z systemu parowania) i tłumaczy zasady gry. Jedna para podstawowych NPC pozwala bezpiecznie przećwiczyć pętlę rozgrywki: zapytaj → poproś o podążanie → sparuj.
