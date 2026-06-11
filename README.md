@@ -69,7 +69,7 @@ Kamera śledzi pozycję gracza w czasie rzeczywistym w osi X i Y, zaimplementowa
 **Opis postaci i ich atrybutów:**
 
 1. **Gracz (Player):**
-   - Sterowanie: Ruch w lewo/prawo (Strzałki / klawisze ruchu) oraz skok (Spacja).
+   - Sterowanie: Ruch w lewo/prawo (`strzałka lewo` / `strzałka prawo`) oraz skok (`Spacja`).
    - Zaawansowane ulepszenia fizyki ruchu (Game Feel):
      - **Coyote Time (0.12s):** Czas po zejściu z krawędzi platformy, w którym gracz nadal może wykonać skok w powietrzu.
      - **Jump Buffer (0.12s):** Zapamiętywanie wciśnięcia przycisku skoku tuż przed wylądowaniem, co sprawia, że postać skacze natychmiast po dotknięciu ziemi.

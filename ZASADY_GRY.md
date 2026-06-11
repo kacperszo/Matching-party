@@ -11,7 +11,7 @@ Głównym motywem gry jest wchodzenie w interakcje z przyjaciółmi (postaciami 
 ## Jak to działa? (Mechanika Rozgrywki)
 
 1. **Ukryte Liczby:** Przed rozpoczęciem każdego poziomu wszystkim NPC na planszy zostają przypisane losowe, niewidoczne dla gracza liczby w parach.
-2. **Eksploracja i Rozmowa:** Gracz porusza się po platformach (`strzałki` / `WASD` + `spacja`), odnajduje postacie i rozmawia z nimi (`E`), aby dowiedzieć się, jaką liczbę skrywają.
+2. **Eksploracja i Rozmowa:** Gracz porusza się po platformach (`strzałki lewo/prawo` + `spacja`), odnajduje postacie i rozmawia z nimi (`E`), aby dowiedzieć się, jaką liczbę skrywają.
 3. **Podążanie za Graczem:** Po poznaniu liczby gracz może poprosić danego NPC, aby zaczął za nim podążać.
 4. **Parowanie Postaci:** Gracz doprowadza idącego za nim NPC do innej postaci z tą samą liczbą. Gdy dwie postacie o identycznych wartościach znajdą się blisko siebie, następuje dopasowanie — obie znikają z planszy.
 5. **Kara za błędne parowanie:** Próba połączenia dwóch NPC o różnych liczbach obniża cierpliwość wszystkich NPC na poziomie o 1 punkt.
