@@ -55,16 +55,16 @@ Kluczowymi innowacjami są:
 **Pętla rozgrywki (instrukcja dla gracza):**
 
 1. **Sterowanie:** ruch - `strzałka lewo` / `strzałka prawo`, skok - `Spacja`, rozmowa z NPC - `E`, pauza - `Esc`.
-2. **Poznaj liczby:** podejdź do postaci i zapytaj o jej ukrytą liczbę (każde pytanie kosztuje 1 punkt cierpliwości NPC).
-3. **Poproś o podążanie:** dowolnego NPC z zapasem cierpliwości możesz poprosić, by szedł za Tobą - także zanim poznasz jego liczbę.
-4. **Sparuj:** doprowadź podążającego NPC do postaci, którą typujesz na jego parę, rozpocznij z nią rozmowę i wybierz opcję _Match!_. Trafienie usuwa obie postacie z planszy; pomyłka kosztuje 1 punkt cierpliwości wszystkich NPC na poziomie.
-5. **Wygrana:** poziom kończy się, gdy wszystkie pary zostaną dobrane. Uważaj na krawędzie - upadek gracza lub NPC poza mapę restartuje poziom.
+2. **Poznanie liczb:** gracz podchodzi do postaci i pyta o jej ukrytą liczbę (każde pytanie kosztuje 1 punkt cierpliwości NPC).
+3. **Podążanie:** dowolnego NPC z zapasem cierpliwości można poprosić, by podążał za graczem - także zanim jego liczba zostanie poznana.
+4. **Parowanie:** gracz doprowadza podążającego NPC do postaci typowanej na jego parę, rozpoczyna z nią rozmowę i wybiera opcję _Match!_. Trafienie usuwa obie postacie z planszy; pomyłka kosztuje 1 punkt cierpliwości wszystkich NPC na poziomie.
+5. **Wygrana:** poziom kończy się, gdy wszystkie pary zostaną dobrane. Upadek gracza lub NPC poza krawędź mapy restartuje poziom.
 
 Poniższe podrozdziały opisują te mechaniki szczegółowo, wraz z wartościami liczbowymi i uzasadnieniem decyzji projektowych.
 
 **Struktura poziomów:**
 Gra składa się z czterech poziomów zaprojektowanych według zasady stopniowego wprowadzania mechanik (ang. _onboarding through play_) - każdy poziom dodaje jeden nowy element, zamiast przytłaczać gracza wszystkim naraz:
-- **Tutorial (Poziom 0):** Wprowadzenie w mechaniki. Specjalny NPC „Party Host” wita gracza automatycznym dialogiem (wykluczony z systemu parowania) i tłumaczy zasady gry. Jedna para podstawowych NPC pozwala bezpiecznie przećwiczyć pętlę rozgrywki: zapytaj, poproś o podążanie, sparuj.
+- **Tutorial (Poziom 0):** Wprowadzenie w mechaniki. Specjalny NPC „Party Host” wita gracza automatycznym dialogiem (wykluczony z systemu parowania) i tłumaczy zasady gry. Jedna para podstawowych NPC pozwala bezpiecznie przećwiczyć pełną pętlę rozgrywki (zapytanie o liczbę, podążanie, parowanie).
 - **Poziom 1:** Cztery NPC (dwie pary) - pojawiają się pierwsze Błazny (JesterNPC), wprowadzając element niepewności informacji.
 - **Poziomy 2-3:** Pięć NPC, zarówno Kujony (NerdNPC), jak i Błazny (JesterNPC); trudniejsza architektura plansz wymaga planowania tras parowania z wyprzedzeniem.
 
@@ -100,7 +100,7 @@ Kamera śledzi pozycję gracza w czasie rzeczywistym w osi X i Y, zaimplementowa
      - Proporcje tych wartości zostały wyważone podczas testów: regeneracja jest na tyle wolna, że nie opłaca się „czekać na odnowienie” zamiast grać sprawnie, ale na tyle obecna, że pojedynczy błąd nie przekreśla całego poziomu - gracz zawsze ma drogę powrotu z trudnej sytuacji.
    - W przypadku spadku cierpliwości do zera, NPC odmawia współpracy i wypowiada losowe kwestie frustracji (np. _"GO AWAY! I'm calling the pixel police!"_).
    - **Mechanika podążania:** Gracz może poprosić dowolnego NPC (o ile ma wystarczającą cierpliwość) o podążanie - opcja „Follow me” pojawia się w dialogu niezależnie od tego, czy gracz zna już liczbę danej postaci. NPC zaczyna wówczas biec za graczem z prędkością `80 px/s`, zatrzymując się w odległości `50 px`. W danym momencie za graczem może podążać maksymalnie jeden NPC - włączenie podążania u kolejnego automatycznie zatrzymuje poprzedniego. Przez cały czas podążania cierpliwość NPC spada o `0.1` na sekundę; gdy osiągnie zero, NPC samodzielnie zaprzestaje śledzenia.
-   - **Algorytm nawigacji NPC:** Świadomie zrezygnowaliśmy z navmeshów i pełnego pathfindingu na rzecz autorskiego zestawu heurystyk reaktywnych: NPC (1) biegnie poziomo w stronę gracza, (2) skacze, gdy gracz jest powyżej progu `60 px` w pionie, (3) skacze, gdy napotka ścianę, oraz (4) posiada detekcję utknięcia - jeśli przez `0.35 s` nie robi postępu poziomego, wykonuje skok korekcyjny. To podejście ma istotne zalety inżynierskie: nie wymaga utrzymywania map nawigacyjnych przy każdej zmianie układu poziomu, działa od razu na nowych planszach i jest tanie obliczeniowo, a w praktyce daje płynne, naturalnie wyglądające zachowanie - NPC samodzielnie pokonuje platformy i przeszkody, sprawiając wrażenie inteligentnego towarzysza.
+   - **Algorytm nawigacji NPC:** Świadomie zrezygnowano z navmeshów i pełnego pathfindingu na rzecz autorskiego zestawu heurystyk reaktywnych: NPC (1) biegnie poziomo w stronę gracza, (2) skacze, gdy gracz jest powyżej progu `60 px` w pionie, (3) skacze, gdy napotka ścianę, oraz (4) posiada detekcję utknięcia - jeśli przez `0.35 s` nie robi postępu poziomego, wykonuje skok korekcyjny. To podejście ma istotne zalety inżynierskie: nie wymaga utrzymywania map nawigacyjnych przy każdej zmianie układu poziomu, działa od razu na nowych planszach i jest tanie obliczeniowo, a w praktyce daje płynne, naturalnie wyglądające zachowanie - NPC samodzielnie pokonuje platformy i przeszkody, sprawiając wrażenie inteligentnego towarzysza.
    - **Mechanika parowania:** Gdy gracz prowadzi jednego NPC i **rozpocznie rozmowę** z drugim, pojawia się opcja _Match!_. Parowanie nie zachodzi automatycznie - gracz musi świadomie je zainicjować. Gra porównuje wówczas ukryte wartości liczbowe obu postaci:
      - _Zgodność:_ Obie postacie znikają z planszy (zostają pomyślnie dopasowane), a gracz słyszy dźwięk potwierdzenia.
      - _Niezgodność:_ Następuje kara - cierpliwość wszystkich NPC na poziomie zostaje obniżona o `1.0`, a gracz słyszy dźwięk błędu.
@@ -110,20 +110,20 @@ Kamera śledzi pozycję gracza w czasie rzeczywistym w osi X i Y, zaimplementowa
 - **Zwykły (BasicNPC):** Odpowiada na pytania wprost; jego cierpliwość spada standardowo.
 - **Kujon (NerdNPC):** Przed ujawnieniem swojej liczby zadaje graczowi losowe pytanie testowe (matematyczne, geograficzne, historyczne lub ogólne). Jeśli gracz odpowie błędnie, Kujon rzuca obelgą (np. _"I've seen rocks with higher cognitive function than you."_) i nie ujawnia liczby, a kolejna próba zużywa cierpliwość. Rozwiązanie zagadki zapisuje stan `riddle_solved = true` na danym NPC, eliminując konieczność ponownego odpowiadania.
 - **Błazen (JesterNPC):** Zachowuje się normalnie, gdy jego cierpliwość jest wysoka. Kiedy spadnie poniżej progu `40%`, zaczyna kłamać probabilistycznie: szansa na kłamstwo rośnie liniowo od `60%` na progu do `100%` przy zerowej cierpliwości, a kłamstwo polega na podaniu losowej liczby z przedziału `0-20`. Gracz nigdy nie ma pewności, czy zmęczony Błazen mówi prawdę, co czyni go najbardziej ryzykownym źródłem informacji w grze.
-- **Teleporter (TeleporterNPC):** Co losowy czas (`25.0` do `40.0` sekund) teleportuje się w losowe miejsce na planszy oznaczone w grupie `teleport_points` (pod warunkiem, że punkt docelowy nie jest już zajęty przez innego NPC). Jeśli w trakcie teleportacji trwał dialog z graczem, zostaje on automatycznie przerwany. _Ten typ NPC jest w pełni zaimplementowany i przetestowany, jednak podczas playtestów okazało się, że poziomy z jego udziałem stawały się chaotyczne i frustrujące - gracz tracił orientację, kto jest kim. Podjęliśmy świadomą decyzję projektową, by wyłączyć go z finalnej wersji: uznaliśmy, że spójność i czytelność doświadczenia gracza jest ważniejsza niż ilość mechanik. Kod pozostaje w projekcie i mechanika może wrócić w przyszłości na planszach zaprojektowanych specjalnie pod nią._
+- **Teleporter (TeleporterNPC):** Co losowy czas (`25.0` do `40.0` sekund) teleportuje się w losowe miejsce na planszy oznaczone w grupie `teleport_points` (pod warunkiem, że punkt docelowy nie jest już zajęty przez innego NPC). Jeśli w trakcie teleportacji trwał dialog z graczem, zostaje on automatycznie przerwany. _Ten typ NPC jest w pełni zaimplementowany i przetestowany, jednak podczas playtestów okazało się, że poziomy z jego udziałem stawały się chaotyczne i frustrujące - gracz tracił orientację, kto jest kim. Zapadła świadoma decyzja projektowa o wyłączeniu go z finalnej wersji - spójność i czytelność doświadczenia gracza uznano za ważniejsze niż liczbę mechanik. Kod pozostaje w projekcie i mechanika może wrócić w przyszłości na planszach zaprojektowanych specjalnie pod nią._
 
 **System walki:**
 W grze nie występuje przemoc ani system walki. Konflikt opiera się na wyścigu z czasem (spadająca cierpliwość) oraz wyzwaniach intelektualnych (zagadki, zapamiętywanie).
 
 **Sugestie taktyczne dla gracza:**
 
-- **Kojarz i zapamiętuj:** Próba zapamiętania wszystkich liczb „w głowie” jest trudna na wyższych poziomach. Warto kojarzyć postacie (np. Pink Man, Ninja Frog) z ich liczbami.
-- **Oszczędzaj pytania:** Nie pytaj tej samej postaci wielokrotnie. Każde pytanie kosztuje 1 punkt cierpliwości.
-- **Zapobiegaj kłamstwom Błazna:** Błazna pytaj na samym początku, póki ma pełną cierpliwość. Gdy jego cierpliwość spadnie, jego informacje staną się bezużyteczne.
-- **Szybkie parowanie:** Kiedy NPC zaczyna za Tobą podążać, biegnij prosto do jego pary. Czas spędzony na podążaniu stale obniża jego pasek cierpliwości.
-- **Zwracaj uwagę na Kujona:** Zagadki Kujona nie mają limitu czasu - zastanów się dobrze przed wyborem odpowiedzi, pomyłka blokuje informację i marnuje cierpliwość.
-- **Daj NPC czas na regenerację:** Cierpliwość powoli wraca, gdy NPC stoi bezczynnie. Jeśli sytuacja wymknęła się spod kontroli, odczekaj chwilę zanim wrócisz do danej postaci - wyjście z przegranej pozycji jest możliwe.
-- **Prowadź NPC z góry na dół:** NPC lepiej radzą sobie ze schodzeniem niż z wskakiwaniem. Planuj trasy parowania tak, by prowadzić podążającą postać z wyższych platform na niższe - minimalizuje to ryzyko upadku i restartu poziomu.
+- **Zapamiętywanie liczb:** Próba zapamiętania wszystkich liczb „w głowie” jest trudna na wyższych poziomach. Warto kojarzyć postacie (np. Pink Man, Ninja Frog) z ich liczbami.
+- **Oszczędzanie pytań:** Nie warto pytać tej samej postaci wielokrotnie - każde pytanie kosztuje 1 punkt cierpliwości.
+- **Kolejność odpytywania:** Błazna najlepiej pytać na samym początku, póki ma pełną cierpliwość. Gdy jego cierpliwość spadnie, jego informacje stają się bezużyteczne.
+- **Szybkie parowanie:** Gdy NPC zaczyna podążać, najlepiej prowadzić go prosto do jego pary - czas spędzony na podążaniu stale obniża jego pasek cierpliwości.
+- **Zagadki Kujona:** Nie mają limitu czasu, więc odpowiedź warto dobrze przemyśleć - pomyłka blokuje informację i marnuje cierpliwość.
+- **Regeneracja cierpliwości:** Cierpliwość powoli wraca, gdy NPC stoi bezczynnie. Jeśli sytuacja wymknie się spod kontroli, wystarczy odczekać chwilę przed powrotem do danej postaci - wyjście z przegranej pozycji jest zawsze możliwe.
+- **Prowadzenie NPC z góry na dół:** NPC lepiej radzą sobie ze schodzeniem niż z wskakiwaniem, dlatego trasy parowania najlepiej planować od wyższych platform ku niższym - minimalizuje to ryzyko upadku i restartu poziomu.
 
 **Interfejs Użytkownika (UI):**
 
