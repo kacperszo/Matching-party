@@ -32,9 +32,9 @@ Kluczowymi innowacjami są:
 1. **Dynamiczne typy NPC:**
    - _Kujon (Nerd)_ – nie zdradzi swojej liczby, dopóki gracz nie odpowie na jego zagadkę logiczną/matematyczną.
    - _Błazen (Jester)_ – wraz ze spadkiem jego cierpliwości rośnie prawdopodobieństwo, że zacznie kłamać i podawać złośliwie losowe liczby.
-   - _Teleporter_ – dynamicznie zmienia swoją pozycję na mapie, zmuszając gracza do ponownego odszukania go _(zaimplementowany w kodzie gry, lecz ostatecznie nieużyty — poziomy z jego udziałem okazały się zbyt trudne i chaotyczne)_.
+   - _Teleporter_ – dynamicznie zmienia swoją pozycję na mapie, zmuszając gracza do ponownego odszukania go _(w pełni zaimplementowany; po testach rozgrywki świadomie wyłączony z finalnych poziomów — szczegóły w sekcji 3)_.
 2. **Wielowymiarowy system cierpliwości:** Cierpliwość NPC wyczerpuje się nie tylko przy zadawaniu pytań, ale również podczas podążania za graczem. Bezczynna postać powoli regeneruje cierpliwość.
-3. **Kara za błędne parowanie:** Próba połączenia dwóch NPC o różnych liczbach skutkuje karą zbiorową — cierpliwość wszystkich NPC na poziomie zostaje obniżona o 1 punkt, co wymusza przemyślane decyzje przed każdym dopasowaniem.
+3. **Kara za błędne parowanie (risk–reward):** Próba połączenia dwóch NPC o różnych liczbach skutkuje karą zbiorową — cierpliwość wszystkich NPC na poziomie zostaje obniżona o 1 punkt. To celowy element projektu: gracz może zgadywać „na ślepo", ale każda pomyłka realnie pogarsza jego sytuację, co premiuje zapamiętywanie i planowanie zamiast metody prób i błędów.
 
 ---
 
@@ -51,10 +51,10 @@ Kluczowymi innowacjami są:
 ### 3. Mechanika gry
 
 **Struktura poziomów:**
-Gra składa się z czterech poziomów o rosnącej trudności:
-- **Tutorial (Poziom 0):** Wprowadzenie w mechaniki. Specjalny NPC „Party Host" wita gracza automatycznym dialogiem (wyklucony z systemu parowania) i tłumaczy zasady gry. Jedna para podstawowych NPC do ćwiczenia.
-- **Poziom 1:** Cztery NPC (dwie pary), pierwsze Błazny (JesterNPC).
-- **Poziom 2–3:** Pięć NPC (więcej par), zarówno Kujony (NerdNPC), jak i Błazny (JesterNPC); trudniejsza architektura plansz.
+Gra składa się z czterech poziomów zaprojektowanych według zasady stopniowego wprowadzania mechanik (ang. _onboarding through play_) — każdy poziom dodaje jeden nowy element, zamiast przytłaczać gracza wszystkim naraz:
+- **Tutorial (Poziom 0):** Wprowadzenie w mechaniki. Specjalny NPC „Party Host" wita gracza automatycznym dialogiem (wykluczony z systemu parowania) i tłumaczy zasady gry. Jedna para podstawowych NPC pozwala bezpiecznie przećwiczyć pętlę rozgrywki: zapytaj → poproś o podążanie → sparuj.
+- **Poziom 1:** Cztery NPC (dwie pary) — pojawiają się pierwsze Błazny (JesterNPC), wprowadzając element niepewności informacji.
+- **Poziomy 2–3:** Pięć NPC, zarówno Kujony (NerdNPC), jak i Błazny (JesterNPC); trudniejsza architektura plansz wymaga planowania tras parowania z wyprzedzeniem.
 
 **Warunki wygranej i restartu:**
 - **Wygrana:** Dopasowanie wszystkich par NPC na poziomie → przejście do kolejnego poziomu.
@@ -70,10 +70,11 @@ Kamera śledzi pozycję gracza w czasie rzeczywistym w osi X i Y, zaimplementowa
 
 1. **Gracz (Player):**
    - Sterowanie: Ruch w lewo/prawo (`strzałka lewo` / `strzałka prawo`) oraz skok (`Spacja`).
-   - Zaawansowane ulepszenia fizyki ruchu (Game Feel):
+   - Zaawansowane ulepszenia fizyki ruchu (Game Feel) — techniki znane z dopracowanych platformówek (m.in. _Celeste_, seria _Super Mario_), które odróżniają responsywne sterowanie od „surowej" fizyki silnika:
      - **Coyote Time (0.12s):** Czas po zejściu z krawędzi platformy, w którym gracz nadal może wykonać skok w powietrzu.
      - **Jump Buffer (0.12s):** Zapamiętywanie wciśnięcia przycisku skoku tuż przed wylądowaniem, co sprawia, że postać skacze natychmiast po dotknięciu ziemi.
      - **Zmienna wysokość skoku:** Zwolnienie przycisku skoku w locie zmniejsza prędkość wznoszenia o połowę, dając graczowi większą kontrolę.
+     - Wszystkie wartości (czasy, prędkości, grawitacja) zostały dostrojone iteracyjnie podczas testów rozgrywki, tak aby sterowanie było wybaczające, ale nie odbierało platformówce wyzwania.
    - Zasięg interakcji: Promień interakcji wokół gracza (60 pikseli), pozwalający na aktywowanie rozmowy z NPC przyciskiem interakcji (`E`).
 
 2. **Przyjaciele (NPC):**
@@ -83,9 +84,10 @@ Kamera śledzi pozycję gracza w czasie rzeczywistym w osi X i Y, zaimplementowa
      - Koszt zapytania o liczbę: `1.0`.
      - Koszt podążania (Follow drain): `0.1` na sekundę (NPC denerwuje się i męczy ciągłym bieganiem za graczem).
      - Regeneracja cierpliwości: `0.04` na sekundę gdy postać stoi bezczynnie.
+     - Proporcje tych wartości zostały wyważone podczas testów: regeneracja jest na tyle wolna, że nie opłaca się „czekać na odnowienie" zamiast grać sprawnie, ale na tyle obecna, że pojedynczy błąd nie przekreśla całego poziomu — gracz zawsze ma drogę powrotu z trudnej sytuacji.
    - W przypadku spadku cierpliwości do zera, NPC odmawia współpracy i wypowiada losowe kwestie frustracji (np. _"GO AWAY! I'm calling the pixel police!"_).
    - **Mechanika podążania:** Gracz może poprosić dowolnego NPC (o ile ma wystarczającą cierpliwość) o podążanie — opcja „Follow me" pojawia się w dialogu niezależnie od tego, czy gracz zna już liczbę danej postaci. NPC zaczyna wówczas biec za graczem z prędkością `80 px/s`, zatrzymując się w odległości `50 px`. W danym momencie za graczem może podążać maksymalnie jeden NPC — włączenie podążania u kolejnego automatycznie zatrzymuje poprzedniego. Przez cały czas podążania cierpliwość NPC spada o `0.1` na sekundę; gdy osiągnie zero, NPC samodzielnie zaprzestaje śledzenia.
-   - **Algorytm nawigacji NPC:** Podążanie nie korzysta z navmeshów ani złożonych systemów wyznaczania ścieżek. Zamiast tego NPC stosuje zestaw prostych heurystyk, które w praktyce dają zaskakująco dobre rezultaty: (1) biegnie poziomo w stronę gracza, (2) skacze gdy gracz jest powyżej progu `60 px` w pionie, (3) skacze gdy natrafi na ścianę, (4) wykrywa utknięcie — jeśli przez `0.35 s` nie zrobił postępu poziomego, również wykonuje skok. Dzięki temu NPC samodzielnie pokonuje platformy i przeszkody bez żadnej mapy nawigacyjnej.
+   - **Algorytm nawigacji NPC:** Świadomie zrezygnowaliśmy z navmeshów i pełnego pathfindingu na rzecz autorskiego zestawu heurystyk reaktywnych: NPC (1) biegnie poziomo w stronę gracza, (2) skacze, gdy gracz jest powyżej progu `60 px` w pionie, (3) skacze, gdy napotka ścianę, oraz (4) posiada detekcję utknięcia — jeśli przez `0.35 s` nie robi postępu poziomego, wykonuje skok korekcyjny. To podejście ma istotne zalety inżynierskie: nie wymaga utrzymywania map nawigacyjnych przy każdej zmianie układu poziomu, działa od razu na nowych planszach i jest tanie obliczeniowo, a w praktyce daje płynne, naturalnie wyglądające zachowanie — NPC samodzielnie pokonuje platformy i przeszkody, sprawiając wrażenie inteligentnego towarzysza.
    - **Mechanika parowania:** Gdy gracz prowadzi jednego NPC i **rozpocznie rozmowę** z drugim, pojawia się opcja _Match!_. Parowanie nie zachodzi automatycznie — gracz musi świadomie je zainicjować. Gra porównuje wówczas ukryte wartości liczbowe obu postaci:
      - _Zgodność:_ Obie postacie znikają z planszy z animacją (zostają pomyślnie dopasowane), a gracz słyszy dźwięk potwierdzenia.
      - _Niezgodność:_ Następuje kara — cierpliwość wszystkich NPC na poziomie zostaje obniżona o `1.0`, a gracz słyszy dźwięk błędu.
@@ -95,7 +97,7 @@ Kamera śledzi pozycję gracza w czasie rzeczywistym w osi X i Y, zaimplementowa
 - **Zwykły (BasicNPC):** Odpowiada na pytania wprost; jego cierpliwość spada standardowo.
 - **Kujon (NerdNPC):** Przed ujawnieniem swojej liczby zadaje graczowi losowe pytanie testowe (matematyczne, geograficzne, historyczne lub ogólne). Jeśli gracz odpowie błędnie, Kujon rzuca obelgą (np. _"I've seen rocks with higher cognitive function than you."_) i nie ujawnia liczby, a kolejna próba zużywa cierpliwość. Rozwiązanie zagadki zapisuje stan `riddle_solved = true` na danym NPC, eliminując konieczność ponownego odpowiadania.
 - **Błazen (JesterNPC):** Zachowuje się normalnie, gdy jego cierpliwość jest wysoka. Kiedy spadnie poniżej progu `40%`, zaczyna kłamać – przy każdym zapytaniu generuje losową liczbę z przedziału `0-20`, aby zmylić gracza.
-- **Teleporter (TeleporterNPC):** Co losowy czas (`25.0` do `40.0` sekund) teleportuje się w losowe miejsce na planszy oznaczone w grupie `teleport_points` (pod warunkiem, że punkt docelowy nie jest już zajęty przez innego NPC). Jeśli w trakcie teleportacji trwał dialog z graczem, zostaje on automatycznie przerwany. _Ten typ NPC jest w pełni zaimplementowany w kodzie, lecz ze względu na trudności w projektowaniu odpowiednich plansz nie został umieszczony na żadnym z finalnych poziomów — poziomy z jego udziałem okazały się zbyt trudne i chaotyczne dla gracza._
+- **Teleporter (TeleporterNPC):** Co losowy czas (`25.0` do `40.0` sekund) teleportuje się w losowe miejsce na planszy oznaczone w grupie `teleport_points` (pod warunkiem, że punkt docelowy nie jest już zajęty przez innego NPC). Jeśli w trakcie teleportacji trwał dialog z graczem, zostaje on automatycznie przerwany. _Ten typ NPC jest w pełni zaimplementowany i przetestowany, jednak podczas playtestów okazało się, że poziomy z jego udziałem stawały się chaotyczne i frustrujące — gracz tracił orientację, kto jest kim. Podjęliśmy świadomą decyzję projektową, by wyłączyć go z finalnej wersji: uznaliśmy, że spójność i czytelność doświadczenia gracza jest ważniejsza niż ilość mechanik. Kod pozostaje w projekcie i mechanika może wrócić w przyszłości na planszach zaprojektowanych specjalnie pod nią._
 
 **System walki:**
 W grze nie występuje przemoc ani system walki. Konflikt opiera się na wyścigu z czasem (spadająca cierpliwość) oraz wyzwaniach intelektualnych (zagadki, zapamiętywanie).
@@ -140,12 +142,12 @@ Wszystkie assety graficzne użyte w projekcie są darmowymi zasobami i zostały 
 
 ### 5. Wykorzystanie sztucznej inteligencji (AI)
 
-Sztuczna inteligencja odegrała istotną rolę w procesie tworzenia gry na kilku płaszczyznach:
+Sztuczna inteligencja była wykorzystywana jako narzędzie wspomagające — projekt mechanik, architektura kodu i decyzje balansowe pozostawały po stronie zespołu:
 
-1. **Generowanie kodu źródłowego:**
-   - Wykorzystano duże modele językowe (LLM) do optymalizacji skryptów fizyki ruchu gracza w GDScript (szczególnie wdrożenie responsywnego systemu Coyote Time i Jump Buffer) oraz implementacji algorytmu wyszukiwania wolnych punktów dla postaci typu Teleporter.
+1. **Wspomaganie programowania:**
+   - Duże modele językowe (LLM) posłużyły do optymalizacji skryptów fizyki ruchu gracza w GDScript (m.in. dopracowanie responsywnego systemu Coyote Time i Jump Buffer) oraz implementacji algorytmu wyszukiwania wolnych punktów dla postaci typu Teleporter. Wygenerowany kod był każdorazowo weryfikowany i dostosowywany do architektury projektu.
 2. **Generowanie treści tekstowych:**
-   - Baza pytań i odpowiedzi (zagadki logiczno-matematyczne w `riddles.json`), złośliwe obelgi Kujona (`insults.json`) oraz kwestie po utracie cierpliwości (`patience_responses.json`) zostały wygenerowane i sformatowane przy użyciu sztucznej inteligencji.
+   - Baza pytań i odpowiedzi (zagadki logiczno-matematyczne w `riddles.json`), złośliwe obelgi Kujona (`insults.json`) oraz kwestie po utracie cierpliwości (`patience_responses.json`) zostały wygenerowane przy użyciu AI, a następnie zredagowane i wyselekcjonowane pod kątem spójności z humorystycznym tonem gry.
 
 ---
 

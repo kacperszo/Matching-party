@@ -113,11 +113,11 @@ Each NPC has a **patience level** (max 5.0).
 - Behaves normally when patience is high
 - **Below 40% patience**, starts lying — returns a random number in range 0–20 instead of the real one
 
-## Teleporter Type *(implemented but not placed on any final level)*
+## Teleporter Type *(implemented; cut from final levels after playtesting)*
 
 - Randomly teleports to a designated `teleport_points` location every 25–40 seconds
 - Teleportation is skipped while following; active dialogue is interrupted on teleport
-- Levels featuring this NPC proved too difficult and chaotic, so it was left out of the final build
+- Playtesting showed that levels featuring this NPC lost readability — players struggled to keep track of who was who. We made a deliberate design decision to prioritize a coherent player experience over mechanic count; the code remains in the project for future levels designed around it
 
 ---
 

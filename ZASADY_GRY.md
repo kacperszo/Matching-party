@@ -37,7 +37,7 @@ W miarę przechodzenia kolejnych etapów gracz napotyka postacie o zróżnicowan
 - **Zwykły (Basic):** Odpowiada na pytania wprost; jego cierpliwość spada standardowo.
 - **Kujon (Nerd):** Przed wyjawieniem liczby zadaje graczowi zagadkę matematyczną lub logiczną. Pomyłka blokuje liczbę i wywołuje obelgę, ale nie zużywa cierpliwości przy ponownej próbie jeśli zagadka jest już rozwiązana.
 - **Błazen (Jester):** Gdy jego cierpliwość spadnie poniżej 40%, zaczyna kłamać — podaje losową liczbę z zakresu 0–20 zamiast prawdziwej.
-- **Teleporter:** Zaimplementowany w kodzie, lecz nieużyty w finalnych poziomach — rozgrywka z jego udziałem okazała się zbyt trudna i chaotyczna.
+- **Teleporter:** W pełni zaimplementowany typ NPC, który okresowo zmienia pozycję na mapie. Po playtestach świadomie wyłączony z finalnych poziomów — rozgrywka z jego udziałem traciła czytelność, a stawialiśmy na spójne doświadczenie gracza.
 
 ---
 
