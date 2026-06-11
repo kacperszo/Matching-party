@@ -147,9 +147,13 @@ Gra dostarczana jest w formie gotowego pliku wykonywalnego (pliku `.exe` dla sys
 
 ### 7. Screenshots
 
-Poniżej znajdują się zrzuty ekranu z gry (można je uzupełnić w folderze `assets/screenshots/`):
+Poniżej znajdują się zrzuty ekranu z rozgrywki:
 
-<!-- Tutaj dodaj linki do zrzutów ekranu, np. ![Menu Główne](assets/screenshots/main_menu.png) -->
+![Rozgrywka w Number Match Party](assets/screenshots/in-game.png)
+*Rysunek 1: Widok poziomu – ruch gracza i platformy z postaciami NPC.*
+
+![Rozmowa z NPC i system dialogów](assets/screenshots/conversation.png)
+*Rysunek 2: System dialogów i interaktywne zagadki logiczne zadawane przez postać Kujona (Nerd).*
 
 ---
 
