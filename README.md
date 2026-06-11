@@ -113,7 +113,7 @@ Kamera śledzi pozycję gracza w czasie rzeczywistym w osi X i Y, zaimplementowa
 - **Teleporter (TeleporterNPC):** Co losowy czas (`25.0` do `40.0` sekund) teleportuje się w losowe miejsce na planszy oznaczone w grupie `teleport_points` (pod warunkiem, że punkt docelowy nie jest już zajęty przez innego NPC). Jeśli w trakcie teleportacji trwał dialog z graczem, zostaje on automatycznie przerwany. _Ten typ NPC jest w pełni zaimplementowany i przetestowany, jednak podczas playtestów okazało się, że poziomy z jego udziałem stawały się chaotyczne i frustrujące - gracz tracił orientację, kto jest kim. Zapadła świadoma decyzja projektowa o wyłączeniu go z finalnej wersji - spójność i czytelność doświadczenia gracza uznano za ważniejsze niż liczbę mechanik. Kod pozostaje w projekcie i mechanika może wrócić w przyszłości na planszach zaprojektowanych specjalnie pod nią._
 
 **System walki:**
-W grze nie występuje przemoc ani system walki. Konflikt opiera się na wyścigu z czasem (spadająca cierpliwość) oraz wyzwaniach intelektualnych (zagadki, zapamiętywanie).
+W grze nie występuje przemoc ani system walki. Konflikt opiera się na zarządzaniu ograniczonym zasobem, jakim jest cierpliwość NPC - spada ona wskutek działań gracza (pytania, błędne parowania), a presja czasu pojawia się w momentach prowadzenia postaci, której cierpliwość stale maleje podczas podążania. Uzupełnieniem są wyzwania intelektualne (zagadki Kujona, zapamiętywanie liczb).
 
 **Sugestie taktyczne dla gracza:**
 
