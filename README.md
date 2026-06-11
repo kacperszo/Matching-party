@@ -58,7 +58,7 @@ Gra składa się z czterech poziomów o rosnącej trudności:
 
 **Warunki wygranej i restartu:**
 - **Wygrana:** Dopasowanie wszystkich par NPC na poziomie → przejście do kolejnego poziomu.
-- **Restart poziomu:** Gracz lub dowolny NPC spada poniżej granicy mapy (`death_zone_y`) — poziom natychmiast się restartuje. Wymaga to ostrożności przy prowadzeniu NPC przez trudniejsze sekcje platformowe.
+- **Restart poziomu:** Gracz lub dowolny NPC spada poniżej granicy mapy (`death_zone_y`) — poziom natychmiast się restartuje. NPC lepiej radzą sobie ze schodzeniem w dół niż z wskakiwaniem w górę, dlatego dobrą strategią jest prowadzenie podążającej postaci z wyższych platform na niższe, a nie odwrotnie.
 
 **Opis świata:**
 Świat gry jest dwuwymiarowy (2D), ograniczony rozmiarem poszczególnych plansz. Składa się z wiszących platform, przeszkód terenowych oraz stabilnego podłoża, po których poruszają się gracz i postacie NPC.
@@ -107,6 +107,7 @@ W grze nie występuje przemoc ani system walki. Konflikt opiera się na wyścigu
 - **Szybkie parowanie:** Kiedy NPC zaczyna za Tobą podążać, biegnij prosto do jego pary. Czas spędzony na podążaniu stale obniża jego pasek cierpliwości.
 - **Zwracaj uwagę na Kujona:** Zagadki Kujona nie mają limitu czasu – zastanów się dobrze przed wyborem odpowiedzi, pomyłka blokuje informację i marnuje cierpliwość.
 - **Daj NPC czas na regenerację:** Cierpliwość powoli wraca, gdy NPC stoi bezczynnie. Jeśli sytuacja wymknęła się spod kontroli, odczekaj chwilę zanim wrócisz do danej postaci — wyjście z przegranej pozycji jest możliwe.
+- **Prowadź NPC z góry na dół:** NPC lepiej radzą sobie ze schodzeniem niż z wskakiwaniem. Planuj trasy parowania tak, by prowadzić podążającą postać z wyższych platform na niższe — minimalizuje to ryzyko upadku i restartu poziomu.
 
 **Interfejs Użytkownika (UI):**
 

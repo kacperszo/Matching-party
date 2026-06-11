@@ -26,7 +26,7 @@ Głównym motywem gry jest wchodzenie w interakcje z przyjaciółmi (postaciami 
 
 ## Restart Poziomu
 
-Jeśli gracz lub dowolny NPC **spadnie poniżej granicy mapy**, poziom natychmiast się restartuje. Wymaga to ostrożności przy prowadzeniu NPC przez trudniejsze sekcje platformowe.
+Jeśli gracz lub dowolny NPC **spadnie poniżej granicy mapy**, poziom natychmiast się restartuje. Wymaga to ostrożności przy prowadzeniu NPC przez trudniejsze sekcje platformowe. Dobra strategia to prowadzenie NPC z góry na dół — NPC lepiej radzą sobie ze schodzeniem niż z wskakiwaniem na wyższe platformy.
 
 ---
 
