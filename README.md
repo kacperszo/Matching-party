@@ -207,4 +207,3 @@ Pełny przebieg rozgrywki (poruszanie się, dialogi, podążanie NPC i parowanie
 3. **Zasoby graficzne Pixel Frog:** [https://pixelfrog-assets.itch.io/](https://pixelfrog-assets.itch.io/) - licencja i pobieranie paczek _Pixel Adventure_.
 4. **Brackeys Platformer Assets:** [https://brackeys.itch.io/platformer-pack](https://brackeys.itch.io/platformer-pack) - muzyka (Sofia Thirslund), licencja CC0.
 5. **Kenney Interface Sounds:** [https://www.kenney.nl/assets/interface-sounds](https://www.kenney.nl/assets/interface-sounds) - efekty dźwiękowe UI i zdarzeń gry, licencja CC0.
-6. **Platformer Toolkit (Game Maker's Toolkit):** [https://gmtk.itch.io/platformer-toolkit](https://gmtk.itch.io/platformer-toolkit) - interaktywne opracowanie technik sterowania w platformówkach 2D (coyote time, jump buffer, zmienna wysokość skoku), które posłużyło jako punkt odniesienia przy strojeniu fizyki ruchu gracza.
