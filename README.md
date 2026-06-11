@@ -18,7 +18,7 @@
 **Tytuł:** Number Match Party (znana również jako _MatchParty_)
 
 **Koncepcja i cel gry:**
-Gra jest dwuwymiarową platformówką (2D platformer) z elementami gry pamięciowej (memory) oraz strategicznym zarządzaniem relacjami i cierpliwością postaci NPC. Zadaniem gracza jest przemieszczanie się po poziomach, rozmawianie z napotkanymi przyjaciółmi (NPC) i odkrywanie przypisanych im na początku poziomu, ukrytych liczb. Gracz może nakazać jednemu z przyjaciół podążanie za sobą, a następnie doprowadzić go do innej postaci z identycznym numerem, aby ich połączyć (sparować). Poziom zostaje ukończony sukcesem, kiedy wszystkie postacie zostaną pomyślnie dopasowane w pary przed wyczerpaniem się wskaźnika globalnej sympatii (Global Likeliness).
+Gra jest dwuwymiarową platformówką (2D platformer) z elementami gry pamięciowej (memory) oraz strategicznym zarządzaniem relacjami i cierpliwością postaci NPC. Zadaniem gracza jest przemieszczanie się po poziomach, rozmawianie z napotkanymi przyjaciółmi (NPC) i odkrywanie przypisanych im na początku poziomu, ukrytych liczb. Gracz może nakazać jednemu z przyjaciół podążanie za sobą, a następnie doprowadzić go do innej postaci z identycznym numerem, aby ich połączyć (sparować). Poziom zostaje ukończony, gdy wszystkie pary zostaną pomyślnie dobrane. Grę utrudnia zarządzanie indywidualną cierpliwością każdego NPC — wyczerpana cierpliwość sprawia, że postać odmawia podania swojej liczby i przestaje podążać za graczem.
 
 **Inspiracje:**
 
@@ -32,9 +32,9 @@ Kluczowymi innowacjami są:
 1. **Dynamiczne typy NPC:**
    - _Kujon (Nerd)_ – nie zdradzi swojej liczby, dopóki gracz nie odpowie na jego zagadkę logiczną/matematyczną.
    - _Błazen (Jester)_ – wraz ze spadkiem jego cierpliwości rośnie prawdopodobieństwo, że zacznie kłamać i podawać złośliwie losowe liczby.
-   - _Teleporter_ – dynamicznie zmienia swoją pozycję na mapie, zmuszając gracza do ponownego odszukania go.
-2. **Wielowymiarowy system cierpliwości:** Cierpliwość NPC wyczerpuje się nie tylko przy zadawaniu pytań, ale również podczas podążania za graczem (stres) oraz gdy postacie rozmawiają między sobą.
-3. **Globalna sympatia (Global Likeliness):** Wyczerpanie cierpliwości pojedynczych NPC wpływa negatywnie na globalną atmosferę imprezy, co może prowadzić do przegranej.
+   - _Teleporter_ – dynamicznie zmienia swoją pozycję na mapie, zmuszając gracza do ponownego odszukania go _(zaimplementowany w kodzie gry, lecz ostatecznie nieużyty — poziomy z jego udziałem okazały się zbyt trudne i chaotyczne)_.
+2. **Wielowymiarowy system cierpliwości:** Cierpliwość NPC wyczerpuje się nie tylko przy zadawaniu pytań, ale również podczas podążania za graczem. Bezczynna postać powoli regeneruje cierpliwość.
+3. **Kara za błędne parowanie:** Próba połączenia dwóch NPC o różnych liczbach skutkuje karą zbiorową — cierpliwość wszystkich NPC na poziomie zostaje obniżona o 1 punkt, co wymusza przemyślane decyzje przed każdym dopasowaniem.
 
 ---
 
@@ -44,11 +44,21 @@ Kluczowymi innowacjami są:
 - **Język skryptowy logiki:** GDScript (użyty do oprogramowania ruchu postaci, fizyki, logiki poziomów, algorytmu parowania i zachowania NPC).
 - **Obsługa dialogów:** Plugin _Dialogue Manager_ (język skryptowy `.dialogue`), umożliwiający tworzenie dynamicznych, rozgałęzionych dialogów z warunkami logicznymi i wywoływaniem metod silnika bezpośrednio z poziomu konwersacji.
 - **Formaty danych:** JSON (przechowywanie pytań, obelg oraz domyślnych dialogów).
-- **Platforma docelowa:** Komputery osobiste PC (Windows, macOS, Linux) oraz przeglądarki internetowe wspierające WebGL2/HTML5.
+- **Platforma docelowa:** Komputery osobiste PC (Windows).
 
 ---
 
 ### 3. Mechanika gry
+
+**Struktura poziomów:**
+Gra składa się z czterech poziomów o rosnącej trudności:
+- **Tutorial (Poziom 0):** Wprowadzenie w mechaniki. Specjalny NPC „Party Host" wita gracza automatycznym dialogiem (wyklucony z systemu parowania) i tłumaczy zasady gry. Jedna para podstawowych NPC do ćwiczenia.
+- **Poziom 1:** Cztery NPC (dwie pary), pierwsze Błazny (JesterNPC).
+- **Poziom 2–3:** Pięć NPC (więcej par), zarówno Kujony (NerdNPC), jak i Błazny (JesterNPC); trudniejsza architektura plansz.
+
+**Warunki wygranej i restartu:**
+- **Wygrana:** Dopasowanie wszystkich par NPC na poziomie → przejście do kolejnego poziomu.
+- **Restart poziomu:** Gracz lub dowolny NPC spada poniżej granicy mapy (`death_zone_y`) — poziom natychmiast się restartuje. Wymaga to ostrożności przy prowadzeniu NPC przez trudniejsze sekcje platformowe.
 
 **Opis świata:**
 Świat gry jest dwuwymiarowy (2D), ograniczony rozmiarem poszczególnych plansz. Składa się z wiszących platform, przeszkód terenowych oraz stabilnego podłoża, po których poruszają się gracz i postacie NPC.
@@ -74,17 +84,17 @@ Kamera śledzi pozycję gracza w czasie rzeczywistym w osi X i Y, zaimplementowa
      - Koszt podążania (Follow drain): `0.1` na sekundę (NPC denerwuje się i męczy ciągłym bieganiem za graczem).
      - Regeneracja cierpliwości: `0.04` na sekundę gdy postać stoi bezczynnie.
    - W przypadku spadku cierpliwości do zera, NPC odmawia współpracy i wypowiada losowe kwestie frustracji (np. _"GO AWAY! I'm calling the pixel police!"_).
-   - **Mechanika podążania:** NPC potrafią biegać za graczem, a także skakać na wyższe platformy, gdy gracz znajduje się odpowiednio wysoko (próg wysokości `60px`). W danym momencie za graczem może podążać maksymalnie jeden NPC (włączenie podążania u innego automatycznie zatrzymuje poprzedniego).
-   - **Mechanika parowania:** Gdy gracz prowadzi jednego NPC i wejdzie w interakcję z drugim, pojawia się opcja _Match!_. Gra sprawdza ukryte wartości obu postaci:
-     - _Zgodność:_ Obie postacie znikają z planszy (zostają pomyślnie dopasowane).
-     - _Niezgodność:_ Następuje kara – cierpliwość wszystkich NPC na poziomie zostaje obniżona o `1.0`.
+   - **Mechanika podążania:** Gracz inicjuje podążanie przez dialog z NPC — w opcjach odpowiedzi pojawia się wybór „Follow me". NPC zaczyna wówczas biec za graczem z prędkością `80 px/s`, zatrzymując się w odległości `50 px`. Postać potrafi samodzielnie skakać na wyższe platformy: skok jest wyzwalany, gdy gracz znajduje się powyżej progu `60 px` w pionie, gdy NPC napotka ścianę, lub gdy wykryje, że stoi w miejscu (detekcja utknięcia z interwałem `0.35 s`). W danym momencie za graczem może podążać maksymalnie jeden NPC — włączenie podążania u kolejnego automatycznie zatrzymuje poprzedniego. Przez cały czas podążania cierpliwość NPC spada o `0.1` na sekundę; gdy osiągnie zero, NPC samodzielnie zaprzestaje śledzenia.
+   - **Mechanika parowania:** Gdy gracz prowadzi jednego NPC i wejdzie w interakcję z drugim, pojawia się opcja _Match!_. Gra porównuje ukryte wartości liczbowe obu postaci:
+     - _Zgodność:_ Obie postacie znikają z planszy z animacją (zostają pomyślnie dopasowane), a gracz słyszy dźwięk potwierdzenia.
+     - _Niezgodność:_ Następuje kara — cierpliwość wszystkich NPC na poziomie zostaje obniżona o `1.0`, a gracz słyszy dźwięk błędu.
 
 **Typy NPC i ich zachowania:**
 
 - **Zwykły (BasicNPC):** Odpowiada na pytania wprost; jego cierpliwość spada standardowo.
 - **Kujon (NerdNPC):** Przed ujawnieniem swojej liczby zadaje graczowi losowe pytanie testowe (matematyczne, geograficzne, historyczne lub ogólne). Jeśli gracz odpowie błędnie, Kujon rzuca obelgą (np. _"I've seen rocks with higher cognitive function than you."_) i nie ujawnia liczby, a kolejna próba zużywa cierpliwość. Rozwiązanie zagadki zapisuje stan `riddle_solved = true` na danym NPC, eliminując konieczność ponownego odpowiadania.
 - **Błazen (JesterNPC):** Zachowuje się normalnie, gdy jego cierpliwość jest wysoka. Kiedy spadnie poniżej progu `40%`, zaczyna kłamać – przy każdym zapytaniu generuje losową liczbę z przedziału `0-20`, aby zmylić gracza.
-- **Teleporter (TeleporterNPC):** Co losowy czas (`25.0` do `40.0` sekund) teleportuje się w losowe miejsce na planszy oznaczone w grupie `teleport_points` (pod warunkiem, że punkt docelowy nie jest już zajęty przez innego NPC). Jeśli w trakcie teleportacji trwał dialog z graczem, zostaje on automatycznie przerwany.
+- **Teleporter (TeleporterNPC):** Co losowy czas (`25.0` do `40.0` sekund) teleportuje się w losowe miejsce na planszy oznaczone w grupie `teleport_points` (pod warunkiem, że punkt docelowy nie jest już zajęty przez innego NPC). Jeśli w trakcie teleportacji trwał dialog z graczem, zostaje on automatycznie przerwany. _Ten typ NPC jest w pełni zaimplementowany w kodzie, lecz ze względu na trudności w projektowaniu odpowiednich plansz nie został umieszczony na żadnym z finalnych poziomów — poziomy z jego udziałem okazały się zbyt trudne i chaotyczne dla gracza._
 
 **System walki:**
 W grze nie występuje przemoc ani system walki. Konflikt opiera się na wyścigu z czasem (spadająca cierpliwość) oraz wyzwaniach intelektualnych (zagadki, zapamiętywanie).
@@ -100,8 +110,10 @@ W grze nie występuje przemoc ani system walki. Konflikt opiera się na wyścigu
 **Interfejs Użytkownika (UI):**
 
 - **Menu Główne:** Zrealizowane jako estetyczna karta menu z dynamicznymi mikroanimacjami. Tło menu ozdobione jest unoszącymi się postaciami i owocami (efekt pływania/sinusoidy). Przyciski reagują na najechanie myszą płynnym powiększeniem skali (LERP) oraz zmianą przezroczystości.
-- **Paski Cierpliwości:** Minimalistyczne, dopasowane kolorystycznie paski nad głowami postaci (zielone wypełnienie na ciemnoszarym tle), ułatwiające szybką ocenę stanu psychicznego NPC.
+- **HUD rozgrywki:** Górny pasek ekranu wyświetla nazwę bieżącego poziomu oraz licznik sparowanych par w formacie `X / Y matches`, informując gracza o postępie.
+- **Paski Cierpliwości:** Minimalistyczne paski nad głowami postaci (zielone wypełnienie na ciemnoszarym tle), ułatwiające szybką ocenę stanu psychicznego NPC.
 - **Dymki Dialogowe:** Estetyczne panele dialogowe wyświetlane na dole ekranu, obsługujące interaktywne opcje wyboru odpowiedzi (w tym wielokrotny wybór w zagadkach Kujona).
+- **Menu pauzy:** Dostępne klawiszem `Esc` podczas rozgrywki — umożliwia wznowienie gry, restart poziomu lub powrót do menu głównego.
 
 ---
 
@@ -114,8 +126,12 @@ Wszystkie assety graficzne użyte w projekcie są darmowymi zasobami i zostały 
   - Licencja: CC0 (Public Domain / do użytku darmowego i komercyjnego).
   - Źródło: [Pixel Frog na itch.io](https://pixelfrog-assets.itch.io/).
   - Zawartość: Animacje ruchu gracza i postaci NPC (Ninja Frog, Pink Man, Mask Dude, Virtual Guy), kafle ziemi, platformy, dekoracje (owoce, flagi) oraz tła poziomów.
-- **Muzyka i Dźwięki:**
-  - Gra w obecnej wersji prototypowej **nie posiada wdrożonej ścieżki dźwiękowej ani efektów dźwiękowych**. Planowane jest ich dodanie w kolejnych etapach projektu.
+- **Muzyka:**
+  - Pakiet **"Brackeys Platformer Assets"** — utwór _"Time for Adventure"_ (Brackeys / Sofia Thirslund), licencja CC0. Odgrywany zarówno w menu głównym, jak i podczas rozgrywki.
+  - Źródło: [brackeys.itch.io/platformer-pack](https://brackeys.itch.io/platformer-pack)
+- **Efekty dźwiękowe:**
+  - Pakiet **"Kenney Interface Sounds"** (Kenney.nl), licencja CC0. Używane dla interakcji UI i zdarzeń gry: klik przycisków, potwierdzenie udanego parowania, dźwięk błędu przy niedopasowaniu, sygnał podążania NPC, odgłos utraty cierpliwości, ukończenie poziomu, skok gracza.
+  - Źródło: [kenney.nl](https://www.kenney.nl/assets/interface-sounds)
 
 ---
 
@@ -131,6 +147,8 @@ Sztuczna inteligencja odegrała istotną rolę w procesie tworzenia gry na kilku
 ---
 
 ### 6. Uruchomienie gry
+
+Nagranie z rozgrywki dostępne jest w pliku **[gameplay.mp4](gameplay.mp4)** dołączonym do repozytorium.
 
 Gra dostarczana jest w formie gotowego pliku wykonywalnego (pliku `.exe` dla systemu Windows). Aby uruchomić grę lokalnie, wykonaj poniższe kroki:
 
@@ -160,4 +178,5 @@ _Rysunek 2: System dialogów i interaktywne zagadki logiczne zadawane przez post
 1. **Dokumentacja Godot Engine 4:** [https://docs.godotengine.org/](https://docs.godotengine.org/) — materiały referencyjne dotyczące fizyki ciał fizycznych (`CharacterBody2D`) oraz systemu sygnałów.
 2. **Plugin Dialogue Manager:** [https://github.com/nathanhoad/godot_dialogue_manager](https://github.com/nathanhoad/godot_dialogue_manager) — repozytorium i dokumentacja systemu dialogowego autorstwa Nathana Hoada.
 3. **Zasoby graficzne Pixel Frog:** [https://pixelfrog-assets.itch.io/](https://pixelfrog-assets.itch.io/) — licencja i pobieranie paczek _Pixel Adventure_.
-4. **Metodyka Game Feel (Coyote Time & Jump Buffer):** Luyren, _Platformer Physics in Godot_ — internetowe opracowania optymalizacji sterowania w grach platformowych 2D.
+4. **Brackeys Platformer Assets:** [https://brackeys.itch.io/platformer-pack](https://brackeys.itch.io/platformer-pack) — muzyka (Sofia Thirslund), licencja CC0.
+5. **Kenney Interface Sounds:** [https://www.kenney.nl/assets/interface-sounds](https://www.kenney.nl/assets/interface-sounds) — efekty dźwiękowe UI i zdarzeń gry, licencja CC0.

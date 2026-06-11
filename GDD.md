@@ -1,4 +1,4 @@
-# Number Match Party
+# Number Match Party — Game Design Document
 
 ## Overview
 
@@ -26,21 +26,24 @@ Success requires balancing efficient exploration with careful patience managemen
 
 ---
 
-# Core Gameplay Mechanics
+# Level Structure
 
-## Level-Based Progression
+The game contains four levels of increasing difficulty:
 
-The game is split into multiple levels, each harder than the previous one.
+- **Tutorial (Level 0):** A "Party Host" NPC auto-greets the player and explains the mechanics (excluded from matching). One pair of basic NPCs to practice on.
+- **Level 1:** Four NPCs (two pairs), introduces Jester NPCs.
+- **Level 2–3:** Five NPCs each, both Nerd and Jester NPCs; more complex platforming layouts.
 
-- Levels feature different layouts and platforming challenges
-- More NPCs and number variety in later levels
-- Different types of NPCs appear as difficulty increases
+**Win condition:** All pairs matched → advance to next level.  
+**Restart condition:** Player or any NPC falls below the map boundary → level restarts immediately.
 
 ---
 
+# Core Gameplay Mechanics
+
 ## Number Assignment
 
-At the start of each level, NPCs are automatically assigned hidden numbers.
+At the start of each level, NPCs are automatically assigned hidden numbers in pairs.
 
 - Numbers are **not visible** to the player
 - Players must **ask NPCs directly** about their numbers
@@ -50,165 +53,84 @@ At the start of each level, NPCs are automatically assigned hidden numbers.
 
 ## NPC Interactions
 
-The player can interact with NPCs in the following ways:
-
 ### Asking About Numbers
 
-- The player can ask an NPC what their number is
-- The NPC will answer (if they have patience remaining)
-- Some NPC types may have special conditions before answering
+- The player approaches an NPC and presses `E` to start dialogue
+- The NPC reveals their number (if they have patience remaining)
+- Each ask costs 1.0 patience
 
 ### Following Mechanic
 
-- The player can ask an NPC to follow them
-- The NPC will follow the player around the level
-- The player can guide them to match with another NPC
+- The player can ask an NPC to follow them via dialogue
+- The NPC runs after the player at 80 px/s and can jump onto platforms independently
+- Only one NPC can follow at a time — starting a new follower stops the previous one
+- NPC patience drains at 0.1/s while following; at zero patience the NPC stops following automatically
 
 ### Matching NPCs
 
-- When the player has 2 NPCs with the same number, they can match them
-- Successful matches complete objectives and may award coins
-- Following NPCs for too long may decrease their patience
+- When the player has an NPC following them and approaches another NPC, a _Match!_ option appears
+- If numbers match: both NPCs disappear (matched), success sound plays
+- If numbers differ: all NPCs on the level lose 1.0 patience (fail sound plays)
 
 ---
 
-## Losing Patience System
+## Patience System
 
-Each NPC has a **patience level** that decreases through various interactions.
+Each NPC has a **patience level** (max 5.0).
 
-### Ways to Lose Patience
+### Patience Drain
 
-**Repeated Interactions:**
-- Making too many interactions with the same NPC decreases their patience
-- Once patience is low, the NPC may stop answering questions about their number
+- Asking an NPC their number: **−1.0**
+- Following the player: **−0.1 per second**
+- Failed match attempt: **−1.0 to all unmatched NPCs**
 
-**Following Too Long:**
-- NPCs lose patience when they've been following the player for too long
-- This encourages efficient matching
+### Patience Recovery
 
-**NPCs Talking With Others:**
-- NPCs may start talking with other NPCs
-- When engaged in conversation, they are less likely to talk with the player
+- Idle (not following): **+0.04 per second**
 
-**Room for Additional Mechanics:**
-- Additional patience-affecting mechanics can be added in the future
+### Consequences of Zero Patience
 
-### Consequences of Low Patience
-
-- NPCs stop answering questions
-- NPCs may provide incorrect information (especially Jester type)
-- Contributes to global likeliness decrease
-
-### Global Likeliness
-
-- There is a **global likeliness indicator** representing overall NPC attitude toward the player
-- When any NPC's patience decreases, it may affect the global likeliness
-- If global likeliness falls below a certain **threshold**, the player **loses the game**
-- This creates a strategic challenge: manage all NPCs' patience, not just individual ones
-
----
-
-# Coins System
-
-Players can earn and spend coins during gameplay.
-
-## Earning Coins
-
-- Coins are earned through successful matches
-- Bonus coins for efficient matches
-- Coins may be found in levels
-
-## Spending Coins
-
-- **Buy Likeliness:** Coins can be used to increase an NPC's patience level
-- **Decrease Patience Impact:** Reduce the negative effects of low patience
-- Strategic use of coins is essential in harder levels
+- NPC refuses to reveal their number and says a random frustration line
+- NPC stops following if currently following
 
 ---
 
 # Types of NPCs
 
-As the game progresses and difficulty increases, different NPC types are introduced.
-
 ## Basic Type
 
-- Standard NPC behavior
-- Answers the question about their number directly
-- Patience decreases with each interaction
-- No special mechanics
+- Answers the number question directly
+- Standard patience behaviour
 
 ## Nerd Type
 
-- Before answering the number question, asks the player a challenge
-- Challenges include:
-  - Mathematical questions
-  - Knowledge riddles
-- The player must answer correctly to get the NPC's number
-- Patience still decreases as normal
+- Before answering, asks the player a random challenge (math, geography, history, general knowledge)
+- Incorrect answer triggers an insult and blocks the number for that interaction
+- Once the riddle is solved (`riddle_solved = true`), no further challenges are needed for that NPC
 
 ## Jester Type
 
 - Behaves normally when patience is high
-- **When patience decreases**, they become unreliable:
-  - More likely to give an **incorrect number** (the incorrect number changes randomly each time they're asked)
-  - They do this to make fun of the player
-- Adds risk to letting patience drop too low
-- Requires careful patience management
+- **Below 40% patience**, starts lying — returns a random number in range 0–20 instead of the real one
 
-## Teleporter Type
+## Teleporter Type *(implemented but not placed on any final level)*
 
-- Randomly teleports from one part of the map to another
-- Makes them harder to track and interact with
-- Teleportation happens periodically
-- Adds an extra layer of difficulty in finding and matching them
-
-## Future NPC Types
-
-- Room for additional NPC types as the game expands
-- More complex behaviors and challenges can be added
+- Randomly teleports to a designated `teleport_points` location every 25–40 seconds
+- Teleportation is skipped while following; active dialogue is interrupted on teleport
+- Levels featuring this NPC proved too difficult and chaotic, so it was left out of the final build
 
 ---
 
 # Player Strategy
 
-To succeed, the player should:
-
-- **Efficiently explore** the 2D platforming levels
-- **Minimize repeated interactions** with the same NPCs to preserve patience
-- **Remember NPC numbers** to avoid asking multiple times
-- **Match quickly** when NPCs are following to avoid patience loss
-- **Manage global likeliness** by not over-interacting with any single NPC
-- **Use coins strategically** to recover patience when needed
-- **Adapt to different NPC types** and their unique mechanics
-- **Plan routes** to efficiently gather information and make matches
-
----
-
-# Game Progression
-
-## Early Levels
-
-- Few NPCs with simple number assignments
-- Mostly Basic type NPCs
-- Forgiving patience mechanics
-- Simple platforming challenges
-
-## Later Levels
-
-- More NPCs and number variety
-- Introduction of Nerd, Jester, and Teleporter types
-- Stricter patience requirements
-- Complex platforming layouts
-- Requires efficient strategies and coin management
+- **Remember NPC numbers** to avoid asking the same NPC twice
+- **Ask the Jester first** while their patience is full — once it drops they start lying
+- **Match quickly** when an NPC is following — patience drains continuously
+- **Think before matching** — a wrong match penalizes every NPC on the level
+- **Watch platform edges** — a falling NPC restarts the level
 
 ---
 
 # Genre
 
 2D platformer / puzzle / memory / NPC management game.
-
----
-
-# Status
-
-Concept / Early design stage.
