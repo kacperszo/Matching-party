@@ -173,16 +173,18 @@ Sztuczna inteligencja była wykorzystywana jako narzędzie wspomagające - proje
 
 Nagranie z rozgrywki dostępne jest w pliku **[gameplay.mp4](gameplay.mp4)** dołączonym do repozytorium.
 
-Oprócz pełnego projektu Godot repozytorium zawiera gotowy moduł wykonywalny dla systemu Windows w katalogu [`export/`](export/):
+Oprócz pełnego projektu Godot gra dostarczana jest jako gotowy moduł wykonywalny dla systemu Windows, składający się z dwóch plików:
 
 - `MatchingParty.exe` - plik wykonywalny gry,
 - `MatchingParty.pck` - paczka zasobów (musi znajdować się w tym samym folderze co `.exe`).
 
+Oba pliki znajdują się w katalogu [`export/`](export/) repozytorium, a także w dołączonym do zgłoszenia archiwum `plik_wykonywalny.zip`.
+
 **Instrukcja uruchomienia:**
 
-1. Pobierz oba pliki z katalogu `export/` (lub sklonuj repozytorium).
-2. Uruchom grę, klikając dwukrotnie `MatchingParty.exe`.
-3. Gra otworzy się, zaczynając od menu głównego.
+1. Należy rozpakować archiwum `plik_wykonywalny.zip` do dowolnego folderu (lub pobrać oba pliki z katalogu `export/`).
+2. Grę uruchamia się dwukrotnym kliknięciem pliku `MatchingParty.exe`.
+3. Gra otwiera się na menu głównym; nie wymaga instalacji ani dodatkowych zależności.
 
 Alternatywnie projekt można otworzyć i uruchomić bezpośrednio w edytorze Godot 4.6+ (plik `project.godot`).
 
