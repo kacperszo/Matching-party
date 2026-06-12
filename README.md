@@ -96,7 +96,7 @@ Kamera śledzi pozycję gracza w czasie rzeczywistym w osi X i Y. Zaimplementowa
    - Każdy NPC dziedziczy z bazowej klasy `NPC` i posiada indywidualny pasek cierpliwości (ProgressBar) wyświetlany nad jego głową.
    - **Cierpliwość (Patience):**
      - Maksymalna wartość: `5.0`.
-     - Koszt zapytania o liczbę: `1.0`.
+     - Koszt rozmowy: `1.0` - nalicza się po zakończeniu każdego dialogu, zarówno przy zapytaniu o liczbę, jak i przy prośbie o podążanie.
      - Koszt podążania (Follow drain): `0.1` na sekundę (NPC denerwuje się i męczy ciągłym bieganiem za graczem).
      - Regeneracja cierpliwości: `0.04` na sekundę, gdy postać stoi bezczynnie.
      - Proporcje tych wartości zostały wyważone podczas testów: regeneracja jest na tyle wolna, że nie opłaca się „czekać na odnowienie” zamiast grać sprawnie, ale na tyle obecna, że pojedynczy błąd nie przekreśla całego poziomu - gracz zawsze ma drogę powrotu z trudnej sytuacji.
