@@ -182,7 +182,9 @@ Oba pliki znajdują się w katalogu [`export/`](export/) repozytorium, a także 
 
 **Instrukcja uruchomienia:**
 
-1. Należy rozpakować archiwum `plik_wykonywalny.zip` do dowolnego folderu (lub pobrać oba pliki z katalogu `export/`).
+1. Pliki gry można pozyskać na jeden z dwóch sposobów:
+   - rozpakowując archiwum `plik_wykonywalny.zip` do dowolnego folderu,
+   - albo pobierając pliki `MatchingParty.exe` i `MatchingParty.pck` z katalogu `export/` repozytorium (oba pliki muszą trafić do tego samego folderu).
 2. Grę uruchamia się dwukrotnym kliknięciem pliku `MatchingParty.exe`.
 3. Gra otwiera się na menu głównym; nie wymaga instalacji ani dodatkowych zależności.
 
