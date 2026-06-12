@@ -178,7 +178,7 @@ Oprócz pełnego projektu Godot gra dostarczana jest jako gotowy moduł wykonywa
 - `MatchingParty.exe` - plik wykonywalny gry,
 - `MatchingParty.pck` - paczka zasobów (musi znajdować się w tym samym folderze co `.exe`).
 
-Oba pliki znajdują się w katalogu [`export/`](export/) repozytorium, a także w dołączonym do zgłoszenia archiwum `plik_wykonywalny.zip`.
+Oba pliki znajdują się w katalogu [`export/`](export/) repozytorium, a także w archiwum `plik_wykonywalny.zip` dołączonym do zgłoszenia na platformie UPEL.
 
 **Instrukcja uruchomienia:**
 
